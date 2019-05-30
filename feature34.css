@@ -8,6 +8,7 @@ div.box {
     margin: 0 auto;
     text-align: center;
     padding: 10px;
+    background-color: #fff3e6; 
 }
 
 div.box img {
@@ -19,6 +20,8 @@ div.box img {
     .container {
         flex-direction: column;
     }
+
+/* Podstawowe funkcje jeszcze do przemyslenia */
 
 }
 
