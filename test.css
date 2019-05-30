@@ -1,6 +1,43 @@
-* {
+/* * {
   border: 1px dotted black;
 }
+ */
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  position: fixed;
+  width: auto;
+  background: lightgray;
+}
+
+nav > ul{
+  display: none;
+}
+#showMenu:hover + ul {
+  display: block; 
+}
+
+
+footer{
+  display: grid;
+  grid-template: 1fr 1fr 1fr / 1fr 1fr;
+}
+
+
+
+
+
+
+
+
+
+
+@media (min-width: 768px){
+
 body {
   display: grid;
   grid-template-columns: auto;
@@ -9,14 +46,6 @@ body {
   "header"
   "main"
   "footer" ;
-}
-
-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background: lightgray;
-
 }
 
 main {
@@ -43,4 +72,5 @@ footer > div{
 #footer {
   grid-area: footer;
 
+}
 }
