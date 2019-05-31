@@ -3,6 +3,12 @@
 }
  */
 
+ /*  Navbar css */
+ 
+ nav > ul {
+margin: 0;
+ }
+
 body {
   display: flex;
   flex-direction: column;
@@ -21,6 +27,23 @@ nav > ul{
   display: block; 
 }
 
+#showMenu + ul:hover {
+  display: block; 
+}
+
+main{
+  border: 1px solid black;
+  margin-top: 20px;
+}
+
+
+
+
+
+
+
+
+/* Footer css */
 
 footer{
   display: grid;
@@ -37,6 +60,25 @@ footer{
 
 
 @media (min-width: 768px){
+
+
+  header {
+    width: 100%;
+  }
+  nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+  }
+
+  #showMenu {
+    display: none;
+  } 
+
+nav > ul {
+  display: block;
+}
 
 body {
   display: grid;
