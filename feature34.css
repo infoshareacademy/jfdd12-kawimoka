@@ -3,15 +3,24 @@
     flex-direction: row;
     justify-content: space-around;
     width: 100vw;
-    /* margin: 20px; */
+    margin: 20px;
+    height: 400px;
+    align-items: center;
+    background-color: #f9f9f9;
 }
 
 div.feature-box {
-    margin: 0 auto;
+    margin: 10px auto;
     text-align: center;
     padding: 10px;
-    /* background-color: #fff3e6;  */
-    width: 20%;
+    background-color: white;
+    width: 15%;
+    height: 60%;
+    border: 1px solid lightgrey; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 div.feature-box img {
@@ -20,11 +29,11 @@ div.feature-box img {
 }
 
 div.feature-box > p {
-    width: 100%;
+    width: 80%;
     text-align: justify;
-    /* margin: 10px; */
+    margin: 0 auto;
 }
-@media (max-width: 500px) {
+@media (max-width: 768px) {
     .feature-container {
         flex-direction: column;
         width: 100%;
