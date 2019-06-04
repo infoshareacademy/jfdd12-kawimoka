@@ -18,13 +18,9 @@ div.feature-box > p {
 } 
 
 div.feature-box img {
-    height: 70px;
+    /* height: 80px; */
    
 } 
-
-div.feature-box-motivation > img {
-    height: 80px;
-}
 
 
 div.feature-box {
