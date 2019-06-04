@@ -1,29 +1,39 @@
-/* * {
-  border: 1px dotted black;
+* {
+  font-family: 'Lato', sans-serif;
 }
- */
 
  /*  Navbar css */
  
 body {
   display: flex;
   flex-direction: column;
+
 }
 
 header {
   position: fixed;
-  width: auto;
+  width: 100%;
+  background-color: #17ca94;
 }
 
 nav > ul{
   margin: 0;
   display: none;
-  width: 100%;
+  width: auto;
+  font-size: 15px;
+  
 }
+
+ul > a {
+  text-decoration-line: none;
+  text-transform: capitalize;
+}
+
 #showMenu:hover + ul {
   display: flex;
   justify-content: space-evenly;
-  background-color:grey;
+  background-color:#17ca94;
+  padding-bottom: 5px;
 }
 
 #showMenu + ul:hover {
@@ -40,9 +50,19 @@ main{
 /* Footer css */
 
 
-footer{
+#team{
   display: grid;
-  grid-template: 1fr 1fr 1fr / 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+}
+
+#team > div {
+  align-self: center;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+footer {
+  text-align: center
 }
 
 
@@ -73,6 +93,14 @@ footer{
 
 nav > ul {
   display: block;
+  width: 400px;
+}
+
+ul > a {
+  text-decoration-line: none;
+  text-transform: capitalize;
+  font-size: 20px;
+  padding: 5px;
 }
 
 body {
@@ -89,14 +117,14 @@ main {
   display: grid;
 }
 
-footer{
+#team {
 display: flex;
 flex-direction: row;
 
 }
 
-footer > div{
-  flex: 1;
+#team > div{
+  flex: auto;
 }
 
 #header {
