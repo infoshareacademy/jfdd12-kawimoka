@@ -1,6 +1,15 @@
+div.feature-container {
+    width: 100vw;
+    padding: 30px 0; 
+    /* margin: 20px auto; */
+    /* text-align: center; */
+    font-family: 'Noto Sans HK', sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+    
+}
 
 div.feature-box > p {
-    width: 80%;
     max-height: 100%;
     text-align: justify;
     margin: 0 auto;
@@ -12,13 +21,13 @@ div.feature-box img {
 } 
 
 div.feature-box {
-    margin: 10px auto;
+    margin: 20px auto;
     text-align: center;
     padding: 10px;
     background-color: white;
-    width: 300px;
-    height: 300px;
-    border: 1px solid lightgrey; 
+    width: 200px;
+    height: 200px;
+    /* border: 1px solid lightgrey;  */
 }
 
 @media (max-width: 768px) {
@@ -28,37 +37,46 @@ div.feature-box {
         height: 100%;
     }
 
-    /* div.feature-box {
-        width: 50%;
-        height: auto;
-    } */
+    div.feature-box {
+        padding: 20px;
+    }
 }
     
 
-@media (min-width: 769px) {
+    @media (min-width: 769px) and (max-width: 880px) {
+        div.feature-container {
+           display: flex;
+           flex-flow: row wrap;
+           align-items: center;
+        }
 
-    div.feature-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        width: 100vw;
-        margin: 20px;
-        height: 400px;
-        align-items: center;
-        background-color: #f9f9f9;
-        flex-flow: row wrap;
-    }
-    
-    div.feature-box {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        /* flex-basis: 40%; */
+        div.feature-box {
+            flex-basis: 31%;
+        }
     }
 
 
-    
+    @media (min-width: 880px) {
+
+        div.feature-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            margin: 20px;
+            /* height: 400px; */
+            align-items: center;
+            /* background-color: #f9f9f9; */
+            flex-flow: row wrap;
+            /* max-width: 1200px; */
+        }
+        
+        div.feature-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            /* flex-basis: 30%; */
+        }
 
 
 }
