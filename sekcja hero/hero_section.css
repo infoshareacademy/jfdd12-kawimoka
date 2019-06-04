@@ -1,54 +1,63 @@
 body{
-    /* background-image: url("background.jpg");
-    background-repeat: no-repeat; 
-     */
+   /* background-image: url("background.jpg");
+   background-repeat: no-repeat;
+    */
 }
 
 .hero_main_container{
-    height: 700px;
-    display:grid;
-    grid-template-columns: repeat(2,1fr);
-    background-image: url("background.jpg");
-    background-repeat: no-repeat; 
+   height: 700px;
+   display:grid;
+   grid-template-columns: repeat(2,1fr);
+   background-image: url("background.jpg");
+   background-repeat: no-repeat;
 }
 .hero_main_text{
-    margin-top: 180px;
-    margin-left: 200px;
-    margin-right: 200px;
-    font-family: 'Lato', sans-serif;
+   margin-top: 180px;
+   margin-left: 200px;
+   margin-right: 200px;
+   font-family: 'Lato', sans-serif;
 }
 
 .hero_main_p{
-    text-transform: uppercase;
-    
-    font-family: 'Lato', sans-serif;
-    font-size: 280%;
-    font-weight: bold; 
+   text-transform: uppercase;
+
+   font-family: 'Lato', sans-serif;
+   font-size: 280%;
+   font-weight: bold;
+   letter-spacing: px;
+
+
+}
+
+.hero_text_call{
+   font-size: 150%;
+   font-weight: bold;
+   letter-spacing: 2px;
 
 
 }
 .hero_text{
-    font-size: 150%;
+   font-size: 150%;
+   letter-spacing: 1px;
 
 }
 
 .hero_button{
-    text-transform: uppercase;
-    color: white;
-    background-color: #00cfbf;
-    border: 0;
-    font-family: 'Lato', sans-serif;
-    font-size: 150%;
-    font-weight: bold;
-    padding: 20px;
-    margin-left: 20px;
-    border-radius: 25px;
-    
-    
+   text-transform: uppercase;
+   color: white;
+   background-color: #00cfbf;
+   border: 0;
+   font-family: 'Lato', sans-serif;
+   font-size: 150%;
+   font-weight: bold;
+   padding: 20px;
+   margin-left: 20px;
+   border-radius: 25px;
+
+
 }
 
 .hero_button:hover{
-    background-color: #08ada0;
-    
+   background-color: #08ada0;
 
 }
