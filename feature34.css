@@ -17,11 +17,9 @@ div.feature-box > p {
     margin: 0 auto;
 } 
 
-div.feature-box img {
-    /* height: 80px; */
-   
-} 
-
+#feature-hover:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
+}
 
 
 div.feature-box {
