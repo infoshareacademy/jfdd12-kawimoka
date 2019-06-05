@@ -1,0 +1,32 @@
+#extended-features {
+    display: grid;
+    margin: 0 30px;
+}
+
+div.ext-features-box {
+    margin: 17px;
+    height: 150px;
+    border: 1px solid #00cfbf;
+    
+}
+
+
+
+@media (max-width: 534px) {
+    #extended-features {
+        grid-template-columns: 100%;
+        margin: 0 20px;
+    }
+}
+
+
+
+
+@media (min-width: 535px) {
+#extended-features {
+    grid-template-columns: 50% 50%;
+}
+
+
+
+}
