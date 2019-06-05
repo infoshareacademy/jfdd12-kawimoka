@@ -1,38 +1,47 @@
-/* * {
-  border: 1px dotted black;
+* {
+  font-family: 'Lato', sans-serif;
 }
- */
 
  /*  Navbar css */
  
- nav > ul {
-margin: 0;
- }
-
 body {
   display: flex;
   flex-direction: column;
+
 }
 
 header {
   position: fixed;
-  width: auto;
-  background: lightgray;
+  width: 100%;
+  background-color: #00cfbf;
 }
 
 nav > ul{
+  margin: 0;
   display: none;
+  width: auto;
+  font-size: 15px;
+  
 }
+
+ul > a {
+  text-decoration-line: none;
+  text-transform: capitalize;
+}
+
 #showMenu:hover + ul {
-  display: block; 
+  display: flex;
+  justify-content: space-evenly;
+  background-color:#17ca94;
+  padding-bottom: 5px;
 }
 
 #showMenu + ul:hover {
-  display: block; 
+  display: block;
 }
 
 main{
-  margin-top: 20px;
+  margin-top: 60px;
 }
 
 
@@ -135,7 +144,7 @@ main{
 
     /*SMALL SCREEN */
     
-    @media (max-width: 900px){
+    @media (max-width: 700px){
     
   
       .form{
@@ -226,13 +235,22 @@ main{
       }
       
   }
-
-
 /* Footer css */
 
-footer{
+
+#team{
   display: grid;
-  grid-template: 1fr 1fr 1fr / 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+}
+
+#team > div {
+  align-self: center;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+footer {
+  text-align: center
 }
 
 
@@ -244,7 +262,7 @@ footer{
 
 
 
-@media (min-width: 768px){
+@media (min-width: 525px){
 
 
   header {
@@ -263,6 +281,14 @@ footer{
 
 nav > ul {
   display: block;
+  width: 400px;
+}
+
+ul > a {
+  text-decoration-line: none;
+  text-transform: capitalize;
+  font-size: 20px;
+  padding: 5px;
 }
 
 body {
@@ -279,14 +305,14 @@ main {
   display: grid;
 }
 
-footer{
+#team {
 display: flex;
 flex-direction: row;
 
 }
 
-footer > div{
-  flex: 1;
+#team > div{
+  flex: auto;
 }
 
 #header {
