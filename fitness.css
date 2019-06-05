@@ -14,6 +14,7 @@ header {
   position: fixed;
   width: 100%;
   background-color: #00cfbf;
+  
 }
 
 nav > ul{
@@ -27,12 +28,13 @@ nav > ul{
 ul > a {
   text-decoration-line: none;
   text-transform: capitalize;
+  color: #596375;
 }
 
 #showMenu:hover + ul {
   display: flex;
   justify-content: space-evenly;
-  background-color:#17ca94;
+  background-color:#00cfbf;
   padding-bottom: 5px;
 }
 
