@@ -42,42 +42,50 @@ main{
 /*FORM CSS*/
 .form{
   border: 1px solid black;
-  width: 1200px;
+  width: 1000px;
   margin: 0 auto;
   color: black;
   font-family: 'Lato', sans-serif;
   display: grid;
-  grid-template: repeat(7, 63.5px) / repeat(6, 1fr);
+  grid-template: repeat(20, 1fr) / repeat(10, 1fr);
+  border: 3px solid rgb(48, 45, 45);
+  max-height: 664px;
+ 
   
 }
 .form-background {
-  width: 1200px;
+  width: 1000px;
   height: 0 auto;
-  grid-area: 1 /1 / 7/ 7;
+  grid-area: 1 /1 / 21/ 10;
   
 }
 
 .form-title{
   text-align: center;
-  font-size: 18px;
-  grid-area: 1 /4 /3 /7; 
+  font-size: 25px;
+  grid-area: 8/6/11/11; 
 
 }
 
 .form-name{
-  align-items: center;
-  grid-area: 3/4/4/7; 
+  font-size: 20px;
+  grid-area: 14/7/16/11; 
 }
 .form-email{
-  grid-area: 4/4/5/7; 
+  font-size: 20px;
+  grid-area: 16/7/18/11; 
 }
 .form-info{
-  grid-area: 6/4/7/7; 
+  grid-area: 20/1/21/4; 
   font-size: 14px;
+  margin-left: 5px;
 }
+  .form-info p{
+    margin: 5px;
+  }
 
 .form-button{
-  grid-area: 5/4/6/6;; 
+  grid-area: 18/7/20/10;
   text-transform: uppercase;
   color: white;
   background-color: #00cfbf;
