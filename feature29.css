@@ -6,8 +6,50 @@
 div.ext-features-box {
     margin: 17px;
     height: 150px;
-    border: 1px solid #00cfbf;
+    /* border: 1px solid #00cfbf; */
     
+}
+
+div.polygon-box {
+    height: 100%;
+    width: 45%;
+    clip-path:
+    polygon(
+        0 0,      /* top left */
+        0 0,      /* top left */
+        100% 0,    /* top right */
+        100% 0,    /* top right */
+        100% 0,   /* bottom right */
+        55% 100%,   /* bottom right */
+        0 100%,    /* bottom left */
+        0 100%       /* bottom left */
+    );
+}
+
+div.polygon-box-reversed {
+    height: 100%;
+    width: 45%;
+    clip-path:
+    polygon(
+        0 0,      /* top left */
+        0 0,      /* top left */
+        55% 0,    /* top right */
+        100% 100%,    /* top right */
+        100% 100%,   /* bottom right */
+        100% 100%,   /* bottom right */
+        0 100%,    /* bottom left */
+        0 100%       /* bottom left */
+    );
+}
+
+
+.light {
+    background-color: #00cfbf;
+}
+
+.dark {
+    background-color: #556270;
+    opacity: 0.6;
 }
 
 
