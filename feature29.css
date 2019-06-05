@@ -10,46 +10,16 @@ div.ext-features-box {
     
 }
 
-div.polygon-box {
-    height: 100%;
-    width: 45%;
-    clip-path:
-    polygon(
-        0 0,      /* top left */
-        0 0,      /* top left */
-        100% 0,    /* top right */
-        100% 0,    /* top right */
-        100% 0,   /* bottom right */
-        55% 100%,   /* bottom right */
-        0 100%,    /* bottom left */
-        0 100%       /* bottom left */
-    );
+
+
+figure.ext-icon {
+    margin-top: 0;
 }
 
-div.polygon-box-reversed {
-    height: 100%;
-    width: 45%;
-    clip-path:
-    polygon(
-        0 0,      /* top left */
-        0 0,      /* top left */
-        55% 0,    /* top right */
-        100% 100%,    /* top right */
-        100% 100%,   /* bottom right */
-        100% 100%,   /* bottom right */
-        0 100%,    /* bottom left */
-        0 100%       /* bottom left */
-    );
-}
-
-
-.light {
-    background-color: #00cfbf;
-}
-
-.dark {
-    background-color: #556270;
-    opacity: 0.6;
+figure.ext-icon > img {
+    width: 80px;
+    height: 80px;
+    margin: 35px auto;
 }
 
 
@@ -67,6 +37,53 @@ div.polygon-box-reversed {
 @media (min-width: 535px) {
 #extended-features {
     grid-template-columns: 50% 50%;
+}
+
+    div.polygon-box {
+        /* background-color: #00cfbf; */
+        height: 100%;
+        width: 45%;
+        clip-path:
+        polygon(
+            0 0,      /* top left */
+            0 0,      /* top left */
+            100% 0,    /* top right */
+            100% 0,    /* top right */
+            100% 0,   /* bottom right */
+            55% 100%,   /* bottom right */
+            0 100%,    /* bottom left */
+            0 100%       /* bottom left */
+        );
+    }
+    
+    div.polygon-box-reversed {
+        /* background-color: #00cfbf; */
+        height: 100%;
+        width: 45%;
+        clip-path:
+        polygon(
+            0 0,      /* top left */
+            0 0,      /* top left */
+            55% 0,    /* top right */
+            100% 100%,    /* top right */
+            100% 100%,   /* bottom right */
+            100% 100%,   /* bottom right */
+            0 100%,    /* bottom left */
+            0 100%       /* bottom left */
+        );
+    }
+
+
+    .light {
+        background-color: #00cfbf;
+    }
+
+    .dark {
+        background-color: #556270;
+        opacity: 0.6;
+    }      
+
+
 }
 
 
