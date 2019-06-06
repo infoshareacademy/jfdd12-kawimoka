@@ -6,7 +6,8 @@
 
 nav img{
   max-width: 300px;
-  height:60px;
+  height:100%;
+  padding: 10px;
 
 }
  
@@ -19,8 +20,7 @@ body {
 header {
   position: fixed;
   width: 100%;
-  background-color: #00cfbf;
-  
+    
 }
 
 nav > ul{
@@ -28,24 +28,29 @@ nav > ul{
   display: none;
   width: auto;
   font-size: 15px;
+  padding: 10px;
+  
+  font-weight: bold;
+
   
 }
 
 ul > a {
   text-decoration-line: none;
-  text-transform: capitalize;
-  color: #596375;
-}
+  
+  color: black;
+  text-transform: uppercase;
+  
+  }
 
 #showMenu:hover + ul {
   display: flex;
   justify-content: space-evenly;
-  background-color:#00cfbf;
   padding-bottom: 5px;
 }
 
 #showMenu + ul:hover {
-  display: block;
+  display: flex;
 }
 
 main{
@@ -275,11 +280,13 @@ footer {
 
   header {
     width: 100%;
+    background-color: white;
+    
   }
   nav {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
+    align-items: center;
 
   }
 
@@ -288,15 +295,23 @@ footer {
   } 
 
 nav > ul {
-  display: block;
-  width: 400px;
+  display: flex;
+  
+  
 }
 
 ul > a {
   text-decoration-line: none;
-  text-transform: capitalize;
+  text-transform: uppercase;
   font-size: 20px;
-  padding: 5px;
+  padding: 5px 25px;
+  
+  
+  
+  
+}
+a:hover{
+  color:  #109c91
 }
 
 body {
