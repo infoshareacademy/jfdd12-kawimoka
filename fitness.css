@@ -3,6 +3,12 @@
 }
 
  /*  Navbar css */
+
+nav img{
+  max-width: 300px;
+  height:60px;
+
+}
  
 body {
   display: flex;
