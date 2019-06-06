@@ -1,12 +1,13 @@
 #extended-features {
     display: grid;
     margin: 0 30px;
+    font-family: 'Lato', sans-serif;
 }
 
 div.ext-features-box {
     margin: 17px;
     height: 150px;
-    border: 1px solid #00cfbf;
+    /* border: 1px solid #00cfbf; */
     /* border-radius: 50%; */
     
 }
@@ -36,6 +37,7 @@ div.content-box > p {
     color: #596375;
     height: 80%;
     font-size: 14px;
+    margin-top: 40px;
 
 }
 
@@ -60,7 +62,7 @@ div.content-box > p {
 }
 
 div.content-box {
-    justify-content: space-around;
+    justify-content: center;
 }
 
 
