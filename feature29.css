@@ -6,7 +6,8 @@
 div.ext-features-box {
     margin: 17px;
     height: 150px;
-    /* border: 1px solid #00cfbf; */
+    border: 1px solid #00cfbf;
+    /* border-radius: 50%; */
     
 }
 
@@ -16,10 +17,21 @@ figure.ext-icon {
     margin-top: 0;
 }
 
-figure.ext-icon > img {
-    width: 80px;
-    height: 80px;
-    margin: 35px auto;
+div.content-box { 
+    background-color white;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    
+
+}
+
+div.content-box > p {
+    justify-self: end;
+    width: 80%;
+    align-self: center;
+    margin: 20px;
+    text-align: justify;
 }
 
 
@@ -31,6 +43,11 @@ figure.ext-icon > img {
     }
 }
 
+figure.ext-icon > img {
+    width: 50px;
+    height: 50px;
+    margin: 50px auto;
+}
 
 
 
@@ -39,40 +56,14 @@ figure.ext-icon > img {
     grid-template-columns: 50% 50%;
 }
 
-    div.polygon-box {
-        /* background-color: #00cfbf; */
-        height: 100%;
-        width: 45%;
-        clip-path:
-        polygon(
-            0 0,      /* top left */
-            0 0,      /* top left */
-            100% 0,    /* top right */
-            100% 0,    /* top right */
-            100% 0,   /* bottom right */
-            55% 100%,   /* bottom right */
-            0 100%,    /* bottom left */
-            0 100%       /* bottom left */
-        );
+   
+
+    figure.ext-icon > img {
+        width: 80px;
+        height: 80px;
+        margin: 35px auto;
     }
     
-    div.polygon-box-reversed {
-        /* background-color: #00cfbf; */
-        height: 100%;
-        width: 45%;
-        clip-path:
-        polygon(
-            0 0,      /* top left */
-            0 0,      /* top left */
-            55% 0,    /* top right */
-            100% 100%,    /* top right */
-            100% 100%,   /* bottom right */
-            100% 100%,   /* bottom right */
-            0 100%,    /* bottom left */
-            0 100%       /* bottom left */
-        );
-    }
-
 
     .light {
         background-color: #00cfbf;
@@ -80,7 +71,7 @@ figure.ext-icon > img {
 
     .dark {
         background-color: #556270;
-        opacity: 0.6;
+        opacity: 0.5;
     }      
 
 
