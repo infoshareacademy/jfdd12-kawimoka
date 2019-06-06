@@ -134,8 +134,7 @@ main{
   font-weight: bold;
   padding: 20px;
   margin: 0 auto;
-  /*margin-left: 20px;
-  margin-right: 20px;*/
+
   border-radius: 25px;
   width: 50%;
   
@@ -233,8 +232,7 @@ main{
         font-size: 150%;
         font-weight: bold;
         padding: 20px;
-        margin-left: 20px;
-        margin-right: 20px;
+        margin: 0 auto;
         border-radius: 25px;
       }
       
