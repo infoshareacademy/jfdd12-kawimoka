@@ -3,11 +3,17 @@
 }
 
  /*  Navbar css */
+
+nav img{
+  max-width: 300px;
+  height:60px;
+
+}
  
 body {
   display: flex;
   flex-direction: column;
-
+  max-width: 1440px;
 }
 
 header {
