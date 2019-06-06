@@ -23,23 +23,28 @@ div.content-box {
     display: flex;
     flex-direction: row;
     
+    
 
 }
 
 div.content-box > p {
     justify-self: end;
-    width: 80%;
+    width: 100%;
     align-self: center;
-    margin: 20px;
+    /* margin: 30px; */
     text-align: justify;
+    color: #596375;
+    height: 80%;
+    font-size: 14px;
+
 }
 
 
 
-@media (max-width: 534px) {
+@media (max-width: 855px) {
     #extended-features {
         grid-template-columns: 100%;
-        margin: 0 20px;
+        flex-basis: 50%;
     }
 }
 
@@ -49,9 +54,18 @@ figure.ext-icon > img {
     margin: 50px auto;
 }
 
+div.content-box > p {
+    flex-basis:65%;
+   
+}
+
+div.content-box {
+    justify-content: space-around;
+}
 
 
-@media (min-width: 535px) {
+
+@media (min-width: 856px) {
 #extended-features {
     grid-template-columns: 50% 50%;
 }
