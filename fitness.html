@@ -12,17 +12,21 @@
   <link rel="stylesheet" href="feature34.css">
   <link rel="stylesheet" href="feature29.css">
   <link rel="icon" href="img/FAVICON.jpg" type="image/jpg">
-  <title>FitBiter</title>
+  <title>Fitbiter</title>
 </head>
 
 <body>
   <header id="header">
     <nav>
-      <img src="img/nowe_logo.jpg" alt="FitBiter Logo">
-      <a id="showMenu"><i class="fas fa-chevron-circle-down fa-2x"></i></a>
+      <div class="logo_slogan">
+        <img src="img/logo.jpg" alt="FitBiter Logo">
+        <a id="showMenu"><i class="fas fa-chevron-circle-down fa-2x"></i></a>
+        <div class="slogan">#bite_your_diet</div>
+      </div>
+      
       <ul>
         <a href="#header">Home</a>
-        <a href="#main">Features</a>
+        <a href="#extended-features">Features</a>
         <a href="#newsletter">Newsletter</a>
         <a href="#team">Team</a>
       </ul>
@@ -46,39 +50,47 @@
         <div class="feature-container">
 
           <div class="feature-box feature-box-food" id="feature-hover">
+            <a href="#apple">
             <img src="img/dietB.svg">
             <h3>Count Food & Exercise</h3>
             <p>
-              Type in a food name - FitBiter count and show your calories and nutrition. Watch the calorie count and you
+              Type in a food name - Fitbiter count and show your calories and nutrition. Watch the calorie count and you
               will lose weight.
               <!-- Keep your personal favorites, recipes, custom foods and exercises - all that makes logging quick and easy from a desktop, tablet and phone. -->
             </p>
+            </a>
           </div>
 
           <div class="feature-box feature-box-weight" id="feature-hover">
+            <a href="#weight">
             <img src="img/weightB.svg">
             <h3>Stay on Track</h3>
             <p>
-              You can set your target weight and FitBiter app will assist you in achieving your goal. Choose a
+              You can set your target weight and Fitbiter app will assist you in achieving your goal. Choose a
               comfortable rate for yourself.
             </p>
+           </a>
           </div>
 
           <div class="feature-box feature-box-motivation" id="feature-hover">
+            <a href="#chat">
             <img src="img/chatIconB.svg">
             <h3>Keep the Motivation</h3>
             <p>
               Connect with friends for private diary sharing and consult your reports with your dietitian or coach. Let
               our community sustain your motivation!
             </p>
+           </a>
           </div>
 
           <div class="feature-box feature-box-calendar" id="feature-hover">
+            <a href="#calendar">
             <img src="img/calendarIconB.svg">
             <h3>Built-In Calendar and Daily Remainders</h3>
             <p>
               FitBiter provides you a calendar to jump to any day you want to see your food tracker history or edit it.
             </p>
+            </a>
           </div>
 
         </div>
@@ -196,7 +208,7 @@
   </main>
 
 
-  <form class="form" action="#" method="post">
+  <form class="form" id="newsletter" action="#" method="post">
 
     <img src="img/form-background.jpg" class="form-background">
 
@@ -217,12 +229,109 @@
     <button class="form-button"> SUBMIT </button>
 
     <div class="form-info">
-      <p>* We will sned You only one message! </p>
+      <p>* We will send You only one message! </p>
       <p>* The protection of personal data is ensured.</p>
     </div>
 
 
   </form>
+
+  <div id="extended-features">
+
+    <div class="ext-features-box">
+      <div class="content-box" id="apple">
+          <figure class="ext-icon">
+             <img src="img/diet_green.svg">
+          </figure>
+          <p>
+              Fitbiter helps you adding entries easily with a few clicks. You can focus on your macros no matter what diet you have. We know half-a-million foods from restaurants, brand names and common foods and our catalog is consistently expanded by user contributions.
+          </p>
+      </div>
+
+    </div>
+
+    <div class="ext-features-box">
+        <div class="content-box">
+            <figure class="ext-icon">
+                <img src="img/weight_green.svg" id="weight">
+             </figure>
+             <p>You can choose how much weight to lose every week or set a target weight or date. When you add exercises to your plan, Fitbiter will calculate your tracked exercise calories and include them in your daily and weekly analysis.</p>
+        
+        </div>
+      
+    </div>
+
+  <div class="ext-features-box">
+    <div class="content-box">
+        <figure class="ext-icon">
+            <img src="img/comments_green.svg" id="chat">
+         </figure>
+         <p>
+            Share your daily food records with your friends via facebook, whatsapp, twitter or any other app easily. Learn about diet and health from the dietitian's blog and articles. Explore healthy recipes, delicious meals, and dieting techniques.
+            
+         </p>
+
+    </div>
+  
+</div>
+
+<div class="ext-features-box">
+    <div class="content-box">
+        <figure class="ext-icon">
+            <img src="img/appointment_green.svg" id="calendar">
+         </figure>
+         <p>Our app provides you a calendar to jump to any day you want to see your food tracker history or edit it. You can also set remainders to remind you at a specific time to update your food tracker, enter weight-ins, sleep and blood pressure. It can also remind you to drink water regularly.</p>
+    
+    </div>
+  
+</div>
+
+<div class="ext-features-box">
+    <div class="content-box">
+        <figure class="ext-icon">
+            <img src="img/dumbbell_green.svg">
+         </figure>
+         <p>Fitbiter allows you not only to log calories from exercises but also you will have access to workout database from which you can choose your favourite routines. What's more - you can even create your own working plans. </p>
+      
+
+      </div>
+  
+</div>
+
+<div class="ext-features-box">
+    <div class="content-box">
+        <figure class="ext-icon">
+            <img src="img/vitamins_green.svg">
+         </figure>
+         <p>Fitbiter offers you other entries types such as medication or supplements which supports you and speed up your progress and makes you achieving your results faster.</p>
+    
+      </div>
+  
+</div>
+
+<div class="ext-features-box">
+    <div class="content-box">
+        <figure class="ext-icon">
+            <img src="img/heartbeat_green.svg">
+         </figure>
+         <p>Plan and track carbs, fats, proteins and all nutrients along with exercise. Monitor your body measurements, blood glucose and cholesterol, blood pressure, medications and diabetes-specific conditions. Use special reports to understand how your personal health is affected by diet, exercise and medications.</p>
+
+      </div>
+  
+</div>
+
+<div class="ext-features-box">
+    <div class="content-box">
+        <figure class="ext-icon">
+            <img src="img/smart_green.svg">
+         </figure>
+         <p>Access your diary from all devices and the website, we keep them in sync. It connects with other training apps and devices. We love Fitbit, Withings, Garmin, Twitter and support linking your diary to these services.  </p>
+    
+      </div>
+  
+</div>
+
+</div>
 
 
   <div id="team">
@@ -234,7 +343,7 @@
       <a href=""><i class="fas fa-home"></i></a>
     </div>
     <div>
-      <img class="profile-photo" src="" alt="Profile photo">
+      <img class="profile-photo" src="img/kasia.jpg" alt="Profile photo">
       <p>Katarzyna Pastwa</p>
       <a href=""><i class="fab fa-linkedin"></i></a>
       <a href="https://github.com/KatarzynaPastwa"><i class="fab fa-github"></i></a>
