@@ -64,11 +64,11 @@ main{
 
 
 .form{
-  width: auto;
+  width: 100%;
   color: black;
   font-family: 'Lato', sans-serif;
   display: grid;
-  grid-template: repeat(7, 1fr) / repeat(3, 1fr);
+  grid-template: repeat(7, 1fr) / repeat(5, 1fr);
   margin: 0 auto;
 }
 
@@ -78,7 +78,7 @@ main{
   height: 100%;
   margin: 0 auto;
   padding: 0px;
-  margin-right: 15px;
+  margin-left: 5px;
   
 }
 
@@ -86,13 +86,13 @@ main{
 .form-title{
   text-align: center;
   font-size: 18px;
-  grid-area: 1/3/3/4; 
+  grid-area: 1/4/3/5; 
 
 }
 
 .form-name{
   font-size: 20px;
-  grid-area:  3/3/4/4;  
+  grid-area:  3/4/4/5;  
   justify-self: center;
   align-self: end;
 
@@ -106,7 +106,7 @@ main{
 
 .form-email{
   font-size: 20px;
-  grid-area:  4/3/5/4;  
+  grid-area:  4/4/5/5;  
   justify-self: center;
   align-self: end;
   
@@ -119,7 +119,7 @@ main{
 }
 
 .form-info{
-  grid-area:  7/3/8/4;  
+  grid-area:  7/4/8/5;  
   font-size: 14px;
   margin-left: 5px;
   justify-self: center;
@@ -129,7 +129,7 @@ main{
   }
 
 .form-button{
-  grid-area:  6/3/7/4;  
+  grid-area:  6/4/7/5;  
   text-transform: uppercase;
   color: white;
   background-color: #00cfbf;
@@ -139,9 +139,8 @@ main{
   font-weight: bold;
   padding: 20px;
   margin: 0 auto;
-
   border-radius: 25px;
-  width: 50%;
+  width: 200px;
   
 }
 
