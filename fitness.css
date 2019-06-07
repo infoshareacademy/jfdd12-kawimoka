@@ -2,6 +2,10 @@
   font-family: 'Lato', sans-serif;
 }
 
+i {
+  color:#08ada0 !important
+ }
+
  /*  Navbar css */
 
 
@@ -377,8 +381,17 @@ main{
   margin-bottom: 10px;
 }
 
+.profile-photo {
+  max-width: 200px;
+  height: auto;
+  border-radius: 100px;
+}
+
 footer {
-  text-align: center
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 
