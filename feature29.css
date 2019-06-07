@@ -19,7 +19,7 @@ figure.ext-icon {
 }
 
 div.content-box { 
-    background-color white;
+    background-color:white;
     height: 100%;
     display: flex;
     flex-direction: row;
@@ -89,10 +89,6 @@ div.content-box {
         background-color: #556270;
         opacity: 0.5;
     }      
-
-
-}
-
 
 
 }
