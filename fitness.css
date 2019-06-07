@@ -4,6 +4,7 @@
 
  /*  Navbar css */
 
+
 nav img{
   max-height:89px;
   max-width: 245px;
@@ -15,6 +16,7 @@ nav img{
   
   color: #0d8b81;
   letter-spacing: 3px;
+  
   
   
   font-size: 25px;
@@ -34,6 +36,10 @@ body {
 header {
   position: fixed;
   width: 100%;
+  background-color: #fff;
+  padding-bottom: 10px;
+
+
     
 }
 nav{
