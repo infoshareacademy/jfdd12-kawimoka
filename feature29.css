@@ -48,7 +48,7 @@ a {
 }
 
 
-@media (max-width: 855px) {
+@media (max-width: 976px) {
     #extended-features {
         grid-template-columns: 100%;
         flex-basis: 50%;
@@ -72,7 +72,7 @@ div.content-box {
 
 
 
-@media (min-width: 856px) {
+@media (min-width: 978px) {
 #extended-features {
     grid-template-columns: 50% 50%;
 }
