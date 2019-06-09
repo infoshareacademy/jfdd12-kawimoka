@@ -20,22 +20,22 @@
     <nav>
       <div class="logo_slogan">
         <img src="img/logo.jpg" alt="FitBiter Logo">
-        <a id="showMenu"><i class="fas fa-chevron-circle-down fa-2x"></i></a>
         <div class="slogan">#bite_your_diet</div>
       </div>
+      <a id="showMenu"><i class="fas fa-chevron-circle-down fa-2x"></i></a>
 
       <ul>
-        <a href="#header">Home</a>
-        <a href="#extended-features">Features</a>
-        <a href="#newsletter">Newsletter</a>
-        <a href="#team">Team</a>
+        <a href="#home">Home</a>
+        <a href="#ext-features-nav">Features</a>
+        <a href="#newsletter-nav">Newsletter</a>
+        <a href="#team-nav">Team</a>
       </ul>
     </nav>
   </header>
- 
+
   <main>
 
-    <div class="hero_main_container">
+    <div id="home" class="hero_main_container">
       <section class="hero_image"></section>
       <section class="hero_main_text">
         <p class="hero_main_p">Get fit & lose weight<br> with fitbiter</p>
@@ -50,7 +50,7 @@
       <div id="feature">
         <div class="feature-container">
 
-          <div class="feature-box feature-box-food" id="feature-hover">
+          <div class="feature-box feature-box-food" class="feature-hover">
             <a href="#apple">
               <img src="img/dietB.svg">
               <h3>Count Food & Exercise</h3>
@@ -62,7 +62,7 @@
             </a>
           </div>
 
-          <div class="feature-box feature-box-weight" id="feature-hover">
+          <div class="feature-box feature-box-weight" class="feature-hover">
             <a href="#weight">
               <img src="img/weightB.svg">
               <h3>Stay on Track</h3>
@@ -73,7 +73,7 @@
             </a>
           </div>
 
-          <div class="feature-box feature-box-motivation" id="feature-hover">
+          <div class="feature-box feature-box-motivation" class="feature-hover">
             <a href="#chat">
               <img src="img/chatIconB.svg">
               <h3>Keep the Motivation</h3>
@@ -85,24 +85,24 @@
             </a>
           </div>
 
-          <div class="feature-box feature-box-calendar" id="feature-hover">
+          <div class="feature-box feature-box-calendar" class="feature-hover">
             <a href="#calendar">
               <img src="img/calendarIconB.svg">
               <h3>Built-In Calendar and Daily Remainders</h3>
-              <p>
+              <p id="newsletter-nav">
                 FitBiter provides you a calendar to jump to any day you want to see your food tracker history or edit
                 it.
               </p>
             </a>
           </div>
-          
+
         </div>
       </div>
 
   </main>
-  <form id="newsletter" class="form"  action="#" method="post">
+  <form id="newsletter" class="form" action="#" method="post">
 
-    <img  src="img/form-background.jpg" class="form-background">
+    <img src="img/form-background.jpg" class="form-background">
 
 
     <div class="form-title">
@@ -122,12 +122,11 @@
 
     <div class="form-info">
       <p>* We will send You only one message! </p>
-      <p>* The protection of personal data is ensured.</p>
+      <p id="ext-features-nav">* The protection of personal data is ensured.</p>
     </div>
 
 
   </form>
-
   <div id="extended-features">
 
     <div class="ext-features-box">
@@ -239,8 +238,9 @@
     </div>
 
   </div>
+  <hr>
 
-
+  <h2 id="team-nav">Development Team</h2>
   <div id="team">
     <div>
       <img class="profile-photo" src="img/MonikaGapinska.jpg" alt="Profile photo">
@@ -250,7 +250,7 @@
       <a href="" target="_blank"><i class="fas fa-home"></i></a>
     </div>
     <div>
-      <img class="profile-photo" src="img/kasia.jpg" alt="Profile photo">
+      <img class="profile-photo" src="img/kasia.jpg" style="max-width: heigth 150px;" alt="Profile photo">
       <p>Katarzyna Pastwa</p>
       <a href="" target="_blank"><i class="fab fa-linkedin"></i></a>
       <a href="https://github.com/KatarzynaPastwa" target="_blank"><i class="fab fa-github"></i></a>
@@ -275,10 +275,10 @@
 
     <div>
       <p>
-        <a href="terms.html">Terms of Services</a>
+        <a href="terms.html" target="_blank">Terms of Services</a>
       </p>
       <p>
-        <a href="privacy.html">Privacy Policy</a>
+        <a href="privacy.html" target="_blank">Privacy Policy</a>
       </p>
     </div>
 
@@ -294,7 +294,7 @@
 
     <div>
       <p>
-        Last update of page: 10.06.19
+        Homepage update: 10.06.19
       </p>
       <p>
         Planned app release: 26.07.19

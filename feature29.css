@@ -7,7 +7,7 @@
 
 div.ext-features-box {
     margin: 17px;
-    height: 150px;
+    height: auto;
 }
 
 
@@ -25,12 +25,12 @@ div.content-box {
 div.content-box > p {
     justify-self: end;
     width: 100%;
-    align-self: center;
+    align-self: end;
     text-align: justify;
     color: #596375;
-    height: 80%;
+    height: 100%;
     font-size: 14px;
-    margin-top: 60px;
+    margin-top: 35px;
 }
 
 a {
@@ -39,7 +39,7 @@ a {
 }
 
 
-@media (max-width: 976px) {
+@media (max-width: 977px) {
     #extended-features {
         grid-template-columns: 100%;
         flex-basis: 50%;
