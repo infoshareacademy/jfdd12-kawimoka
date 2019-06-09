@@ -396,7 +396,7 @@ footer {
 
 
 
-@media (min-width: 850px){
+@media (min-width: 775px){
 
 
   header {
@@ -419,6 +419,7 @@ footer {
 
 nav > ul {
   display: flex;
+  width: auto;
   
   
 }
