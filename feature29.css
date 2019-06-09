@@ -8,11 +8,7 @@
 div.ext-features-box {
     margin: 17px;
     height: 150px;
-    /* border: 1px solid #00cfbf; */
-    /* border-radius: 50%; */
-    
 }
-
 
 
 figure.ext-icon {
@@ -24,20 +20,17 @@ div.content-box {
     height: 100%;
     display: flex;
     flex-direction: row;
-
 }
 
 div.content-box > p {
     justify-self: end;
     width: 100%;
     align-self: center;
-    /* margin: 30px; */
     text-align: justify;
     color: #596375;
     height: 80%;
     font-size: 14px;
     margin-top: 60px;
-
 }
 
 a {
@@ -69,14 +62,12 @@ div.content-box {
 }
 
 
-
 @media (min-width: 978px) {
 #extended-features {
     grid-template-columns: 50% 50%;
-}
+    }
 
    
-
     figure.ext-icon > img {
         width: 80px;
         height: 80px;
