@@ -45,6 +45,7 @@ div.feature-box {
            display: flex;
            flex-flow: row wrap;
            align-items: center;
+           margin: 0 auto;
         }
 
         div.feature-box {
