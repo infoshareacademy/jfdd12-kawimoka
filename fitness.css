@@ -66,7 +66,8 @@ ul > a {
   text-transform: uppercase;
   }
 
-#showMenu:hover + ul {
+#showMenu:hover + ul,
+nav:hover > ul {
   display: flex;
   justify-content: space-evenly;
   padding-bottom: 5px;
@@ -271,7 +272,6 @@ main{
     /*SMALL SCREEN */
     
     @media (max-width: 910px){
-    
   
       .form{
         
