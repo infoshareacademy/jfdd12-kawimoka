@@ -9,6 +9,13 @@ i {
  h2 {
    text-align: center;
  }
+
+hr {
+  border: 1px solid #08ada0;
+  width: 90%;
+  text-align: center;
+}
+
  /*  Navbar css */
 
 nav {
