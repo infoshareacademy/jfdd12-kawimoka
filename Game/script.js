@@ -28,6 +28,10 @@ button.innerHTML = "PLAY"
 button.classList.add("button-style");
 body.append(button);
 
+button.addEventListener('click', function() {
+
+  } 
+)
 
 function drawBurger (x, y, width, height, color = 'black') {
   ctx.fillStyle = color
