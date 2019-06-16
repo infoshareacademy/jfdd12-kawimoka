@@ -6,6 +6,13 @@ const WIDTH = 900
 const HEIGHT = 600
 const INSTRUCTION_WIDTH = 300
 const INSTRUCTION_HEIGHT = 300
+const BOY_WIDTH = 100
+const BOY_HEIGHT = 100
+
+let boy = {
+  x: WIDTH / 2,
+  y: (HEIGHT - BOY_HEIGHT) - 50,
+}
 
 const body = document.querySelector('body')
 const canvas = document.createElement('canvas')
@@ -14,6 +21,7 @@ body.append(canvas)
 canvas.setAttribute('width', `${30 * SIZE}px`)
 canvas.setAttribute('height', `${20 * SIZE}px`)
 const ctx = canvas.getContext('2d')
+
 let isPlaying = false;
 
 function animate() {
@@ -26,10 +34,11 @@ drawPlayButton();
 
 
 function drawGame(){
-  drawImage('game-images/background.png', 0, 0, WIDTH, HEIGHT);
+  drawBackground();
   drawBurgers();
+  drawBoy();
   if(!isPlaying){
-    drawImage('game-images/instruction.png', (WIDTH - INSTRUCTION_WIDTH)/2, (HEIGHT - INSTRUCTION_HEIGHT)/2 , INSTRUCTION_WIDTH, INSTRUCTION_HEIGHT);
+    drawInstruction();
   }
 }
 
@@ -51,11 +60,15 @@ function drawBurgers() {
 }
 
 function drawBackground() {
-  ctx.drawImage(backgroundImage, 0, 0, WIDTH, HEIGHT)
+  drawImage('game-images/background.png', 0, 0, WIDTH, HEIGHT)
 }
 
 function drawInstruction() {
-  ctx.drawImage(instructionImage, (WIDTH - INSTRUCTION_WIDTH)/2, (HEIGHT - INSTRUCTION_HEIGHT)/2, INSTRUCTION_WIDTH, INSTRUCTION_HEIGHT)
+  drawImage('game-images/instruction.png', (WIDTH - INSTRUCTION_WIDTH)/2, (HEIGHT - INSTRUCTION_HEIGHT)/2, INSTRUCTION_WIDTH, INSTRUCTION_HEIGHT)
+}
+
+function drawBoy() {
+  drawImage('game-images/boy-skinny.png', boy.x, boy.y, BOY_WIDTH, BOY_HEIGHT)
 }
 
 function drawPlayButton() {
@@ -69,9 +82,8 @@ function drawPlayButton() {
 }
 
 
-function drawBurger (x, y, width, height, color = 'black') {
-  ctx.fillStyle = color
-  ctx.fillRect(x, y, width, height)
+function drawBurger (x, y, width, height) {
+  drawImage('game-images/burger.png',x, y, width, height)
 }
 
 function drawImage (imageUrl, x, y, w, h, onload = () => {}) {
