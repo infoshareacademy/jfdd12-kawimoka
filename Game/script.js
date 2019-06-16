@@ -14,41 +14,64 @@ body.append(canvas)
 canvas.setAttribute('width', `${30 * SIZE}px`)
 canvas.setAttribute('height', `${20 * SIZE}px`)
 const ctx = canvas.getContext('2d')
+let isPlaying = false;
 
-let backgroundImage;
-let instructionImage;
-let burgers;
+function animate() {
+  drawGame()
+  requestAnimationFrame(animate)
+}
+animate();
 
-backgroundImage = drawImage ('game-images/background.png', 0, 0, WIDTH, HEIGHT, () => {
-  instructionImage = drawImage("game-images/instruction.png", (WIDTH - INSTRUCTION_WIDTH)/2, (HEIGHT - INSTRUCTION_HEIGHT)/2, INSTRUCTION_WIDTH, INSTRUCTION_HEIGHT)
-})
+drawPlayButton();
 
-var button = document.createElement('button')
-button.innerHTML = "PLAY"
-button.classList.add("button-style");
-body.append(button);
 
-button.addEventListener('click', function() {
+function drawGame(){
+  drawImage('game-images/background.png', 0, 0, WIDTH, HEIGHT);
+  drawBurgers();
+  if(!isPlaying){
+    drawImage('game-images/instruction.png', (WIDTH - INSTRUCTION_WIDTH)/2, (HEIGHT - INSTRUCTION_HEIGHT)/2 , INSTRUCTION_WIDTH, INSTRUCTION_HEIGHT);
+  }
+}
 
-  } 
-)
+
+function drawBurgers() {
+
+  for (let i = 0; i < numOfEnemies; i++) {
+    drawBurger(i * SPACE_BETWEEN + FREE_SPACE, SIZE, SIZE, SIZE)
+  }
+  
+  for (let i = 0; i < numOfEnemies; i++) {
+    drawBurger(i * SPACE_BETWEEN + FREE_SPACE , SIZE + SPACE_BETWEEN, SIZE, SIZE)
+  }
+  
+  for (let i = 0; i < numOfEnemies; i++) {
+    drawBurger(i * SPACE_BETWEEN + FREE_SPACE, SIZE + 2 * SPACE_BETWEEN, SIZE, SIZE)
+  }
+
+}
+
+function drawBackground() {
+  ctx.drawImage(backgroundImage, 0, 0, WIDTH, HEIGHT)
+}
+
+function drawInstruction() {
+  ctx.drawImage(instructionImage, (WIDTH - INSTRUCTION_WIDTH)/2, (HEIGHT - INSTRUCTION_HEIGHT)/2, INSTRUCTION_WIDTH, INSTRUCTION_HEIGHT)
+}
+
+function drawPlayButton() {
+  var button = document.createElement('button')
+  button.innerHTML = "PLAY"
+  button.classList.add("button-style");
+  button.addEventListener('click', function(){
+    isPlaying = !isPlaying;
+  })
+  body.append(button);
+}
+
 
 function drawBurger (x, y, width, height, color = 'black') {
   ctx.fillStyle = color
   ctx.fillRect(x, y, width, height)
-}
-
-
-for (let i = 0; i < numOfEnemies; i++) {
-  drawBurger(i * SPACE_BETWEEN + FREE_SPACE, SIZE, SIZE, SIZE)
-}
-
-for (let i = 0; i < numOfEnemies; i++) {
-  drawBurger(i * SPACE_BETWEEN + FREE_SPACE , SIZE + SPACE_BETWEEN, SIZE, SIZE)
-}
-
-for (let i = 0; i < numOfEnemies; i++) {
-  drawBurger(i * SPACE_BETWEEN + FREE_SPACE, SIZE + 2 * SPACE_BETWEEN, SIZE, SIZE)
 }
 
 function drawImage (imageUrl, x, y, w, h, onload = () => {}) {
