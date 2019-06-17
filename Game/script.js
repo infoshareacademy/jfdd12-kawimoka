@@ -38,7 +38,7 @@ function animate() {
 }
 animate();
 drawPlayButton();
-
+addClickEventToCanvas();
 
 function drawGame() {
   drawBackground();
@@ -46,13 +46,37 @@ function drawGame() {
   drawBoy();
   drawPauzaButton();
 
-
   if (!isPlaying) {
     drawInstruction();
     drawPlayButton();
   }
 }
 
+
+function addClickEventToCanvas(){
+  canvas.addEventListener('click', function(event){
+    let relativeClickX =  event.x - canvas.offsetLeft;
+    let relativeClickY = event.y - canvas.offsetTop;
+
+      if (!isPlaying) {
+        clickOnPlayButton(relativeClickX,relativeClickY)
+      }
+    // jesli isPlaying === true -> sprawdz czy klikniecie bylo na play, zmien stan isPlaying na true
+    // jesli else -> sprawdz czy klikniecie bylo na play, zmien stan isPlaying na true
+  })
+}
+
+function clickOnPlayButton(relativeClickX, relativeClickY) {
+  let maxPlayClickScopeX = (WIDTH + PLAY_BUTTON_WIDTH)/2
+  let minPlayClickScopeX = (WIDTH - PLAY_BUTTON_WIDTH)/2
+  let maxPlayClickScopeY = HEIGHT/2 + PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT + PLAY_BUTTON_HEIGHT
+  let minPlayClickScopeY = HEIGHT/2 + PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT
+
+  if (relativeClickX < maxPlayClickScopeX && relativeClickX > minPlayClickScopeX && 
+    relativeClickY < maxPlayClickScopeY && relativeClickY > minPlayClickScopeY) {
+      isPlaying = true
+    }
+}
 
 function drawBurgers() {
 
@@ -106,7 +130,7 @@ function drawBoy() {
 }
 
 function drawPlayButton() {
-  drawImage('game-images/play.png', WIDTH/2 - PLAY_BUTTON_WIDTH/2, HEIGHT/2 + PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT )
+  drawImage('game-images/play.png', WIDTH/2 - PLAY_BUTTON_WIDTH/2, HEIGHT/2 + PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT)
 }
 
 function drawPauzaButton() {
