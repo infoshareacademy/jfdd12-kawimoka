@@ -3,4 +3,11 @@ button.button-style {
     width: 100px;
     height: 30px;
     color: white; 
+    position: absolute; 
+    top: 399px;
+    left: 580px;
+}
+
+button.no-button {
+    display: none;
 }

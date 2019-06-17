@@ -30,13 +30,14 @@ function animate() {
 }
 animate();
 
-drawPlayButton();
 
+drawPlayButton();
 
 function drawGame(){
   drawBackground();
   drawBurgers();
   drawBoy();
+  
   if(!isPlaying){
     drawInstruction();
   }
@@ -77,6 +78,7 @@ function drawPlayButton() {
   button.classList.add("button-style");
   button.addEventListener('click', function(){
     isPlaying = !isPlaying;
+    button.classList.add("no-button");
   })
   body.append(button);
 }
