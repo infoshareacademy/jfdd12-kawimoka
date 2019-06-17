@@ -76,7 +76,7 @@ function drawBoy() {
 function drawPlayButton() {
   var playButton = document.createElement('button')
   playButton.innerHTML = "PLAY"
-  playButton.classList.add("play-button-style");
+  playButton.classList.add("play-button-style")
   playButton.addEventListener('click', function(){
     isPlaying = !isPlaying;
     playButton.classList.add("no-button");
@@ -87,7 +87,7 @@ function drawPlayButton() {
 function drawPauzaButton() {
   var pauzaButton = document.createElement('button')
   pauzaButton.innerHTML = "PAUZA | HOW TO PLAY"
-  pauzaButton.classList.add("pauza-button-style");
+  pauzaButton.classList.add("pauza-button-style")
   body.append(pauzaButton)
 }
 
