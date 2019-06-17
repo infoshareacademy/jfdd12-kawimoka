@@ -72,7 +72,6 @@ function switchOnNewForm(){
 }
 
 
-
-
-
-
+afterSubmitButton.addEventListener('click', function(){  
+console.log("OK")
+})

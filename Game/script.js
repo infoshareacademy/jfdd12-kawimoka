@@ -132,3 +132,6 @@ function drawBurger(x, y, width, height, color = 'black') {
     }
     return image
   }
+
+
+  
