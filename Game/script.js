@@ -36,6 +36,7 @@ function drawGame(){
   drawBackground();
   drawBurgers();
   drawBoy();
+  drawPauzaButton();
   
   
   if(!isPlaying){
@@ -75,7 +76,7 @@ function drawBoy() {
 function drawPlayButton() {
   var playButton = document.createElement('button')
   playButton.innerHTML = "PLAY"
-  playButton.classList.add("button-style");
+  playButton.classList.add("play-button-style");
   playButton.addEventListener('click', function(){
     isPlaying = !isPlaying;
     playButton.classList.add("no-button");
@@ -83,9 +84,12 @@ function drawPlayButton() {
   body.append(playButton);
 }
 
-// function drawPauzaButton() {
-
-// }
+function drawPauzaButton() {
+  var pauzaButton = document.createElement('button')
+  pauzaButton.innerHTML = "PAUZA | HOW TO PLAY"
+  pauzaButton.classList.add("pauza-button-style");
+  body.append(pauzaButton)
+}
 
 
 function drawBurger (x, y, width, height) {

@@ -1,4 +1,4 @@
-button.button-style {
+button.play-button-style {
     background-color: black;
     width: 100px;
     height: 30px;
@@ -10,4 +10,15 @@ button.button-style {
 
 button.no-button {
     display: none;
+}
+
+button.pauza-button-style {
+    background-color: black;
+    width: 180px;
+    height: 30px;
+    color: white; 
+    position: absolute; 
+    top: 9px;
+    left: 183px;
+
 }
