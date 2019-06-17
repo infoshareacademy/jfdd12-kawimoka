@@ -1,11 +1,24 @@
+body {
+    width: 900px;
+    height: 600px;
+}
+
+
 button.play-button-style {
     background-color: black;
     width: 100px;
     height: 30px;
     color: white; 
+    font-weight: bold;
+    border: none;
+    box-shadow: 1px 1px 1px 1px #888888;
     position: absolute; 
-    top: 399px;
-    left: 580px;
+    top: 41%;
+    left: 21.5%;
+}
+
+button.play-button-style:hover {
+    color: #FE8179;
 }
 
 button.no-button {
@@ -15,10 +28,17 @@ button.no-button {
 button.pauza-button-style {
     background-color: black;
     width: 180px;
-    height: 30px;
+    height: 29px;
+    border: none;
     color: white; 
+    font-weight: bold;
     position: absolute; 
-    top: 9px;
-    left: 183px;
-
+    top: 1%;
+    left: 1%;
 }
+
+button.pauza-button-style:hover {
+    color: #FE8179;
+}
+
+
