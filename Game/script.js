@@ -11,6 +11,8 @@ const BOY_HEIGHT = 100
 const PLAY_BUTTON_WIDTH = 50
 const PLAY_BUTTON_HEIGHT = 50
 const PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT = 0.15*HEIGHT
+const PAUSE_BUTTON_WIDTH = 150
+const PAUSE_BUTTON_HEIGHT = 32
 
 let boy = {
   x: WIDTH / 2,
@@ -44,7 +46,7 @@ function drawGame() {
   drawBackground();
   drawBurgers();
   drawBoy();
-  drawPauzaButton();
+  drawPauseButton();
 
   if (!isPlaying) {
     drawInstruction();
@@ -52,30 +54,36 @@ function drawGame() {
   }
 }
 
-
 function addClickEventToCanvas(){
   canvas.addEventListener('click', function(event){
     let relativeClickX =  event.x - canvas.offsetLeft;
     let relativeClickY = event.y - canvas.offsetTop;
 
       if (!isPlaying) {
-        clickOnPlayButton(relativeClickX,relativeClickY)
+        if (checkIfclickOnPlayButton(relativeClickX,relativeClickY)) {
+          isPlaying = true
+        }
+      } else {
+        if (checkIfclickOnPauseButton(relativeClickX,relativeClickY)) {
+          isPlaying = false
+        }
       }
-    // jesli isPlaying === true -> sprawdz czy klikniecie bylo na play, zmien stan isPlaying na true
-    // jesli else -> sprawdz czy klikniecie bylo na play, zmien stan isPlaying na true
+
   })
 }
 
-function clickOnPlayButton(relativeClickX, relativeClickY) {
+function checkIfclickOnPlayButton(relativeClickX, relativeClickY) {
   let maxPlayClickScopeX = (WIDTH + PLAY_BUTTON_WIDTH)/2
   let minPlayClickScopeX = (WIDTH - PLAY_BUTTON_WIDTH)/2
   let maxPlayClickScopeY = HEIGHT/2 + PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT + PLAY_BUTTON_HEIGHT
   let minPlayClickScopeY = HEIGHT/2 + PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT
 
-  if (relativeClickX < maxPlayClickScopeX && relativeClickX > minPlayClickScopeX && 
-    relativeClickY < maxPlayClickScopeY && relativeClickY > minPlayClickScopeY) {
-      isPlaying = true
-    }
+  return relativeClickX < maxPlayClickScopeX && relativeClickX > minPlayClickScopeX && 
+  relativeClickY < maxPlayClickScopeY && relativeClickY > minPlayClickScopeY
+}
+
+function checkIfclickOnPauseButton(relativeClickX,relativeClickY) {
+  return relativeClickX < PAUSE_BUTTON_WIDTH && relativeClickY < PAUSE_BUTTON_HEIGHT
 }
 
 function drawBurgers() {
@@ -133,8 +141,8 @@ function drawPlayButton() {
   drawImage('game-images/play.png', WIDTH/2 - PLAY_BUTTON_WIDTH/2, HEIGHT/2 + PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT)
 }
 
-function drawPauzaButton() {
-  
+function drawPauseButton() {
+  drawImage('game-images/pause.png', 0, 0, PAUSE_BUTTON_WIDTH, PAUSE_BUTTON_HEIGHT)
 }
 
 
