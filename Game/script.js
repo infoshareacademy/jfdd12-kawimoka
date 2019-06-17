@@ -8,6 +8,9 @@ const INSTRUCTION_WIDTH = 300
 const INSTRUCTION_HEIGHT = 300
 const BOY_WIDTH = 100
 const BOY_HEIGHT = 100
+const PLAY_BUTTON_WIDTH = 50
+const PLAY_BUTTON_HEIGHT = 50
+const PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT = 0.15*HEIGHT
 
 let boy = {
   x: WIDTH / 2,
@@ -46,6 +49,7 @@ function drawGame() {
 
   if (!isPlaying) {
     drawInstruction();
+    drawPlayButton();
   }
 }
 
@@ -102,21 +106,11 @@ function drawBoy() {
 }
 
 function drawPlayButton() {
-  var playButton = document.createElement('button')
-  playButton.innerHTML = "PLAY"
-  playButton.classList.add("play-button-style")
-  playButton.addEventListener('click', function () {
-    isPlaying = !isPlaying;
-    playButton.classList.add("no-button");
-  })
-  body.append(playButton);
+  drawImage('game-images/play.png', WIDTH/2 - PLAY_BUTTON_WIDTH/2, HEIGHT/2 + PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT )
 }
 
 function drawPauzaButton() {
-  var pauzaButton = document.createElement('button')
-  pauzaButton.innerHTML = "PAUZA | HOW TO PLAY"
-  pauzaButton.classList.add("pauza-button-style")
-  body.append(pauzaButton)
+  
 }
 
 
