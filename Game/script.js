@@ -29,14 +29,14 @@ function animate() {
   requestAnimationFrame(animate)
 }
 animate();
-
-
 drawPlayButton();
+
 
 function drawGame(){
   drawBackground();
   drawBurgers();
   drawBoy();
+  
   
   if(!isPlaying){
     drawInstruction();
@@ -73,15 +73,19 @@ function drawBoy() {
 }
 
 function drawPlayButton() {
-  var button = document.createElement('button')
-  button.innerHTML = "PLAY"
-  button.classList.add("button-style");
-  button.addEventListener('click', function(){
+  var playButton = document.createElement('button')
+  playButton.innerHTML = "PLAY"
+  playButton.classList.add("button-style");
+  playButton.addEventListener('click', function(){
     isPlaying = !isPlaying;
-    button.classList.add("no-button");
+    playButton.classList.add("no-button");
   })
-  body.append(button);
+  body.append(playButton);
 }
+
+// function drawPauzaButton() {
+
+// }
 
 
 function drawBurger (x, y, width, height) {
