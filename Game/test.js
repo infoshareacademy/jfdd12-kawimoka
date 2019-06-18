@@ -79,7 +79,7 @@ function Lab(width, height, color, numberOfBurgers = 1) {
 
 Lab.prototype = {
   drawBackg: function() {
-    drawImage(backgroundImage, 0, 0, WIDTH, HEIGHT)
+    this.context.drawImage(backgroundImage, 0, 0, WIDTH, HEIGHT)
   },
   generateBurgers: function() {
     const burgers = []
@@ -103,9 +103,11 @@ Lab.prototype = {
     body.append(canvas)
     burgerImage = drawImage('game-images/burger.png')
     boyImage = drawImage('game-images/boy-skinny.png')
+    backgroundImage = drawImage('game-images/background.png')
   },
   simulate: function() {
     this.clearCanvas()
+    this.drawBackg()
     if (this.burgerOutOfLeft() || this.burgerOutOfRight()) {
       this.burgers.forEach(burger => burger.changeDirection())
     }
@@ -115,9 +117,9 @@ Lab.prototype = {
   simulateBurger: function(burger) {
     burger.draw(this.context)
     burger.move()
-    /* if (this.collisionWithBoy(burger)) {
+    if (this.collisionWithBoy(burger)) {
       burger.reset()
-    } */
+    }
   },
   simulateBoy: function(boy) {
     boy.drawBoy(this.context)
@@ -135,7 +137,7 @@ Lab.prototype = {
     return burgerOutOfLeft
   },
   collisionWithBoy: function(burger) {
-    const burgerOutOfBottom = burger.y - burger.r > boy.y
+    const burgerOutOfBottom = burger.y - burger.r > HEIGHT - 100
     return burgerOutOfBottom
   }
 }
@@ -194,6 +196,7 @@ const moveLeft = () => {
     boy.x = boy.x - 10
   }
 }
+
 
 let backgroundImage
 let burgerImage
