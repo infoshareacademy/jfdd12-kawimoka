@@ -220,40 +220,6 @@ function drawCounter(value) {
 }
 
 
-function countdown() {
-  return new Promise(function(resolve, reject) {
-
-    setTimeout(() => resolve(drawCounter(3)), 1000)
-
-  }).then(function(result) {
-    return result
-
-  }).then()
-    
-    
-    
-  //   function() {
-  //   setTimeout(drawCounter(3), 1000)
-  //   });
-
-  // const displayTwo = displayThree.then(function() {
-  //  setTimeout(drawCounter(2), 1000)
-  // });
-
-  // const displayOne = displayTwo.then(function() {
-  //  setTimeout(drawCounter(1), 1000)
-  // });
-
-  // const displayStart = displayOne.then(function() {
-  //   setTimeout(drawCounter(START), 1000)
-  // });
-
-  // return displayStart.then(function() {
-  //   isPlaying = true
-  // })
-  
-}
-
 function drawImage(imageUrl, x, y, w, h, onload = () => { }) {
   const image = new Image()
   image.src = imageUrl
