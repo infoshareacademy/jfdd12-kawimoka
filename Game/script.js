@@ -57,9 +57,16 @@ function drawGame() {
   drawPauseButton();
 
   apples.forEach(apple => {
+    if(apple.y>0){
     apple.draw()
     apple.move()
+   
+  }
+  
   })
+
+
+
 
   if (!isPlaying) {
     drawInstruction();
@@ -232,8 +239,10 @@ draw: function(){
 },
 move: function(){
   this.y= this.y - GRAVITY;
+
 }
 }
+
 
 
 
