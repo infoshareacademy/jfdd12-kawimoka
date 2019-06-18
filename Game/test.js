@@ -29,17 +29,6 @@ function randomNumber(min, max) {
 
 let isPlaying = false
 
-class Boy {
-  constructor(x, y) {
-    this.initX = x
-    this.initY = y
-  }
-
-  drawBoy(context) {
-    context.drawImage(boyImage, this.x, this.y, BOY_WIDTH, BOY_HEIGHT)
-  }
-}
-
 class Burger {
   constructor(x, y) {
     this.initX = x
@@ -47,8 +36,8 @@ class Burger {
     this.vx = 5
     this.reset()
   }
-  draw(context) {
-    context.drawImage(burgerImage, this.x, this.y, SIZE, SIZE)
+  draw(ctx) {
+    ctx.drawImage(burgerImage, this.x, this.y, SIZE, SIZE)
   }
   reset() {
     this.x = this.initX
@@ -74,7 +63,7 @@ class Lab {
     this.generateBurgers()
   }
   drawBackg() {
-    this.context.drawImage(backgroundImage, 0, 0, WIDTH, HEIGHT)
+    this.ctx.drawImage(backgroundImage, 0, 0, WIDTH, HEIGHT)
   }
   generateBurgers() {
     const burgers = []
@@ -86,31 +75,31 @@ class Lab {
     this.burgers = burgers
   }
   clearCanvas() {
-    this.context.fillStyle = this.color
-    this.context.fillRect(0, 0, this.width, this.height)
+    this.ctx.fillStyle = this.color
+    this.ctx.fillRect(0, 0, this.width, this.height)
   }
   createCanvas() {
     const canvas = document.createElement('canvas')
     canvas.setAttribute('width', this.width)
     canvas.setAttribute('height', this.height)
-    this.context = canvas.getContext('2d')
+    this.ctx = canvas.getContext('2d')
     const body = document.querySelector('body')
     body.append(canvas)
-    burgerImage = drawImage('game-images/burger.png')
     boyImage = drawImage('game-images/boy-skinny.png')
+    burgerImage = drawImage('game-images/burger.png')
     backgroundImage = drawImage('game-images/background.png')
   }
   simulate() {
     this.clearCanvas()
     this.drawBackg()
+    this.burgers.forEach(this.simulateBurger.bind(this))
     if (this.burgerOutOfLeft() || this.burgerOutOfRight()) {
       this.burgers.forEach(burger => burger.changeDirection())
     }
-    this.burgers.forEach(this.simulateBurger.bind(this))
     requestAnimationFrame(this.simulate.bind(this))
   }
   simulateBurger(burger) {
-    burger.draw(this.context)
+    burger.draw(this.ctx)
     burger.move()
     if (this.collisionWithBoy(burger)) {
       burger.reset()
