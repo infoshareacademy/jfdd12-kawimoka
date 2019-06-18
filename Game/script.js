@@ -54,7 +54,6 @@ function drawGame() {
   if (!isPlaying) {
     drawInstruction();
     drawPlayButton();
-    drawCounter(5)
   }
 }
 
@@ -65,7 +64,7 @@ function addClickEventToCanvas(){
 
     if (!isPlaying) {
       if (checkIfclickOnPlayButton(relativeClickX,relativeClickY)) {
-        isPlaying = true
+        
       }
     } else {
       if (checkIfclickOnPauseButton(relativeClickX,relativeClickY)) {
@@ -170,12 +169,46 @@ function drawBurger(x, y, width, height) {
   ctx.drawImage(images.burger, x, y, width, height)
 }
 
-function drawCounter(number) {
+function drawCounter(value) {
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.font = '50px Arial'
   ctx.fillStyle = '#000'
-  ctx.fillText(number, WIDTH / 2, HEIGHT / 2)
+  ctx.fillText(value, WIDTH / 2, HEIGHT / 2)
+}
+
+
+function countdown() {
+  return new Promise(function(resolve, reject) {
+
+    setTimeout(() => resolve(drawCounter(3)), 1000)
+
+  }).then(function(result) {
+    return result
+  })
+    
+    
+    
+  //   function() {
+  //   setTimeout(drawCounter(3), 1000)
+  //   });
+
+  // const displayTwo = displayThree.then(function() {
+  //  setTimeout(drawCounter(2), 1000)
+  // });
+
+  // const displayOne = displayTwo.then(function() {
+  //  setTimeout(drawCounter(1), 1000)
+  // });
+
+  // const displayStart = displayOne.then(function() {
+  //   setTimeout(drawCounter(START), 1000)
+  // });
+
+  // return displayStart.then(function() {
+  //   isPlaying = true
+  // })
+  
 }
 
 function drawImage(imageUrl, x, y, w, h, onload = () => { }) {
