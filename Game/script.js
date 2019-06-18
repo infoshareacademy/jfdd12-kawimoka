@@ -13,6 +13,9 @@ const PLAY_BUTTON_HEIGHT = 50
 const PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT = 0.15*HEIGHT
 const PAUSE_BUTTON_WIDTH = 150
 const PAUSE_BUTTON_HEIGHT = 32
+const BROKUL_WIDTH = 70
+const BROKUL_HEIGHT = 80
+const GRAVITY = 20
 
 let boy = {
   x: WIDTH / 2,
@@ -48,10 +51,13 @@ function drawGame() {
   drawBoy();
   drawPauseButton();
 
+
+
   if (!isPlaying) {
     drawInstruction();
     drawPlayButton();
   }
+
 }
 
 function addClickEventToCanvas(){
@@ -158,4 +164,42 @@ function drawImage(imageUrl, x, y, w, h, onload = () => { }) {
     onload()
   }
   return image
+}
+
+
+window.addEventListener('keydown', spaceKeyCheck, false);
+
+function spaceKeyCheck(s) {
+  if (s.keyCode == 32) {
+    shot()
+    return true
+  } 
+}
+
+function shot(){
+  //console.log("bang bang")
+  const apple = new Apple(boy.x,boy.y)
+  
+  apple.draw()
+  apple.move()
+  requestAnimationFrame(shot)
+} 
+
+
+function Apple (x,y){
+this.x = x
+this.y = y
+
+
+}
+
+Apple.prototype = {
+draw: function(){
+  drawImage('game-images/brokul.png', this.x, this.y, BROKUL_WIDTH, BROKUL_HEIGHT) 
+},
+move: function(){
+  this.y= this.y - GRAVITY;
+  console.log(this.y)
+}
+
 }
