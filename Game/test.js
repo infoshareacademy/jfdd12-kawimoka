@@ -8,29 +8,48 @@ const INSTRUCTION_HEIGHT = 300
 const BOY_WIDTH = 100
 const BOY_HEIGHT = 100
 const FREE_SPACE = (WIDTH - (SIZE + (numOfBurgers - 1) * SPACE_BETWEEN)) / 2
+const PLAY_BUTTON_WIDTH = 50
+const PLAY_BUTTON_HEIGHT = 50
+const PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT = 0.15 * HEIGHT
+const PAUSE_BUTTON_WIDTH = 150
+const PAUSE_BUTTON_HEIGHT = 32
 
-let boy = {
-  x: WIDTH / 2,
-  y: HEIGHT - BOY_HEIGHT - 50
+function drawImage(imageUrl, x, y, w, h, onload = () => {}) {
+  const image = new Image()
+  image.src = imageUrl
+  image.onload = function() {
+    drawImage(image, x, y, w, h)
+    onload()
+  }
+  return image
 }
-
 function randomNumber(min, max) {
   return Math.random() * (max - min) + min
 }
 
-function Particle(x, y) {
+let isPlaying = false
+
+function Boy(x, y) {
+  this.initX = x
+  this.initY = y
+}
+
+Boy.prototype = {
+  drawBoy: function(context) {
+    context.drawImage(boyImage, this.x, this.y, BOY_WIDTH, BOY_HEIGHT)
+  }
+}
+
+function Burger(x, y) {
   this.initX = x
   this.initY = y
   this.vx = 5
   this.reset()
 }
 
-Particle.prototype = {
+Burger.prototype = {
   draw: function(context) {
-    context.fillStyle = this.color
-    context.beginPath()
-    context.arc(this.x, this.y, this.r, 0, 2 * Math.PI)
-    context.fill()
+    context.drawImage(burgerImage, this.x, this.y, SIZE, SIZE)
   },
   reset: function() {
     this.x = this.initX
@@ -47,27 +66,29 @@ Particle.prototype = {
   }
 }
 
-function Lab(width, height, color, numberOfParticles = 1) {
+function Lab(width, height, color, numberOfBurgers = 1) {
   this.width = width
   this.height = height
   this.color = color
-  this.numberOfParticles = numberOfParticles
+  this.numberOfBurgers = numberOfBurgers
 
   this.createCanvas()
   this.clearCanvas()
-  this.generateParticles()
+  this.generateBurgers()
 }
 
 Lab.prototype = {
-  generateParticles: function() {
-    // TODO: change imperative code to more functional way
-    const particles = []
-    for (let i = 0; i < this.numberOfParticles; i++) {
-      particles.push(new Particle(i * SPACE_BETWEEN + FREE_SPACE, SIZE))
-      particles.push(new Particle(i * SPACE_BETWEEN + FREE_SPACE, SIZE + SPACE_BETWEEN))
-      particles.push(new Particle(i * SPACE_BETWEEN + FREE_SPACE, SIZE + 2 * SPACE_BETWEEN))
+  drawBackg: function() {
+    drawImage(backgroundImage, 0, 0, WIDTH, HEIGHT)
+  },
+  generateBurgers: function() {
+    const burgers = []
+    for (let i = 0; i < this.numberOfBurgers; i++) {
+      burgers.push(new Burger(i * SPACE_BETWEEN + FREE_SPACE, SIZE))
+      burgers.push(new Burger(i * SPACE_BETWEEN + FREE_SPACE, SIZE + SPACE_BETWEEN))
+      burgers.push(new Burger(i * SPACE_BETWEEN + FREE_SPACE, SIZE + 2 * SPACE_BETWEEN))
     }
-    this.particles = particles
+    this.burgers = burgers
   },
   clearCanvas: function() {
     this.context.fillStyle = this.color
@@ -80,39 +101,102 @@ Lab.prototype = {
     this.context = canvas.getContext('2d')
     const body = document.querySelector('body')
     body.append(canvas)
+    burgerImage = drawImage('game-images/burger.png')
+    boyImage = drawImage('game-images/boy-skinny.png')
   },
   simulate: function() {
     this.clearCanvas()
-    if (this.particleOutOfLeft() || this.particleOutOfRight()) {
-      this.particles.forEach(particle => particle.changeDirection())
+    if (this.burgerOutOfLeft() || this.burgerOutOfRight()) {
+      this.burgers.forEach(burger => burger.changeDirection())
     }
-    this.particles.forEach(this.simulateParticle.bind(this))
+    this.burgers.forEach(this.simulateBurger.bind(this))
     requestAnimationFrame(this.simulate.bind(this))
   },
-  simulateParticle: function(particle) {
-    particle.draw(this.context)
-    particle.move()
-    if (this.collisionWithBoy(particle)) {
-      particle.reset()
-    }
+  simulateBurger: function(burger) {
+    burger.draw(this.context)
+    burger.move()
+    /* if (this.collisionWithBoy(burger)) {
+      burger.reset()
+    } */
   },
-  particleOutOfRight: function() {
-    const particle = this.particles[this.numberOfParticles * 3 - 1]
-    const particleOutOfRight = particle.x + particle.r > this.width
+  simulateBoy: function(boy) {
+    boy.drawBoy(this.context)
+  },
+  burgerOutOfRight: function() {
+    const burger = this.burgers[this.numberOfBurgers * 3 - 1]
+    const burgerOutOfRight = burger.x + burger.r > this.width
 
-    return particleOutOfRight
+    return burgerOutOfRight
   },
-  particleOutOfLeft: function() {
-    const particle = this.particles[0]
-    const particleOutOfLeft = particle.x - particle.r < 0
+  burgerOutOfLeft: function() {
+    const burger = this.burgers[0]
+    const burgerOutOfLeft = burger.x - burger.r < 0
 
-    return particleOutOfLeft
+    return burgerOutOfLeft
   },
-  collisionWithBoy: function(particle) {
-    const particleOutOfBottom = particle.y - particle.r > boy.y
-    return particleOutOfBottom
+  collisionWithBoy: function(burger) {
+    const burgerOutOfBottom = burger.y - burger.r > boy.y
+    return burgerOutOfBottom
   }
 }
 
-const lab = new Lab(WIDTH, HEIGHT, '#ddd', 15)
+window.addEventListener('keydown', example, false)
+function example(e) {
+  if (e.keyCode == 37) {
+    moveLeft()
+  } else if (e.keyCode == 39) {
+    moveRight()
+  }
+}
+
+function addClickEventToCanvas() {
+  canvas.addEventListener('click', function(event) {
+    let relativeClickX = event.x - canvas.offsetLeft
+    let relativeClickY = event.y - canvas.offsetTop
+
+    if (!isPlaying) {
+      if (checkIfclickOnPlayButton(relativeClickX, relativeClickY)) {
+        isPlaying = true
+      }
+    } else {
+      if (checkIfclickOnPauseButton(relativeClickX, relativeClickY)) {
+        isPlaying = false
+      }
+    }
+  })
+}
+
+function checkIfclickOnPlayButton(relativeClickX, relativeClickY) {
+  let maxPlayClickScopeX = (WIDTH + PLAY_BUTTON_WIDTH) / 2
+  let minPlayClickScopeX = (WIDTH - PLAY_BUTTON_WIDTH) / 2
+  let maxPlayClickScopeY = HEIGHT / 2 + PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT + PLAY_BUTTON_HEIGHT
+  let minPlayClickScopeY = HEIGHT / 2 + PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT
+
+  return (
+    relativeClickX < maxPlayClickScopeX &&
+    relativeClickX > minPlayClickScopeX &&
+    relativeClickY < maxPlayClickScopeY &&
+    relativeClickY > minPlayClickScopeY
+  )
+}
+
+function checkIfclickOnPauseButton(relativeClickX, relativeClickY) {
+  return relativeClickX < PAUSE_BUTTON_WIDTH && relativeClickY < PAUSE_BUTTON_HEIGHT
+}
+
+const moveRight = () => {
+  if (WIDTH - BOY_WIDTH > boy.x) {
+    boy.x = boy.x + 10
+  }
+}
+const moveLeft = () => {
+  if (boy.x > 0) {
+    boy.x = boy.x - 10
+  }
+}
+
+let backgroundImage
+let burgerImage
+let boyImage
+const lab = new Lab(WIDTH, HEIGHT, '#ddd', numOfBurgers)
 lab.simulate()
