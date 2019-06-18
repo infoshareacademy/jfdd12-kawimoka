@@ -33,14 +33,17 @@ function drawBurger(x, y, width, height, color = 'black') {
 }
 let isPlaying = false;
 
+var images
+addClickEventToCanvas();
+loadAllImages().then(values => {
+  images = values
+  animate()
+})
 
 function animate() {
   drawGame()
   requestAnimationFrame(animate)
 }
-animate();
-drawPlayButton();
-addClickEventToCanvas();
 
 function drawGame() {
   drawBackground();
@@ -51,6 +54,7 @@ function drawGame() {
   if (!isPlaying) {
     drawInstruction();
     drawPlayButton();
+    drawCounter(5)
   }
 }
 
@@ -59,16 +63,33 @@ function addClickEventToCanvas(){
     let relativeClickX =  event.x - canvas.offsetLeft;
     let relativeClickY = event.y - canvas.offsetTop;
 
-      if (!isPlaying) {
-        if (checkIfclickOnPlayButton(relativeClickX,relativeClickY)) {
-          isPlaying = true
-        }
-      } else {
-        if (checkIfclickOnPauseButton(relativeClickX,relativeClickY)) {
-          isPlaying = false
-        }
+    if (!isPlaying) {
+      if (checkIfclickOnPlayButton(relativeClickX,relativeClickY)) {
+        isPlaying = true
       }
+    } else {
+      if (checkIfclickOnPauseButton(relativeClickX,relativeClickY)) {
+        isPlaying = false
+      }
+    }
+  })
+}
 
+function loadAllImages () {
+  const imagesNames = ['background', 'instruction', 'burger', 'pause', 'play', 'boy-skinny']
+  const imagesPaths = imagesNames.map(imageName => `game-images/${imageName}.png`)
+  const imagesPromises = imagesPaths.map(imagePath => loadImage(imagePath))
+
+  return Promise.all(imagesPromises).then(loadedImages => {
+    const images = imagesNames.reduce((acc, imageName, index) => {
+      const name = imageName.replace('-', '')
+      return {
+        ...acc,
+        [name]: loadedImages[index]
+      }
+    }, {})
+
+    return images
   })
 }
 
@@ -103,7 +124,7 @@ function drawBurgers() {
 }
 
 function drawBackground() {
-  drawImage('game-images/background.png', 0, 0, WIDTH, HEIGHT)
+  ctx.drawImage(images.background, 0, 0, WIDTH, HEIGHT)
 }
 
 
@@ -130,24 +151,31 @@ function example(e) {
 }
 
 function drawInstruction() {
-  drawImage('game-images/instruction.png', (WIDTH - INSTRUCTION_WIDTH) / 2, (HEIGHT - INSTRUCTION_HEIGHT) / 2, INSTRUCTION_WIDTH, INSTRUCTION_HEIGHT)
+  ctx.drawImage(images.instruction, (WIDTH - INSTRUCTION_WIDTH) / 2, (HEIGHT - INSTRUCTION_HEIGHT) / 2, INSTRUCTION_WIDTH, INSTRUCTION_HEIGHT)
 }
 
 function drawBoy() {
-  drawImage('game-images/boy-skinny.png', boy.x, boy.y, BOY_WIDTH, BOY_HEIGHT)
+  ctx.drawImage(images.boyskinny, boy.x, boy.y, BOY_WIDTH, BOY_HEIGHT)
 }
 
 function drawPlayButton() {
-  drawImage('game-images/play.png', WIDTH/2 - PLAY_BUTTON_WIDTH/2, HEIGHT/2 + PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT)
+  ctx.drawImage(images.play, WIDTH/2 - PLAY_BUTTON_WIDTH/2, HEIGHT/2 + PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT)
 }
 
 function drawPauseButton() {
-  drawImage('game-images/pause.png', 0, 0, PAUSE_BUTTON_WIDTH, PAUSE_BUTTON_HEIGHT)
+  ctx.drawImage(images.pause, 0, 0, PAUSE_BUTTON_WIDTH, PAUSE_BUTTON_HEIGHT)
 }
 
-
 function drawBurger(x, y, width, height) {
-  drawImage('game-images/burger.png', x, y, width, height)
+  ctx.drawImage(images.burger, x, y, width, height)
+}
+
+function drawCounter(number) {
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.font = '50px Arial'
+  ctx.fillStyle = '#000'
+  ctx.fillText(number, WIDTH / 2, HEIGHT / 2)
 }
 
 function drawImage(imageUrl, x, y, w, h, onload = () => { }) {
@@ -158,4 +186,14 @@ function drawImage(imageUrl, x, y, w, h, onload = () => { }) {
     onload()
   }
   return image
+}
+
+function loadImage (imageUrl) {
+  return new Promise((resolve) => {
+    const image = new Image()
+    image.src = imageUrl
+    image.onload = function () {
+      resolve(image)
+    }
+  })
 }
