@@ -13,14 +13,15 @@ const PLAY_BUTTON_HEIGHT = 50
 const PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT = 0.15*HEIGHT
 const PAUSE_BUTTON_WIDTH = 150
 const PAUSE_BUTTON_HEIGHT = 32
-const BROKUL_WIDTH = 70
-const BROKUL_HEIGHT = 80
-const GRAVITY = 20
+const BROKUL_WIDTH = 70/2
+const BROKUL_HEIGHT = 80/2
+const GRAVITY = 15
 
 let boy = {
   x: WIDTH / 2,
   y: (HEIGHT - BOY_HEIGHT) - 50
 }
+let apples = []
 
 const body = document.querySelector('body')
 const canvas = document.createElement('canvas')
@@ -35,15 +36,19 @@ function drawBurger(x, y, width, height, color = 'black') {
   ctx.fillRect(x, y, width, height)
 }
 let isPlaying = false;
+let isShooting = false;
 
+var images
+addClickEventToCanvas();
+loadAllImages().then(values => {
+  images = values
+  animate()
+})
 
 function animate() {
   drawGame()
   requestAnimationFrame(animate)
 }
-animate();
-drawPlayButton();
-addClickEventToCanvas();
 
 function drawGame() {
   drawBackground();
@@ -51,11 +56,15 @@ function drawGame() {
   drawBoy();
   drawPauseButton();
 
-
+  apples.forEach(apple => {
+    apple.draw()
+    apple.move()
+  })
 
   if (!isPlaying) {
     drawInstruction();
     drawPlayButton();
+    drawCounter(5)
   }
 
 }
@@ -65,16 +74,33 @@ function addClickEventToCanvas(){
     let relativeClickX =  event.x - canvas.offsetLeft;
     let relativeClickY = event.y - canvas.offsetTop;
 
-      if (!isPlaying) {
-        if (checkIfclickOnPlayButton(relativeClickX,relativeClickY)) {
-          isPlaying = true
-        }
-      } else {
-        if (checkIfclickOnPauseButton(relativeClickX,relativeClickY)) {
-          isPlaying = false
-        }
+    if (!isPlaying) {
+      if (checkIfclickOnPlayButton(relativeClickX,relativeClickY)) {
+        isPlaying = true
       }
+    } else {
+      if (checkIfclickOnPauseButton(relativeClickX,relativeClickY)) {
+        isPlaying = false
+      }
+    }
+  })
+}
 
+function loadAllImages () {
+  const imagesNames = ['background', 'instruction', 'burger', 'pause', 'play', 'boy-skinny', 'brokul']
+  const imagesPaths = imagesNames.map(imageName => `game-images/${imageName}.png`)
+  const imagesPromises = imagesPaths.map(imagePath => loadImage(imagePath))
+
+  return Promise.all(imagesPromises).then(loadedImages => {
+    const images = imagesNames.reduce((acc, imageName, index) => {
+      const name = imageName.replace('-', '')
+      return {
+        ...acc,
+        [name]: loadedImages[index]
+      }
+    }, {})
+
+    return images
   })
 }
 
@@ -109,7 +135,7 @@ function drawBurgers() {
 }
 
 function drawBackground() {
-  drawImage('game-images/background.png', 0, 0, WIDTH, HEIGHT)
+  ctx.drawImage(images.background, 0, 0, WIDTH, HEIGHT)
 }
 
 
@@ -136,24 +162,31 @@ function example(e) {
 }
 
 function drawInstruction() {
-  drawImage('game-images/instruction.png', (WIDTH - INSTRUCTION_WIDTH) / 2, (HEIGHT - INSTRUCTION_HEIGHT) / 2, INSTRUCTION_WIDTH, INSTRUCTION_HEIGHT)
+  ctx.drawImage(images.instruction, (WIDTH - INSTRUCTION_WIDTH) / 2, (HEIGHT - INSTRUCTION_HEIGHT) / 2, INSTRUCTION_WIDTH, INSTRUCTION_HEIGHT)
 }
 
 function drawBoy() {
-  drawImage('game-images/boy-skinny.png', boy.x, boy.y, BOY_WIDTH, BOY_HEIGHT)
+  ctx.drawImage(images.boyskinny, boy.x, boy.y, BOY_WIDTH, BOY_HEIGHT)
 }
 
 function drawPlayButton() {
-  drawImage('game-images/play.png', WIDTH/2 - PLAY_BUTTON_WIDTH/2, HEIGHT/2 + PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT)
+  ctx.drawImage(images.play, WIDTH/2 - PLAY_BUTTON_WIDTH/2, HEIGHT/2 + PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT)
 }
 
 function drawPauseButton() {
-  drawImage('game-images/pause.png', 0, 0, PAUSE_BUTTON_WIDTH, PAUSE_BUTTON_HEIGHT)
+  ctx.drawImage(images.pause, 0, 0, PAUSE_BUTTON_WIDTH, PAUSE_BUTTON_HEIGHT)
 }
 
-
 function drawBurger(x, y, width, height) {
-  drawImage('game-images/burger.png', x, y, width, height)
+  ctx.drawImage(images.burger, x, y, width, height)
+}
+
+function drawCounter(number) {
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.font = '50px Arial'
+  ctx.fillStyle = '#000'
+  ctx.fillText(number, WIDTH / 2, HEIGHT / 2)
 }
 
 function drawImage(imageUrl, x, y, w, h, onload = () => { }) {
@@ -178,11 +211,11 @@ function spaceKeyCheck(s) {
 
 function shot(){
   //console.log("bang bang")
-  const apple = new Apple(boy.x,boy.y)
+  const boyClone = {...boy}
+  const apple = new Apple(boyClone.x,boyClone.y)
+  apples = [...apples, apple]
   
-  apple.draw()
-  apple.move()
-  requestAnimationFrame(shot)
+  
 } 
 
 
@@ -195,11 +228,24 @@ this.y = y
 
 Apple.prototype = {
 draw: function(){
-  drawImage('game-images/brokul.png', this.x, this.y, BROKUL_WIDTH, BROKUL_HEIGHT) 
+  ctx.drawImage(images.brokul, this.x + (BOY_WIDTH/2) -(BROKUL_WIDTH/2), this.y, BROKUL_WIDTH, BROKUL_HEIGHT) 
 },
 move: function(){
   this.y= this.y - GRAVITY;
-  console.log(this.y)
+}
 }
 
+
+
+
+
+
+function loadImage (imageUrl) {
+  return new Promise((resolve) => {
+    const image = new Image()
+    image.src = imageUrl
+    image.onload = function () {
+      resolve(image)
+    }
+  })
 }
