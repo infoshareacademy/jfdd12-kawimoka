@@ -60,7 +60,6 @@ function drawGame() {
   drawBoy();
   drawPauseButton();
   drawVegetables();
-
   // vegetablesInterval = setInterval(drawVegetable, 5000);
 
   if (!isPlaying) {
@@ -274,5 +273,21 @@ function drawVegetables() {
   vegetables.forEach(vegetable => {
     vegetable.draw();
     vegetable.move();
+    listenToCollision(vegetable);
   });
+}
+
+function listenToCollision(vegetable) {
+  const checkHeight = vegetable.y + vegetable.height >= boy.y;
+  const checkLeft = vegetable.x + vegetable.width >= boy.x;
+  const checkRight = vegetable.x <= boy.x + boy.width;
+
+  console.log({
+    checkHeight,
+    checkLeft,
+    checkRight
+  });
+  if (checkHeight && checkLeft && checkRight) {
+    console.log("boy caught veg");
+  }
 }
