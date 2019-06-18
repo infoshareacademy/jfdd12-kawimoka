@@ -13,6 +13,7 @@ const PLAY_BUTTON_HEIGHT = 50
 const PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT = 0.15*HEIGHT
 const PAUSE_BUTTON_WIDTH = 150
 const PAUSE_BUTTON_HEIGHT = 32
+let counter = 3;
 
 let boy = {
   x: WIDTH / 2,
@@ -37,12 +38,26 @@ var images
 addClickEventToCanvas();
 loadAllImages().then(values => {
   images = values
-  animate()
+  animate(0)
 })
 
-function animate() {
+let lastTime = 0
+let delta = 0
+let elapsedTime = 0
+let timeToGameStart = 5
+function animate(time) {
+  delta = time - lastTime
   drawGame()
   requestAnimationFrame(animate)
+  lastTime = time
+}
+
+function doEverySecond(callback) {
+  elapsedTime += delta
+  if (elapsedTime > 1000) {
+    elapsedTime = 0
+    callback()
+  }
 }
 
 function drawGame() {
@@ -50,10 +65,15 @@ function drawGame() {
   drawBurgers();
   drawBoy();
   drawPauseButton();
+  drawCounter(timeToGameStart);
 
   if (!isPlaying) {
     drawInstruction();
     drawPlayButton();
+  } else {
+    doEverySecond(() => {
+      timeToGameStart = timeToGameStart === 0 ? 0 : timeToGameStart - 1
+    })
   }
 }
 
@@ -64,11 +84,12 @@ function addClickEventToCanvas(){
 
     if (!isPlaying) {
       if (checkIfclickOnPlayButton(relativeClickX,relativeClickY)) {
-        
+        isPlaying = true
       }
     } else {
       if (checkIfclickOnPauseButton(relativeClickX,relativeClickY)) {
         isPlaying = false
+        timeToGameStart = 5
       }
     }
   })
@@ -170,6 +191,9 @@ function drawBurger(x, y, width, height) {
 }
 
 function drawCounter(value) {
+  if (value === 0) {
+    return
+  }
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.font = '50px Arial'
@@ -185,7 +209,8 @@ function countdown() {
 
   }).then(function(result) {
     return result
-  })
+
+  }).then()
     
     
     
