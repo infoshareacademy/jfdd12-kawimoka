@@ -16,6 +16,7 @@ const PAUSE_BUTTON_HEIGHT = 32
 const BROKUL_WIDTH = 70/2
 const BROKUL_HEIGHT = 80/2
 const GRAVITY = 15
+let counter = 3;
 
 let boy = {
   x: WIDTH / 2,
@@ -42,12 +43,26 @@ var images
 addClickEventToCanvas();
 loadAllImages().then(values => {
   images = values
-  animate()
+  animate(0)
 })
 
-function animate() {
+let lastTime = 0
+let delta = 0
+let elapsedTime = 0
+let timeToGameStart = 5
+function animate(time) {
+  delta = time - lastTime
   drawGame()
   requestAnimationFrame(animate)
+  lastTime = time
+}
+
+function doEverySecond(callback) {
+  elapsedTime += delta
+  if (elapsedTime > 1000) {
+    elapsedTime = 0
+    callback()
+  }
 }
 
 function drawGame() {
@@ -55,6 +70,7 @@ function drawGame() {
   drawBurgers();
   drawBoy();
   drawPauseButton();
+  drawCounter(timeToGameStart);
 
   apples.forEach(apple => {
     if(apple.y>0){
@@ -71,7 +87,10 @@ function drawGame() {
   if (!isPlaying) {
     drawInstruction();
     drawPlayButton();
-    drawCounter(5)
+  } else {
+    doEverySecond(() => {
+      timeToGameStart = timeToGameStart === 0 ? 0 : timeToGameStart - 1
+    })
   }
 
 }
@@ -88,6 +107,7 @@ function addClickEventToCanvas(){
     } else {
       if (checkIfclickOnPauseButton(relativeClickX,relativeClickY)) {
         isPlaying = false
+        timeToGameStart = 5
       }
     }
   })
@@ -188,12 +208,50 @@ function drawBurger(x, y, width, height) {
   ctx.drawImage(images.burger, x, y, width, height)
 }
 
-function drawCounter(number) {
+function drawCounter(value) {
+  if (value === 0) {
+    return
+  }
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.font = '50px Arial'
   ctx.fillStyle = '#000'
-  ctx.fillText(number, WIDTH / 2, HEIGHT / 2)
+  ctx.fillText(value, WIDTH / 2, HEIGHT / 2)
+}
+
+
+function countdown() {
+  return new Promise(function(resolve, reject) {
+
+    setTimeout(() => resolve(drawCounter(3)), 1000)
+
+  }).then(function(result) {
+    return result
+
+  }).then()
+    
+    
+    
+  //   function() {
+  //   setTimeout(drawCounter(3), 1000)
+  //   });
+
+  // const displayTwo = displayThree.then(function() {
+  //  setTimeout(drawCounter(2), 1000)
+  // });
+
+  // const displayOne = displayTwo.then(function() {
+  //  setTimeout(drawCounter(1), 1000)
+  // });
+
+  // const displayStart = displayOne.then(function() {
+  //   setTimeout(drawCounter(START), 1000)
+  // });
+
+  // return displayStart.then(function() {
+  //   isPlaying = true
+  // })
+  
 }
 
 function drawImage(imageUrl, x, y, w, h, onload = () => { }) {
