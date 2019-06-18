@@ -29,59 +29,54 @@ function randomNumber(min, max) {
 
 let isPlaying = false
 
-function Boy(x, y) {
-  this.initX = x
-  this.initY = y
-}
+class Boy {
+  constructor(x, y) {
+    this.initX = x
+    this.initY = y
+  }
 
-Boy.prototype = {
-  drawBoy: function(context) {
+  drawBoy(context) {
     context.drawImage(boyImage, this.x, this.y, BOY_WIDTH, BOY_HEIGHT)
   }
 }
 
-function Burger(x, y) {
-  this.initX = x
-  this.initY = y
-  this.vx = 5
-  this.reset()
-}
-
-Burger.prototype = {
-  draw: function(context) {
+class Burger {
+  constructor(x, y) {
+    this.initX = x
+    this.initY = y
+    this.vx = 5
+    this.reset()
+  }
+  draw(context) {
     context.drawImage(burgerImage, this.x, this.y, SIZE, SIZE)
-  },
-  reset: function() {
+  }
+  reset() {
     this.x = this.initX
     this.y = this.initY
-    this.r = 20
-    this.color = 'black'
-  },
-  move: function() {
+  }
+  move() {
     this.x += this.vx
-  },
-  changeDirection: function() {
+  }
+  changeDirection() {
     this.vx = -this.vx
     this.y += SIZE / 2
   }
 }
 
-function Lab(width, height, color, numberOfBurgers = 1) {
-  this.width = width
-  this.height = height
-  this.color = color
-  this.numberOfBurgers = numberOfBurgers
+class Lab {
+  constructor(width, height, numberOfBurgers) {
+    this.width = width
+    this.height = height
+    this.numberOfBurgers = numberOfBurgers
 
-  this.createCanvas()
-  this.clearCanvas()
-  this.generateBurgers()
-}
-
-Lab.prototype = {
-  drawBackg: function() {
+    this.createCanvas()
+    this.clearCanvas()
+    this.generateBurgers()
+  }
+  drawBackg() {
     this.context.drawImage(backgroundImage, 0, 0, WIDTH, HEIGHT)
-  },
-  generateBurgers: function() {
+  }
+  generateBurgers() {
     const burgers = []
     for (let i = 0; i < this.numberOfBurgers; i++) {
       burgers.push(new Burger(i * SPACE_BETWEEN + FREE_SPACE, SIZE))
@@ -89,12 +84,12 @@ Lab.prototype = {
       burgers.push(new Burger(i * SPACE_BETWEEN + FREE_SPACE, SIZE + 2 * SPACE_BETWEEN))
     }
     this.burgers = burgers
-  },
-  clearCanvas: function() {
+  }
+  clearCanvas() {
     this.context.fillStyle = this.color
     this.context.fillRect(0, 0, this.width, this.height)
-  },
-  createCanvas: function() {
+  }
+  createCanvas() {
     const canvas = document.createElement('canvas')
     canvas.setAttribute('width', this.width)
     canvas.setAttribute('height', this.height)
@@ -104,8 +99,8 @@ Lab.prototype = {
     burgerImage = drawImage('game-images/burger.png')
     boyImage = drawImage('game-images/boy-skinny.png')
     backgroundImage = drawImage('game-images/background.png')
-  },
-  simulate: function() {
+  }
+  simulate() {
     this.clearCanvas()
     this.drawBackg()
     if (this.burgerOutOfLeft() || this.burgerOutOfRight()) {
@@ -113,93 +108,35 @@ Lab.prototype = {
     }
     this.burgers.forEach(this.simulateBurger.bind(this))
     requestAnimationFrame(this.simulate.bind(this))
-  },
-  simulateBurger: function(burger) {
+  }
+  simulateBurger(burger) {
     burger.draw(this.context)
     burger.move()
     if (this.collisionWithBoy(burger)) {
       burger.reset()
     }
-  },
-  simulateBoy: function(boy) {
-    boy.drawBoy(this.context)
-  },
-  burgerOutOfRight: function() {
+  }
+  burgerOutOfRight() {
     const burger = this.burgers[this.numberOfBurgers * 3 - 1]
-    const burgerOutOfRight = burger.x + burger.r > this.width
+    const burgerOutOfRight = burger.x + SIZE > this.width
 
     return burgerOutOfRight
-  },
-  burgerOutOfLeft: function() {
+  }
+  burgerOutOfLeft() {
     const burger = this.burgers[0]
-    const burgerOutOfLeft = burger.x - burger.r < 0
+    const burgerOutOfLeft = burger.x < 0
 
     return burgerOutOfLeft
-  },
-  collisionWithBoy: function(burger) {
-    const burgerOutOfBottom = burger.y - burger.r > HEIGHT - 100
+  }
+  collisionWithBoy(burger) {
+    const burgerOutOfBottom = burger.y + SIZE > HEIGHT - 4 * SIZE
     return burgerOutOfBottom
   }
 }
 
-window.addEventListener('keydown', example, false)
-function example(e) {
-  if (e.keyCode == 37) {
-    moveLeft()
-  } else if (e.keyCode == 39) {
-    moveRight()
-  }
-}
-
-function addClickEventToCanvas() {
-  canvas.addEventListener('click', function(event) {
-    let relativeClickX = event.x - canvas.offsetLeft
-    let relativeClickY = event.y - canvas.offsetTop
-
-    if (!isPlaying) {
-      if (checkIfclickOnPlayButton(relativeClickX, relativeClickY)) {
-        isPlaying = true
-      }
-    } else {
-      if (checkIfclickOnPauseButton(relativeClickX, relativeClickY)) {
-        isPlaying = false
-      }
-    }
-  })
-}
-
-function checkIfclickOnPlayButton(relativeClickX, relativeClickY) {
-  let maxPlayClickScopeX = (WIDTH + PLAY_BUTTON_WIDTH) / 2
-  let minPlayClickScopeX = (WIDTH - PLAY_BUTTON_WIDTH) / 2
-  let maxPlayClickScopeY = HEIGHT / 2 + PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT + PLAY_BUTTON_HEIGHT
-  let minPlayClickScopeY = HEIGHT / 2 + PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT
-
-  return (
-    relativeClickX < maxPlayClickScopeX &&
-    relativeClickX > minPlayClickScopeX &&
-    relativeClickY < maxPlayClickScopeY &&
-    relativeClickY > minPlayClickScopeY
-  )
-}
-
-function checkIfclickOnPauseButton(relativeClickX, relativeClickY) {
-  return relativeClickX < PAUSE_BUTTON_WIDTH && relativeClickY < PAUSE_BUTTON_HEIGHT
-}
-
-const moveRight = () => {
-  if (WIDTH - BOY_WIDTH > boy.x) {
-    boy.x = boy.x + 10
-  }
-}
-const moveLeft = () => {
-  if (boy.x > 0) {
-    boy.x = boy.x - 10
-  }
-}
-
-
 let backgroundImage
 let burgerImage
 let boyImage
-const lab = new Lab(WIDTH, HEIGHT, '#ddd', numOfBurgers)
+
+const lab = new Lab(WIDTH, HEIGHT, numOfBurgers)
 lab.simulate()
