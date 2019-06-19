@@ -49,7 +49,7 @@ loadAllImages().then(values => {
 let lastTime = 0
 let delta = 0
 let elapsedTime = 0
-let timeToGameStart = 5
+let timeToGameStart = 3
 function animate(time) {
   delta = time - lastTime
   drawGame()
@@ -67,7 +67,7 @@ function doEverySecond(callback) {
 
 function fallingVeggies() {
   setInterval(() => {
-    if (!isPlaying && timeToGameStart < 2) {
+    if (!isPlaying) {
       return
     }
     let vegetable = new Vegetable(); 
@@ -117,7 +117,7 @@ function addClickEventToCanvas() {
     } else {
       if (checkIfclickOnPauseButton(relativeClickX,relativeClickY)) {
         isPlaying = false
-        timeToGameStart = 5
+        timeToGameStart = 3
       }
     }
   });
