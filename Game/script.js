@@ -306,12 +306,13 @@ function boyIsShootingByApple() {
     if(apple.y>0){
     apple.draw()
     apple.move()
-   
+    //appleHamburgerCollision()
   }
   
   })
 }
 }
+
 
 
 
