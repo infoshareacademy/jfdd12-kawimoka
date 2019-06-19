@@ -79,6 +79,7 @@ function drawGame() {
   drawVegetables();
   // vegetablesInterval = setInterval(drawVegetable, 5000);
   drawCounter(timeToGameStart);
+  movingBoy();
 
   apples.forEach(apple => {
     if(apple.y>0){
@@ -198,28 +199,40 @@ function drawBackground() {
   ctx.drawImage(images.background, 0, 0, WIDTH, HEIGHT);
 }
 
-const moveRight = () => {
-  if (WIDTH - BOY_WIDTH > boy.x) {
-    boy.x = boy.x + 10;
-  }
-};
-const moveLeft = () => {
-  if (boy.x > 0) {
-    boy.x = boy.x - 10;
-  }
-};
 
-kd.RIGHT.down(function() {
-  moveRight();
-});
+function movingBoy() {
 
-kd.LEFT.down(function() {
-  moveLeft();
-});
+  const moveRight = () => {
+    if (WIDTH - BOY_WIDTH > boy.x) {
+      boy.x = boy.x + 10;
+    }
+  };
+  const moveLeft = () => {
+    if (boy.x > 0) {
+      boy.x = boy.x - 10;
+    }
+  };
+  
+  kd.RIGHT.down(function() {
+    if (isPlaying === true && timeToGameStart === 0) {
+    moveRight();
+    }
+  });
+  
+  kd.LEFT.down(function() {
+    if (isPlaying === true && timeToGameStart === 0) {
+    moveLeft();
+    }
+  });
+
+}
+
 
 // This update loop is the heartbeat of Keydrown
 kd.run(function() {
+  if (isPlaying === true && timeToGameStart ===0) {
   kd.tick();
+  }
 });
 
 function drawInstruction() {
@@ -292,16 +305,12 @@ function shot(){
   const boyClone = {...boy}
   const apple = new Apple(boyClone.x,boyClone.y)
   apples = [...apples, apple]
-  
-  
 } 
 
 
 function Apple (x,y){
 this.x = x
 this.y = y
-
-
 }
 
 Apple.prototype = {
@@ -328,14 +337,7 @@ function Vegetable() {
       width: 50,
       height: 50}
   ];
-
-
-
-
-
-
-
-
+ 
   const randomIndex = Math.floor(Math.random() * vegetables.length);
   const vegetable = vegetables[randomIndex];
   this.image = images[vegetable.name];
@@ -353,11 +355,13 @@ Vegetable.prototype = {
 };
 
 function drawVegetables() {
-  vegetables.forEach(vegetable => {
-    vegetable.draw();
-    vegetable.move();
-    listenToCollision(vegetable);
-  });
+  if (isPlaying === true && timeToGameStart === 0) {
+    vegetables.forEach(vegetable => {
+      vegetable.draw();
+      vegetable.move();
+      listenToCollision(vegetable);
+    });
+  }
 }
 
 function listenToCollision(vegetable) {
