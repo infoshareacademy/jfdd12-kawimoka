@@ -65,24 +65,30 @@ function doEverySecond(callback) {
   }
 }
 
+function fallingVeggies() {
+  setInterval(() => {
+    if (!isPlaying && timeToGameStart < 2) {
+      return
+    }
+    let vegetable = new Vegetable(); 
+    vegetables = [...vegetables, vegetable];
+  }, 1000);
+
+}
+
 let vegetables = [];
-setInterval(() => {
-  let vegetable = new Vegetable();
-  vegetables = [...vegetables, vegetable];
-}, 1000);
+
+fallingVeggies()
+
 
 function drawGame() {
   drawBackground();
   drawBurgers();
   drawBoy();
   drawPauseButton();
-  drawVegetables();
+  
   // vegetablesInterval = setInterval(drawVegetable, 5000);
   drawCounter(timeToGameStart);
-  movingBoy();
-  boyIsShootingByApple();
-
-  
 
   if (!isPlaying) {
     drawInstruction();
@@ -91,14 +97,16 @@ function drawGame() {
     doEverySecond(() => {
       timeToGameStart = timeToGameStart === 0 ? 0 : timeToGameStart - 1
     })
+    movingBoy();
+    boyIsShootingByApple();
+    drawVegetables();
   }
 
 }
 
-
-
 function addClickEventToCanvas() {
   canvas.addEventListener("click", function(event) {
+    console.log(event)
     let relativeClickX = event.x - canvas.offsetLeft;
     let relativeClickY = event.y - canvas.offsetTop;
 
@@ -217,9 +225,7 @@ function movingBoy() {
     moveLeft();
     }
   });
-
 }
-
 
 // This update loop is the heartbeat of Keydrown
 kd.run(function() {
@@ -227,6 +233,8 @@ kd.run(function() {
   kd.tick();
   }
 });
+
+
 
 function drawInstruction() {
   ctx.drawImage(
@@ -315,7 +323,7 @@ move: function(){
 }
 
 function boyIsShootingByApple() {
-  if (isPlaying === true && timeToGameStart === 0) {
+  if (timeToGameStart === 0) {
   apples.forEach(apple => {
     if(apple.y>0){
     apple.draw()
@@ -362,6 +370,7 @@ Vegetable.prototype = {
 };
 
 function drawVegetables() {
+  console.log(timeToGameStart)
   if (isPlaying === true && timeToGameStart === 0) {
     vegetables.forEach(vegetable => {
       vegetable.draw();
