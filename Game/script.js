@@ -1,26 +1,28 @@
-const SIZE = 30;
-const SPACE_BETWEEN = SIZE + SIZE / 2;
-let numOfEnemies = 15;
-const FREE_SPACE =
-  (40 * SIZE - (SIZE + (numOfEnemies - 1) * SPACE_BETWEEN)) / 2;
-const WIDTH = 900;
-const HEIGHT = 600;
-const INSTRUCTION_WIDTH = 300;
-const INSTRUCTION_HEIGHT = 300;
-const BOY_WIDTH = 100;
-const BOY_HEIGHT = 100;
-const PLAY_BUTTON_WIDTH = 50;
-const PLAY_BUTTON_HEIGHT = 50;
-const PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT = 0.15 * HEIGHT;
-const PAUSE_BUTTON_WIDTH = 150;
-const PAUSE_BUTTON_HEIGHT = 32;
-
-let vegetablesIntervalId;
+const SIZE = 30
+const SPACE_BETWEEN = SIZE + SIZE / 2
+let numOfEnemies = 15
+const FREE_SPACE = (40 * SIZE - (SIZE + (numOfEnemies - 1) * SPACE_BETWEEN)) / 2
+const WIDTH = 900
+const HEIGHT = 600
+const INSTRUCTION_WIDTH = 300
+const INSTRUCTION_HEIGHT = 300
+const BOY_WIDTH = 100
+const BOY_HEIGHT = 100
+const PLAY_BUTTON_WIDTH = 50
+const PLAY_BUTTON_HEIGHT = 50
+const PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT = 0.15*HEIGHT
+const PAUSE_BUTTON_WIDTH = 150
+const PAUSE_BUTTON_HEIGHT = 32
+const BROKUL_WIDTH = 70/2
+const BROKUL_HEIGHT = 80/2
+const GRAVITY = 15
+let counter = 3;
 
 let boy = {
   x: WIDTH / 2,
-  y: HEIGHT - BOY_HEIGHT - 50
-};
+  y: (HEIGHT - BOY_HEIGHT) - 50
+}
+let apples = []
 
 const body = document.querySelector("body");
 const canvas = document.createElement("canvas");
@@ -35,17 +37,32 @@ function drawBurger(x, y, width, height, color = "black") {
   ctx.fillRect(x, y, width, height);
 }
 let isPlaying = false;
+let isShooting = false;
 
 var images;
 addClickEventToCanvas();
 loadAllImages().then(values => {
-  images = values;
-  animate();
-});
+  images = values
+  animate(0)
+})
 
+let lastTime = 0
+let delta = 0
+let elapsedTime = 0
+let timeToGameStart = 5
 function animate(time) {
-  drawGame();
-  requestAnimationFrame(animate);
+  delta = time - lastTime
+  drawGame()
+  requestAnimationFrame(animate)
+  lastTime = time
+}
+
+function doEverySecond(callback) {
+  elapsedTime += delta
+  if (elapsedTime > 1000) {
+    elapsedTime = 0
+    callback()
+  }
 }
 
 let vegetables = [];
@@ -61,12 +78,29 @@ function drawGame() {
   drawPauseButton();
   drawVegetables();
   // vegetablesInterval = setInterval(drawVegetable, 5000);
+  drawCounter(timeToGameStart);
+
+  apples.forEach(apple => {
+    if(apple.y>0){
+    apple.draw()
+    apple.move()
+   
+  }
+  
+  })
+
+
+
 
   if (!isPlaying) {
     drawInstruction();
     drawPlayButton();
-    drawCounter(5);
+  } else {
+    doEverySecond(() => {
+      timeToGameStart = timeToGameStart === 0 ? 0 : timeToGameStart - 1
+    })
   }
+
 }
 
 function addClickEventToCanvas() {
@@ -79,28 +113,28 @@ function addClickEventToCanvas() {
         isPlaying = true;
       }
     } else {
-      if (checkIfclickOnPauseButton(relativeClickX, relativeClickY)) {
-        isPlaying = false;
+      if (checkIfclickOnPauseButton(relativeClickX,relativeClickY)) {
+        isPlaying = false
+        timeToGameStart = 5
       }
     }
   });
 }
 
-function loadAllImages() {
-  const imagesNames = [
-    "background",
-    "instruction",
-    "burger",
-    "pause",
-    "play",
-    "boy-skinny",
-    "marchew",
-    "brokul"
-  ];
-  const imagesPaths = imagesNames.map(
-    imageName => `game-images/${imageName}.png`
-  );
-  const imagesPromises = imagesPaths.map(imagePath => loadImage(imagePath));
+function loadImage (imageUrl) {
+  return new Promise((resolve) => {
+    const image = new Image()
+    image.src = imageUrl
+    image.onload = function () {
+      resolve(image)
+    };
+  });
+}
+
+function loadAllImages () {
+  const imagesNames = ['background', 'instruction', 'burger', 'pause', 'play', 'boy-skinny', 'brokul','marchew']
+  const imagesPaths = imagesNames.map(imageName => `game-images/${imageName}.png`)
+  const imagesPromises = imagesPaths.map(imagePath => loadImage(imagePath))
 
   return Promise.all(imagesPromises).then(loadedImages => {
     const images = imagesNames.reduce((acc, imageName, index) => {
@@ -220,22 +254,64 @@ function drawBurger(x, y, width, height) {
   ctx.drawImage(images.burger, x, y, width, height);
 }
 
-function drawCounter(number) {
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.font = "50px Arial";
-  ctx.fillStyle = "#000";
-  ctx.fillText(number, WIDTH / 2, HEIGHT / 2);
+
+function drawCounter(value) {
+  if (value === 0) {
+    return
+  }
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.font = '50px Arial'
+  ctx.fillStyle = '#000'
+  ctx.fillText(value, WIDTH / 2, HEIGHT / 2)
 }
 
-function loadImage(imageUrl) {
-  return new Promise(resolve => {
-    const image = new Image();
-    image.src = imageUrl;
-    image.onload = function() {
-      resolve(image);
-    };
-  });
+
+function drawImage(imageUrl, x, y, w, h, onload = () => { }) {
+  const image = new Image()
+  image.src = imageUrl
+  image.onload = function () {
+    ctx.drawImage(image, x, y, w, h)
+    onload()
+  }
+  return image
+}
+
+
+window.addEventListener('keydown', spaceKeyCheck, false);
+
+function spaceKeyCheck(s) {
+  if (s.keyCode == 32) {
+    shot()
+    return true
+  } 
+}
+
+function shot(){
+  //console.log("bang bang")
+  const boyClone = {...boy}
+  const apple = new Apple(boyClone.x,boyClone.y)
+  apples = [...apples, apple]
+  
+  
+} 
+
+
+function Apple (x,y){
+this.x = x
+this.y = y
+
+
+}
+
+Apple.prototype = {
+draw: function(){
+  ctx.drawImage(images.brokul, this.x + (BOY_WIDTH/2) -(BROKUL_WIDTH/2), this.y, BROKUL_WIDTH, BROKUL_HEIGHT) 
+},
+move: function(){
+  this.y= this.y - GRAVITY;
+
+}
 }
 
 function Vegetable() {
@@ -250,9 +326,16 @@ function Vegetable() {
     {
       name: "brokul",
       width: 50,
-      height: 50
-    }
+      height: 50}
   ];
+
+
+
+
+
+
+
+
   const randomIndex = Math.floor(Math.random() * vegetables.length);
   const vegetable = vegetables[randomIndex];
   this.image = images[vegetable.name];
