@@ -79,17 +79,7 @@ function drawGame() {
   drawVegetables();
   // vegetablesInterval = setInterval(drawVegetable, 5000);
   drawCounter(timeToGameStart);
-
-  apples.forEach(apple => {
-    if(apple.y>0){
-    apple.draw()
-    apple.move()
-   
-  }
-  
-  })
-
-
+  boyIsShootingByApple();
 
 
   if (!isPlaying) {
@@ -102,6 +92,8 @@ function drawGame() {
   }
 
 }
+
+
 
 function addClickEventToCanvas() {
   canvas.addEventListener("click", function(event) {
@@ -282,26 +274,21 @@ window.addEventListener('keydown', spaceKeyCheck, false);
 
 function spaceKeyCheck(s) {
   if (s.keyCode == 32) {
-    shot()
+    fixAppleToBoy()
     return true
   } 
 }
 
-function shot(){
+function fixAppleToBoy(){
   //console.log("bang bang")
   const boyClone = {...boy}
   const apple = new Apple(boyClone.x,boyClone.y)
   apples = [...apples, apple]
-  
-  
 } 
-
 
 function Apple (x,y){
 this.x = x
 this.y = y
-
-
 }
 
 Apple.prototype = {
@@ -310,9 +297,24 @@ draw: function(){
 },
 move: function(){
   this.y= this.y - GRAVITY;
+}
+}
 
+function boyIsShootingByApple() {
+  if (isPlaying === true && timeToGameStart === 0) {
+  apples.forEach(apple => {
+    if(apple.y>0){
+    apple.draw()
+    apple.move()
+   
+  }
+  
+  })
 }
 }
+
+
+
 
 function Vegetable() {
   this.x = Math.floor(Math.random() * 900 - 50);
