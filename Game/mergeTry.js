@@ -13,6 +13,29 @@ const PLAY_BUTTON_HEIGHT = 50
 const PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT = 0.15 * HEIGHT
 const PAUSE_BUTTON_WIDTH = 150
 const PAUSE_BUTTON_HEIGHT = 32
+const burgers = []
+class Burger {
+  constructor(x, y) {
+    this.initX = x
+    this.initY = y
+    this.vx = 5
+    this.reset()
+  }
+
+  reset() {
+    this.x = this.initX
+    this.y = this.initY
+  }
+  move() {
+    this.x += this.vx
+  }
+  changeDirection() {
+    this.vx = -this.vx
+    this.y += SIZE / 2
+  }
+}
+
+drawBurgers()
 
 let boy = {
   x: WIDTH / 2,
@@ -27,10 +50,6 @@ canvas.setAttribute('width', WIDTH)
 canvas.setAttribute('height', HEIGHT)
 const ctx = canvas.getContext('2d')
 
-function drawBurger(x, y, width, height, color = 'black') {
-  ctx.fillStyle = color
-  ctx.fillRect(x, y, width, height)
-}
 let isPlaying = false
 
 var images
@@ -47,9 +66,9 @@ function animate() {
 
 function drawGame() {
   drawBackground()
-  drawBurgers()
   drawBoy()
   drawPauseButton()
+  generateBurgers()
 
   if (!isPlaying) {
     drawInstruction()
@@ -112,16 +131,24 @@ function checkIfclickOnPauseButton(relativeClickX, relativeClickY) {
 }
 
 function drawBurgers() {
-  for (let i = 0; i < numOfBurgers; i++) {
-    drawBurger(i * SPACE_BETWEEN + FREE_SPACE, SIZE, SIZE, SIZE)
-  }
+  //to remove
+  // for (let i = 0; i < numOfBurgers; i++) {
+  //   drawBurger(i * SPACE_BETWEEN + FREE_SPACE, SIZE, SIZE, SIZE)
+  // }
+
+  // for (let i = 0; i < numOfBurgers; i++) {
+  //   drawBurger(i * SPACE_BETWEEN + FREE_SPACE, SIZE + SPACE_BETWEEN, SIZE, SIZE)
+  // }
+
+  // for (let i = 0; i < numOfBurgers; i++) {
+  //   drawBurger(i * SPACE_BETWEEN + FREE_SPACE, SIZE + 2 * SPACE_BETWEEN, SIZE, SIZE)
+  // }
+  //
 
   for (let i = 0; i < numOfBurgers; i++) {
-    drawBurger(i * SPACE_BETWEEN + FREE_SPACE, SIZE + SPACE_BETWEEN, SIZE, SIZE)
-  }
-
-  for (let i = 0; i < numOfBurgers; i++) {
-    drawBurger(i * SPACE_BETWEEN + FREE_SPACE, SIZE + 2 * SPACE_BETWEEN, SIZE, SIZE)
+    burgers.push(new Burger(i * SPACE_BETWEEN + FREE_SPACE, SIZE))
+    burgers.push(new Burger(i * SPACE_BETWEEN + FREE_SPACE, SIZE + SPACE_BETWEEN))
+    burgers.push(new Burger(i * SPACE_BETWEEN + FREE_SPACE, SIZE + 2 * SPACE_BETWEEN))
   }
 }
 
@@ -177,10 +204,6 @@ function drawPauseButton() {
   ctx.drawImage(images.pause, 0, 0, PAUSE_BUTTON_WIDTH, PAUSE_BUTTON_HEIGHT)
 }
 
-function drawBurger(x, y, width, height) {
-  ctx.drawImage(images.burger, x, y, width, height)
-}
-
 function drawCounter(number) {
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
@@ -207,4 +230,44 @@ function loadImage(imageUrl) {
       resolve(image)
     }
   })
+}
+
+function simulateBurger(burger) {
+  burger.move()
+  ctx.drawImage(images.burger, burger.initX, burger.initY, SIZE, SIZE)
+
+  if (hasBurgerCollisionWithBoy(burger)) {
+    burger.reset()
+  }
+}
+
+function burgerOutOfRight() {
+  const burger = burgers[numOfBurgers * 3 - 1]
+  const burgerOutOfRight = burger.x + SIZE > WIDTH
+
+  return burgerOutOfRight
+}
+
+function burgerOutOfLeft() {
+  const burger = burgers[0]
+  const burgerOutOfLeft = burger.x < 0
+
+  return burgerOutOfLeft
+}
+
+function hasBurgerCollisionWithBoy(burger) {
+  const burgerOutOfBottom = burger.y + SIZE > HEIGHT - 4 * SIZE
+  return burgerOutOfBottom
+}
+
+function clearCanvas() {
+  ctx.fillStyle = 'white'
+  ctx.fillRect(0, 0, WIDTH, HEIGHT)
+}
+
+function generateBurgers() {
+  burgers.forEach(simulateBurger)
+  if (burgerOutOfLeft() || burgerOutOfRight()) {
+    burgers.forEach(burger => burger.changeDirection())
+  }
 }
