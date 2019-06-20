@@ -68,7 +68,7 @@ loadAllImages().then(values => {
 let lastTime = 0
 let delta = 0
 let elapsedTime = 0
-let timeToGameStart = 5
+let timeToGameStart = 3
 function animate(time) {
   delta = time - lastTime
   drawGame()
@@ -84,22 +84,30 @@ function doEverySecond(callback) {
   }
 }
 
-/* let vegetables = []
-setInterval(() => {
-  let vegetables = new Vegetable()
-  vegetables = [...vegetables, vegetable]
-}, 1000)
- */
+function fallingVeggies() {
+  setInterval(() => {
+    if (!isPlaying) {
+      return
+    }
+    let vegetable = new Vegetable(); 
+    vegetables = [...vegetables, vegetable];
+  }, 1000);
+
+}
+
+let vegetables = [];
+
+fallingVeggies()
+
+
 function drawGame() {
-  drawBackground()
-  drawBoy()
-  drawPauseButton()
-  generateBurgers()
-  // drawVegetables()
+  drawBackground();
+  drawBurgers();
+  drawBoy();
+  drawPauseButton();
+  
   // vegetablesInterval = setInterval(drawVegetable, 5000);
-  drawCounter(timeToGameStart)
-  movingBoy()
-  // boyIsShootingByApple()
+  drawCounter(timeToGameStart);
 
   if (!isPlaying) {
     drawInstruction()
@@ -108,13 +116,17 @@ function drawGame() {
     doEverySecond(() => {
       timeToGameStart = timeToGameStart === 0 ? 0 : timeToGameStart - 1
     })
+    movingBoy();
+    boyIsShootingByApple();
+    drawVegetables();
   }
 }
 
 function addClickEventToCanvas() {
-  canvas.addEventListener('click', function(event) {
-    let relativeClickX = event.x - canvas.offsetLeft
-    let relativeClickY = event.y - canvas.offsetTop
+  canvas.addEventListener("click", function(event) {
+    console.log(event)
+    let relativeClickX = event.x - canvas.offsetLeft;
+    let relativeClickY = event.y - canvas.offsetTop;
 
     if (!isPlaying) {
       if (checkIfclickOnPlayButton(relativeClickX, relativeClickY)) {
@@ -123,7 +135,7 @@ function addClickEventToCanvas() {
     } else {
       if (checkIfclickOnPauseButton(relativeClickX, relativeClickY)) {
         isPlaying = false
-        timeToGameStart = 5
+        timeToGameStart = 3
       }
     }
   })
@@ -242,6 +254,8 @@ kd.run(function() {
   }
 })
 
+
+
 function drawInstruction() {
   ctx.drawImage(
     images.instruction,
@@ -333,6 +347,18 @@ function hasBurgerCollisionWithBoy(burger) {
   return burgerOutOfBottom
 }
 
+function boyIsShootingByApple() {
+  if (timeToGameStart === 0) {
+  apples.forEach(apple => {
+    if(apple.y>0){
+    apple.draw()
+    apple.move()
+   
+  }
+  
+  })
+}
+
 function clearCanvas() {
   ctx.fillStyle = 'white'
   ctx.fillRect(0, 0, WIDTH, HEIGHT)
@@ -374,6 +400,17 @@ function generateBurgers() {
         BROKUL_WIDTH,
         BROKUL_HEIGHT
       )
+    }
+  
+function Vegetable() {
+  this.x = Math.floor(Math.random() * 900 - 50);
+  this.y = -30;
+}
+  const vegetables = [
+    {
+      name: "marchew",
+      width: 24,
+      height: 80
     },
     move: function() {
       this.y = this.y - GRAVITY
@@ -412,6 +449,14 @@ function generateBurgers() {
     this.image = images[vegetable.name]
     this.width = vegetable.width
     this.height = vegetable.height
+function drawVegetables() {
+  console.log(timeToGameStart)
+  if (isPlaying === true && timeToGameStart === 0) {
+    vegetables.forEach(vegetable => {
+      vegetable.draw();
+      vegetable.move();
+      listenToCollision(vegetable);
+    });
   }
 
   Vegetable.prototype = {
