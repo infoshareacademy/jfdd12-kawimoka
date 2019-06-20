@@ -344,8 +344,8 @@ function Vegetable() {
   const vegetables = [
     {
       name: "marchew",
-      width: 30,
-      height: 30
+      width: 24,
+      height: 80
     },
     {
       name: "brokul",
