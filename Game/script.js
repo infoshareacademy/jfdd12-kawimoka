@@ -397,7 +397,7 @@ function listenToCollision(vegetable) {
 }
 
 function simulateBurger(burger) {
-  console.log(burger)
+  // console.log(burger)
   burger.move()
   ctx.drawImage(images.burger, burger.x, burger.y, SIZE, SIZE)
 
@@ -431,8 +431,10 @@ function clearCanvas() {
 }
 
 function animateBurgers() {
-  burgers.forEach(burger => simulateBurger(burger))
-  if (burgerOutOfLeft() || burgerOutOfRight()) {
-    burgers.forEach(burger => burger.changeDirection())
+  if (timeToGameStart === 0) {
+    burgers.forEach(burger => simulateBurger(burger))
+    if (burgerOutOfLeft() || burgerOutOfRight()) {
+      burgers.forEach(burger => burger.changeDirection())
+    }
   }
 }
