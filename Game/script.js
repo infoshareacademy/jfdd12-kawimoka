@@ -1,10 +1,9 @@
 const SIZE = 30;
 const SPACE_BETWEEN = SIZE + SIZE / 2;
-let numOfEnemies = 15;
-const FREE_SPACE =
-  (40 * SIZE - (SIZE + (numOfEnemies - 1) * SPACE_BETWEEN)) / 2;
+let numOfBurgers = 15;
 const WIDTH = 900;
 const HEIGHT = 600;
+const FREE_SPACE = (WIDTH - (SIZE + (numOfBurgers - 1) * SPACE_BETWEEN)) / 2;
 const INSTRUCTION_WIDTH = 300;
 const INSTRUCTION_HEIGHT = 300;
 const BOY_WIDTH = 100;
@@ -17,10 +16,33 @@ const PAUSE_BUTTON_HEIGHT = 32;
 const BROKUL_WIDTH = 70 / 2;
 const BROKUL_HEIGHT = 80 / 2;
 const GRAVITY = 15;
+let counter = 3;
+const burgers = [];
 const POINTS_FOR_VEGETABLE = 10;
 const POINTS_FOR_BOMB = -50;
-let counter = 3;
+
 let points = 0;
+
+class Burger {
+  constructor(x, y) {
+    this.initX = x;
+    this.initY = y;
+    this.vx = 5;
+    this.reset();
+  }
+
+  reset() {
+    this.x = this.initX;
+    this.y = this.initY;
+  }
+  move() {
+    this.x += this.vx;
+  }
+  changeDirection() {
+    this.vx = -this.vx;
+    this.y += SIZE / 2;
+  }
+}
 
 let boy = {
   x: WIDTH / 2,
@@ -36,10 +58,6 @@ canvas.setAttribute("width", `${30 * SIZE}px`);
 canvas.setAttribute("height", `${20 * SIZE}px`);
 const ctx = canvas.getContext("2d");
 
-function drawBurger(x, y, width, height, color = "black") {
-  ctx.fillStyle = color;
-  ctx.fillRect(x, y, width, height);
-}
 let isPlaying = false;
 let isShooting = false;
 
@@ -53,7 +71,7 @@ loadAllImages().then(values => {
 let lastTime = 0;
 let delta = 0;
 let elapsedTime = 0;
-let timeToGameStart = 5;
+let timeToGameStart = 3;
 function animate(time) {
   delta = time - lastTime;
   drawGame();
@@ -69,28 +87,28 @@ function doEverySecond(callback) {
   }
 }
 
+function fallingVeggies() {
+  setInterval(() => {
+    if (!isPlaying) {
+      return;
+    }
+    let vegetable = new Vegetable();
+    vegetables = [...vegetables, vegetable];
+  }, 1000);
+}
+
 let vegetables = [];
-setInterval(() => {
-  let vegetable = new Vegetable();
-  vegetables = [...vegetables, vegetable];
-}, 1000);
+
+fallingVeggies();
+generateBurgers();
 
 function drawGame() {
   drawBackground();
-  drawBurgers();
   drawBoy();
   drawPauseButton();
-  drawVegetables();
-  // vegetablesInterval = setInterval(drawVegetable, 5000);
-  drawCounter(timeToGameStart);
-  drawPoints();
 
-  apples.forEach(apple => {
-    if (apple.y > 0) {
-      apple.draw();
-      apple.move();
-    }
-  });
+  // vegetablesInterval = setInterval(drawVegetable, 5000)
+  drawCounter(timeToGameStart);
 
   if (!isPlaying) {
     drawInstruction();
@@ -99,11 +117,17 @@ function drawGame() {
     doEverySecond(() => {
       timeToGameStart = timeToGameStart === 0 ? 0 : timeToGameStart - 1;
     });
+    movingBoy();
+    boyIsShootingByApple();
+    drawVegetables();
+    animateBurgers();
+    drawPoints();
   }
 }
 
 function addClickEventToCanvas() {
   canvas.addEventListener("click", function(event) {
+    // console.log(event)
     let relativeClickX = event.x - canvas.offsetLeft;
     let relativeClickY = event.y - canvas.offsetTop;
 
@@ -114,7 +138,7 @@ function addClickEventToCanvas() {
     } else {
       if (checkIfclickOnPauseButton(relativeClickX, relativeClickY)) {
         isPlaying = false;
-        timeToGameStart = 5;
+        timeToGameStart = 3;
       }
     }
   });
@@ -181,26 +205,14 @@ function checkIfclickOnPauseButton(relativeClickX, relativeClickY) {
   );
 }
 
-function drawBurgers() {
-  for (let i = 0; i < numOfEnemies; i++) {
-    drawBurger(i * SPACE_BETWEEN + FREE_SPACE, SIZE, SIZE, SIZE);
-  }
-
-  for (let i = 0; i < numOfEnemies; i++) {
-    drawBurger(
-      i * SPACE_BETWEEN + FREE_SPACE,
-      SIZE + SPACE_BETWEEN,
-      SIZE,
-      SIZE
+function generateBurgers() {
+  for (let i = 0; i < numOfBurgers; i++) {
+    burgers.push(new Burger(i * SPACE_BETWEEN + FREE_SPACE, SIZE));
+    burgers.push(
+      new Burger(i * SPACE_BETWEEN + FREE_SPACE, SIZE + SPACE_BETWEEN)
     );
-  }
-
-  for (let i = 0; i < numOfEnemies; i++) {
-    drawBurger(
-      i * SPACE_BETWEEN + FREE_SPACE,
-      SIZE + 2 * SPACE_BETWEEN,
-      SIZE,
-      SIZE
+    burgers.push(
+      new Burger(i * SPACE_BETWEEN + FREE_SPACE, SIZE + 2 * SPACE_BETWEEN)
     );
   }
 }
@@ -209,28 +221,36 @@ function drawBackground() {
   ctx.drawImage(images.background, 0, 0, WIDTH, HEIGHT);
 }
 
-const moveRight = () => {
-  if (WIDTH - BOY_WIDTH > boy.x) {
-    boy.x = boy.x + 10;
-  }
-};
-const moveLeft = () => {
-  if (boy.x > 0) {
-    boy.x = boy.x - 10;
-  }
-};
+function movingBoy() {
+  const moveRight = () => {
+    if (WIDTH - BOY_WIDTH > boy.x) {
+      boy.x = boy.x + 10;
+    }
+  };
+  const moveLeft = () => {
+    if (boy.x > 0) {
+      boy.x = boy.x - 10;
+    }
+  };
 
-kd.RIGHT.down(function() {
-  moveRight();
-});
+  kd.RIGHT.down(function() {
+    if (isPlaying === true && timeToGameStart === 0) {
+      moveRight();
+    }
+  });
 
-kd.LEFT.down(function() {
-  moveLeft();
-});
+  kd.LEFT.down(function() {
+    if (isPlaying === true && timeToGameStart === 0) {
+      moveLeft();
+    }
+  });
+}
 
 // This update loop is the heartbeat of Keydrown
 kd.run(function() {
-  kd.tick();
+  if (isPlaying === true && timeToGameStart === 0) {
+    kd.tick();
+  }
 });
 
 function drawInstruction() {
@@ -276,14 +296,6 @@ function drawCounter(value) {
   ctx.fillText(value, WIDTH / 2, HEIGHT / 2);
 }
 
-function drawPoints() {
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.font = "30px Arial";
-  ctx.fillStyle = "#000";
-  ctx.fillText(`SCORE: ${points}`, WIDTH - 100, 15);
-}
-
 function drawImage(imageUrl, x, y, w, h, onload = () => {}) {
   const image = new Image();
   image.src = imageUrl;
@@ -298,12 +310,12 @@ window.addEventListener("keydown", spaceKeyCheck, false);
 
 function spaceKeyCheck(s) {
   if (s.keyCode == 32) {
-    shot();
+    fixAppleToBoy();
     return true;
   }
 }
 
-function shot() {
+function fixAppleToBoy() {
   //console.log("bang bang")
   const boyClone = { ...boy };
   const apple = new Apple(boyClone.x, boyClone.y);
@@ -329,6 +341,17 @@ Apple.prototype = {
     this.y = this.y - GRAVITY;
   }
 };
+
+function boyIsShootingByApple() {
+  if (timeToGameStart === 0) {
+    apples.forEach(apple => {
+      if (apple.y > 0) {
+        apple.draw();
+        apple.move();
+      }
+    });
+  }
+}
 
 function Vegetable() {
   this.x = Math.floor(Math.random() * 900 - 50);
@@ -372,11 +395,14 @@ Vegetable.prototype = {
 };
 
 function drawVegetables() {
-  vegetables.forEach(vegetable => {
-    vegetable.draw();
-    vegetable.move();
-    listenToCollision(vegetable);
-  });
+  // console.log(timeToGameStart)
+  if (isPlaying === true && timeToGameStart === 0) {
+    vegetables.forEach(vegetable => {
+      vegetable.draw();
+      vegetable.move();
+      listenToCollision(vegetable);
+    });
+  }
 }
 
 function listenToCollision(vegetable) {
@@ -405,4 +431,54 @@ function listenToCollision(vegetable) {
     itemDisappears(vegetable);
     points = points + POINTS_FOR_BOMB;
   }
+}
+
+function simulateBurger(burger) {
+  // console.log(burger)
+  burger.move();
+  ctx.drawImage(images.burger, burger.x, burger.y, SIZE, SIZE);
+
+  if (hasBurgerCollisionWithBoy(burger)) {
+    burger.reset();
+  }
+}
+
+function burgerOutOfRight() {
+  const burger = burgers[numOfBurgers * 3 - 1];
+  const burgerOutOfRight = burger.x + SIZE > WIDTH;
+
+  return burgerOutOfRight;
+}
+
+function burgerOutOfLeft() {
+  const burger = burgers[0];
+  const burgerOutOfLeft = burger.x < 0;
+
+  return burgerOutOfLeft;
+}
+
+function hasBurgerCollisionWithBoy(burger) {
+  const burgerOutOfBottom = burger.y + SIZE > HEIGHT - BOY_HEIGHT - 50;
+  return burgerOutOfBottom;
+}
+
+function clearCanvas() {
+  ctx.fillStyle = "white";
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+}
+
+function animateBurgers() {
+  if (timeToGameStart === 0) {
+    burgers.forEach(burger => simulateBurger(burger));
+    if (burgerOutOfLeft() || burgerOutOfRight()) {
+      burgers.forEach(burger => burger.changeDirection());
+    }
+  }
+}
+function drawPoints() {
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.font = "30px Arial";
+  ctx.fillStyle = "#000";
+  ctx.fillText(`SCORE: ${points}`, WIDTH - 100, 15);
 }
