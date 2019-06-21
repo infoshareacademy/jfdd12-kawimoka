@@ -19,6 +19,8 @@ const GRAVITY = 15
 let counter = 3
 let points = 0
 let burgers = []
+const POINTS_FOR_VEGETABLE = 10
+const POINTS_FOR_BOMB = -50
 
 class Burger {
   constructor(x, y) {
@@ -62,33 +64,33 @@ let isShooting = false
 var images
 addClickEventToCanvas()
 loadAllImages().then(values => {
-  images = values
-  animate(0)
-})
+  images = values;
+  animate(0);
+});
 
-let lastTime = 0
-let delta = 0
-let elapsedTime = 0
-let timeToGameStart = 3
+let lastTime = 0;
+let delta = 0;
+let elapsedTime = 0;
+let timeToGameStart = 3;
 function animate(time) {
-  delta = time - lastTime
-  drawGame()
-  requestAnimationFrame(animate)
-  lastTime = time
+  delta = time - lastTime;
+  drawGame();
+  requestAnimationFrame(animate);
+  lastTime = time;
 }
 
 function doEverySecond(callback) {
-  elapsedTime += delta
+  elapsedTime += delta;
   if (elapsedTime > 1000) {
-    elapsedTime = 0
-    callback()
+    elapsedTime = 0;
+    callback();
   }
 }
 
 function fallingVeggies() {
   setInterval(() => {
     if (!isPlaying) {
-      return
+      return;
     }
     let vegetable = new Vegetable()
     vegetables = [...vegetables, vegetable]
@@ -120,6 +122,7 @@ function drawGame() {
     boyIsShootingByApple()
     drawVegetables()
     animateBurgers()
+    drawPoints()
   }
 }
 
@@ -154,16 +157,19 @@ function loadImage(imageUrl) {
 
 function loadAllImages() {
   const imagesNames = [
-    'background',
-    'instruction',
-    'burger',
-    'pause',
-    'play',
-    'boy-skinny',
-    'brokul',
-    'marchew'
-  ]
-  const imagesPaths = imagesNames.map(imageName => `game-images/${imageName}.png`)
+    "background",
+    "instruction",
+    "burger",
+    "pause",
+    "play",
+    "boy-skinny",
+    "brokul",
+    "marchew",
+    "bomb"
+  ];
+  const imagesPaths = imagesNames.map(
+    imageName => `game-images/${imageName}.png`
+  );
   const imagesPromises = imagesPaths.map(imagePath => loadImage(imagePath))
 
   return Promise.all(imagesPromises).then(loadedImages => {
@@ -275,13 +281,13 @@ function drawBurger(x, y, width, height) {
 
 function drawCounter(value) {
   if (value === 0) {
-    return
+    return;
   }
-  ctx.textAlign = 'center'
-  ctx.textBaseline = 'middle'
-  ctx.font = '50px Arial'
-  ctx.fillStyle = '#000'
-  ctx.fillText(value, WIDTH / 2, HEIGHT / 2)
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.font = "50px Arial";
+  ctx.fillStyle = "#000";
+  ctx.fillText(value, WIDTH / 2, HEIGHT / 2);
 }
 
 function drawImage(imageUrl, x, y, w, h, onload = () => {}) {
@@ -368,7 +374,7 @@ function appleBurgerCollision() {
       
     }
     })
-  });
+  })
 
  }
 
@@ -380,22 +386,31 @@ function Vegetable() {
   this.y = -30
   const vegetables = [
     {
-      name: 'marchew',
-      width: 24,
-      height: 80
+      name: "marchew",
+      width: 30,
+      height: 30,
+      isSafe: true
     },
     {
       name: 'brokul',
       width: 50,
-      height: 50
+      height: 50,
+      isSafe: true
+    },
+    {
+      name: "bomb",
+      width: 40,
+      height: 40,
+      isSafe: false
     }
-  ]
+  ];
 
-  const randomIndex = Math.floor(Math.random() * vegetables.length)
-  const vegetable = vegetables[randomIndex]
-  this.image = images[vegetable.name]
-  this.width = vegetable.width
-  this.height = vegetable.height
+  const randomIndex = Math.floor(Math.random() * vegetables.length);
+  const vegetable = vegetables[randomIndex];
+  this.image = images[vegetable.name];
+  this.width = vegetable.width;
+  this.height = vegetable.height;
+  this.isSafe = vegetable.isSafe;
 }
 
 Vegetable.prototype = {
@@ -413,25 +428,11 @@ function drawVegetables() {
     vegetables.forEach(vegetable => {
       vegetable.draw()
       vegetable.move()
-      // listenToCollision(vegetable)
+      listenToCollision(vegetable)
     })
   }
 }
 
-// function listenToCollision(vegetable) {
-//   const checkHeight = vegetable.y + vegetable.height >= boy.y
-//   const checkLeft = vegetable.x + vegetable.width >= boy.x
-//   const checkRight = vegetable.x <= boy.x + boy.width
-
-//   // console.log({
-//   //   checkHeight,
-//   //   checkLeft,
-//   //   checkRight
-//   // })
-//   if (checkHeight && checkLeft && checkRight) {
-//     // console.log('boy caught veg')
-//   }
-// }
 
 function simulateBurger(burger) {
   //console.log(burger)
@@ -466,9 +467,86 @@ function clearCanvas() {
 function animateBurgers() {
   burgers.forEach(burger => simulateBurger(burger))
   if (burgerOutOfLeft() || burgerOutOfRight()) {
-    burgers.forEach(burger => burger.changeDirection())
+    burgers.forEach(burger => burger.changeDirection())}
+  }
+
+function listenToCollision(vegetable) {
+  var rect1 = {
+    x: vegetable.x,
+    y: vegetable.y,
+    width: vegetable.width,
+    height: vegetable.height
+  };
+  var rect2 = { x: boy.x, y: boy.y, width: BOY_WIDTH, height: BOY_HEIGHT };
+
+  const hasCollision =
+    rect1.x < rect2.x + rect2.width &&
+    rect1.x + rect1.width > rect2.x &&
+    rect1.y < rect2.y + rect2.height &&
+    rect1.y + rect1.height > rect2.y;
+
+  function itemDisappears(item) {
+    item.y = -100;
+  }
+
+  if (hasCollision && vegetable.isSafe) {
+    itemDisappears(vegetable);
+    points = points + POINTS_FOR_VEGETABLE;
+  }
+
+  if (hasCollision && !vegetable.isSafe) {
+    itemDisappears(vegetable);
+    points = points + POINTS_FOR_BOMB;
   }
 }
 
+function simulateBurger(burger) {
+  // console.log(burger)
+  burger.move();
+  ctx.drawImage(images.burger, burger.x, burger.y, BURGER_SIZE, BURGER_SIZE);
 
-console.log(burgers)
+  if (hasBurgerCollisionWithBoy(burger)) {
+    burger.reset();
+  }
+}
+
+function burgerOutOfRight() {
+  const burger = burgers[burgers.length - 1];
+  const burgerOutOfRight = burger.x + BURGER_SIZE > WIDTH;
+
+  return burgerOutOfRight;
+}
+
+function burgerOutOfLeft() {
+  const burger = burgers[0];
+  const burgerOutOfLeft = burger.x < 0;
+
+  return burgerOutOfLeft;
+}
+
+function hasBurgerCollisionWithBoy(burger) {
+  const burgerOutOfBottom = burger.y + BURGER_SIZE > HEIGHT - BOY_HEIGHT - 50;
+  return burgerOutOfBottom;
+}
+
+function clearCanvas() {
+  ctx.fillStyle = "white";
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+}
+
+function animateBurgers() {
+  if (timeToGameStart === 0) {
+    burgers.forEach(burger => simulateBurger(burger));
+    if (burgerOutOfLeft() || burgerOutOfRight()) {
+      burgers.forEach(burger => burger.changeDirection());
+    }
+  }
+}
+
+function drawPoints() {
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.font = "30px Arial";
+  ctx.fillStyle = "#000";
+  ctx.fillText(`SCORE: ${points}`, WIDTH - 100, 15);
+}
