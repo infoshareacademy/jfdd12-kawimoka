@@ -106,6 +106,7 @@ function drawGame() {
   drawBackground()
   drawBoy()
   drawPauseButton()
+  drawPoints()
 
   // vegetablesInterval = setInterval(drawVegetable, 5000)
   drawCounter(timeToGameStart)
@@ -122,7 +123,6 @@ function drawGame() {
     boyIsShootingByApple()
     drawVegetables()
     animateBurgers()
-    drawPoints()
   }
 }
 
@@ -162,7 +162,7 @@ function loadAllImages() {
     "burger",
     "pause",
     "play",
-    "boy-skinny",
+    "boy-fat",
     "brokul",
     "marchew",
     "bomb"
@@ -258,7 +258,7 @@ function drawInstruction() {
 }
 
 function drawBoy() {
-  ctx.drawImage(images.boyskinny, boy.x, boy.y, BOY_WIDTH, BOY_HEIGHT)
+  ctx.drawImage(images.boyfat, boy.x, boy.y, BOY_WIDTH, BOY_HEIGHT)
 }
 
 function drawPlayButton() {
@@ -368,7 +368,7 @@ function appleBurgerCollision() {
    
     if (appleHasCollision) {
       points = points + 10;
-      console.log(burgers[indexBurger]);
+      //console.log(burgers[indexBurger]);
       burgers = burgers.filter((b, i) => !(i === indexBurger));
       apples = apples.filter((a, i) => !(i === indexApple));
       
