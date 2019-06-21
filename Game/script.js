@@ -17,7 +17,10 @@ const PAUSE_BUTTON_HEIGHT = 32;
 const BROKUL_WIDTH = 70 / 2;
 const BROKUL_HEIGHT = 80 / 2;
 const GRAVITY = 15;
+const POINTS_FOR_VEGETABLE = 10;
+const POINTS_FOR_BOMB = -10;
 let counter = 3;
+let points = 0;
 
 let boy = {
   x: WIDTH / 2,
@@ -80,6 +83,7 @@ function drawGame() {
   drawVegetables();
   // vegetablesInterval = setInterval(drawVegetable, 5000);
   drawCounter(timeToGameStart);
+  drawPoints();
 
   apples.forEach(apple => {
     if (apple.y > 0) {
@@ -272,6 +276,14 @@ function drawCounter(value) {
   ctx.fillText(value, WIDTH / 2, HEIGHT / 2);
 }
 
+function drawPoints() {
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.font = "30px Arial";
+  ctx.fillStyle = "#000";
+  ctx.fillText(`SCORE: ${points}`, WIDTH - 100, 15);
+}
+
 function drawImage(imageUrl, x, y, w, h, onload = () => {}) {
   const image = new Image();
   image.src = imageUrl;
@@ -347,6 +359,7 @@ function Vegetable() {
   this.image = images[vegetable.name];
   this.width = vegetable.width;
   this.height = vegetable.height;
+  this.isSafe = vegetable.isSafe;
 }
 
 Vegetable.prototype = {
@@ -362,22 +375,34 @@ function drawVegetables() {
   vegetables.forEach(vegetable => {
     vegetable.draw();
     vegetable.move();
-    // listenToCollision(vegetable);
+    listenToCollision(vegetable);
   });
 }
 
-// function listenToCollision(vegetable) {
-//   const boyRange = {
-//     leftEdgeX: boy.x,
-//     rightEdgeX: boy.x + boy.width
-//   };
+function listenToCollision(vegetable) {
+  var rect1 = {
+    x: vegetable.x,
+    y: vegetable.y,
+    width: vegetable.width,
+    height: vegetable.height
+  };
+  var rect2 = { x: boy.x, y: boy.y, width: BOY_WIDTH, height: BOY_HEIGHT };
 
-//   const hasLeftCollision =
-//     vegetable.x > =boy.x + vegetable.width && vegetable.x < boy.x + boy.width;
+  const hasCollision =
+    rect1.x < rect2.x + rect2.width &&
+    rect1.x + rect1.width > rect2.x &&
+    rect1.y < rect2.y + rect2.height &&
+    rect1.y + rect1.height > rect2.y;
+  function itemDisappears(item) {
+    item.y = -100;
+  }
+  if (hasCollision && vegetable.isSafe) {
+    itemDisappears(vegetable);
+    points = points + POINTS_FOR_VEGETABLE;
+  }
 
-//   const checkHeight = vegetable.y + vegetable.height >= boy.y;
-
-// if (checkHeight && hasLeftCollision) {
-//   console.log("caught");
-// }
-//}
+  if (hasCollision && !vegetable.isSafe) {
+    itemDisappears(vegetable);
+    points = points + POINTS_FOR_BOMB;
+  }
+}
