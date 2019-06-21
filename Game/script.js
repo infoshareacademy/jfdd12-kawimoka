@@ -6,15 +6,15 @@ const HEIGHT = 600
 const FREE_SPACE = (WIDTH - (BURGER_SIZE + (numOfBurgers - 1) * SPACE_BETWEEN)) / 2
 const INSTRUCTION_WIDTH = 300
 const INSTRUCTION_HEIGHT = 300
-const BOY_WIDTH = 100
-const BOY_HEIGHT = 100
+const BOY_WIDTH = 75
+const BOY_HEIGHT = 75
 const PLAY_BUTTON_WIDTH = 50
 const PLAY_BUTTON_HEIGHT = 50
 const PLAY_BUTTON_POSITION_ADJUSTMENT_PERCENT = 0.15 * HEIGHT
 const PAUSE_BUTTON_WIDTH = 150
 const PAUSE_BUTTON_HEIGHT = 32
-const BROKUL_WIDTH = 70 / 2
-const BROKUL_HEIGHT = 80 / 2
+const BROKUL_WIDTH = 70 / 4
+const BROKUL_HEIGHT = 80 / 4
 const GRAVITY = 15
 let counter = 3
 let points = 0
@@ -387,20 +387,20 @@ function Vegetable() {
   const vegetables = [
     {
       name: "marchew",
+      width: 18,
+      height: 60,
+      isSafe: true
+    },
+    {
+      name: 'brokul',
       width: 30,
       height: 30,
       isSafe: true
     },
     {
-      name: 'brokul',
-      width: 50,
-      height: 50,
-      isSafe: true
-    },
-    {
       name: "bomb",
-      width: 40,
-      height: 40,
+      width: 30,
+      height: 30,
       isSafe: false
     }
   ];
