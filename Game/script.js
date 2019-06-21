@@ -49,7 +49,7 @@ loadAllImages().then(values => {
 let lastTime = 0
 let delta = 0
 let elapsedTime = 0
-let timeToGameStart = 5
+let timeToGameStart = 3
 function animate(time) {
   delta = time - lastTime
   drawGame()
@@ -65,22 +65,30 @@ function doEverySecond(callback) {
   }
 }
 
+function fallingVeggies() {
+  setInterval(() => {
+    if (!isPlaying) {
+      return
+    }
+    let vegetable = new Vegetable(); 
+    vegetables = [...vegetables, vegetable];
+  }, 1000);
+
+}
+
 let vegetables = [];
-setInterval(() => {
-  let vegetable = new Vegetable();
-  vegetables = [...vegetables, vegetable];
-}, 1000);
+
+fallingVeggies()
+
 
 function drawGame() {
   drawBackground();
   drawBurgers();
   drawBoy();
   drawPauseButton();
-  drawVegetables();
+  
   // vegetablesInterval = setInterval(drawVegetable, 5000);
   drawCounter(timeToGameStart);
-  boyIsShootingByApple();
-
 
   if (!isPlaying) {
     drawInstruction();
@@ -89,14 +97,16 @@ function drawGame() {
     doEverySecond(() => {
       timeToGameStart = timeToGameStart === 0 ? 0 : timeToGameStart - 1
     })
+    movingBoy();
+    boyIsShootingByApple();
+    drawVegetables();
   }
 
 }
 
-
-
 function addClickEventToCanvas() {
   canvas.addEventListener("click", function(event) {
+    console.log(event)
     let relativeClickX = event.x - canvas.offsetLeft;
     let relativeClickY = event.y - canvas.offsetTop;
 
@@ -107,7 +117,7 @@ function addClickEventToCanvas() {
     } else {
       if (checkIfclickOnPauseButton(relativeClickX,relativeClickY)) {
         isPlaying = false
-        timeToGameStart = 5
+        timeToGameStart = 3
       }
     }
   });
@@ -190,29 +200,41 @@ function drawBackground() {
   ctx.drawImage(images.background, 0, 0, WIDTH, HEIGHT);
 }
 
-const moveRight = () => {
-  if (WIDTH - BOY_WIDTH > boy.x) {
-    boy.x = boy.x + 10;
-  }
-};
-const moveLeft = () => {
-  if (boy.x > 0) {
-    boy.x = boy.x - 10;
-  }
-};
 
-kd.RIGHT.down(function() {
-  moveRight();
-});
+function movingBoy() {
 
-kd.LEFT.down(function() {
-  moveLeft();
-});
+  const moveRight = () => {
+    if (WIDTH - BOY_WIDTH > boy.x) {
+      boy.x = boy.x + 10;
+    }
+  };
+  const moveLeft = () => {
+    if (boy.x > 0) {
+      boy.x = boy.x - 10;
+    }
+  };
+  
+  kd.RIGHT.down(function() {
+    if (isPlaying === true && timeToGameStart === 0) {
+    moveRight();
+    }
+  });
+  
+  kd.LEFT.down(function() {
+    if (isPlaying === true && timeToGameStart === 0) {
+    moveLeft();
+    }
+  });
+}
 
 // This update loop is the heartbeat of Keydrown
 kd.run(function() {
+  if (isPlaying === true && timeToGameStart ===0) {
   kd.tick();
+  }
 });
+
+
 
 function drawInstruction() {
   ctx.drawImage(
@@ -301,7 +323,7 @@ move: function(){
 }
 
 function boyIsShootingByApple() {
-  if (isPlaying === true && timeToGameStart === 0) {
+  if (timeToGameStart === 0) {
   apples.forEach(apple => {
     if(apple.y>0){
     apple.draw()
@@ -323,22 +345,15 @@ function Vegetable() {
   const vegetables = [
     {
       name: "marchew",
-      width: 30,
-      height: 30
+      width: 24,
+      height: 80
     },
     {
       name: "brokul",
       width: 50,
       height: 50}
   ];
-
-
-
-
-
-
-
-
+ 
   const randomIndex = Math.floor(Math.random() * vegetables.length);
   const vegetable = vegetables[randomIndex];
   this.image = images[vegetable.name];
@@ -356,11 +371,14 @@ Vegetable.prototype = {
 };
 
 function drawVegetables() {
-  vegetables.forEach(vegetable => {
-    vegetable.draw();
-    vegetable.move();
-    listenToCollision(vegetable);
-  });
+  console.log(timeToGameStart)
+  if (isPlaying === true && timeToGameStart === 0) {
+    vegetables.forEach(vegetable => {
+      vegetable.draw();
+      vegetable.move();
+      listenToCollision(vegetable);
+    });
+  }
 }
 
 function listenToCollision(vegetable) {
