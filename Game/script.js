@@ -344,13 +344,13 @@ function Vegetable() {
   const vegetables = [
     {
       name: 'marchew',
-      width: 24,
-      height: 80
+      width: 18,
+      height: 60
     },
     {
       name: 'brokul',
-      width: 50,
-      height: 50
+      width: 30,
+      height: 30
     }
   ]
 
