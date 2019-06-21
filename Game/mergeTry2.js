@@ -17,6 +17,28 @@ const BROKUL_WIDTH = 70 / 2
 const BROKUL_HEIGHT = 80 / 2
 const GRAVITY = 15
 let counter = 3
+const burgers = []
+
+class Burger {
+  constructor(x, y) {
+    this.initX = x
+    this.initY = y
+    this.vx = 5
+    this.reset()
+  }
+
+  reset() {
+    this.x = this.initX
+    this.y = this.initY
+  }
+  move() {
+    this.x += this.vx
+  }
+  changeDirection() {
+    this.vx = -this.vx
+    this.y += SIZE / 2
+  }
+}
 
 let boy = {
   x: WIDTH / 2,
@@ -74,10 +96,10 @@ function fallingVeggies() {
 let vegetables = []
 
 fallingVeggies()
+generateBurgers()
 
 function drawGame() {
   drawBackground()
-  drawBurgers()
   drawBoy()
   drawPauseButton()
 
@@ -94,12 +116,13 @@ function drawGame() {
     movingBoy()
     boyIsShootingByApple()
     drawVegetables()
+    animateBurgers()
   }
 }
 
 function addClickEventToCanvas() {
   canvas.addEventListener('click', function(event) {
-    console.log(event)
+    // console.log(event)
     let relativeClickX = event.x - canvas.offsetLeft
     let relativeClickY = event.y - canvas.offsetTop
 
@@ -171,17 +194,11 @@ function checkIfclickOnPauseButton(relativeClickX, relativeClickY) {
   return relativeClickX < PAUSE_BUTTON_WIDTH && relativeClickY < PAUSE_BUTTON_HEIGHT
 }
 
-function drawBurgers() {
+function generateBurgers() {
   for (let i = 0; i < numOfBurgers; i++) {
-    drawBurger(i * SPACE_BETWEEN + FREE_SPACE, SIZE, SIZE, SIZE)
-  }
-
-  for (let i = 0; i < numOfBurgers; i++) {
-    drawBurger(i * SPACE_BETWEEN + FREE_SPACE, SIZE + SPACE_BETWEEN, SIZE, SIZE)
-  }
-
-  for (let i = 0; i < numOfBurgers; i++) {
-    drawBurger(i * SPACE_BETWEEN + FREE_SPACE, SIZE + 2 * SPACE_BETWEEN, SIZE, SIZE)
+    burgers.push(new Burger(i * SPACE_BETWEEN + FREE_SPACE, SIZE))
+    burgers.push(new Burger(i * SPACE_BETWEEN + FREE_SPACE, SIZE + SPACE_BETWEEN))
+    burgers.push(new Burger(i * SPACE_BETWEEN + FREE_SPACE, SIZE + 2 * SPACE_BETWEEN))
   }
 }
 
@@ -354,7 +371,7 @@ Vegetable.prototype = {
 }
 
 function drawVegetables() {
-  console.log(timeToGameStart)
+  // console.log(timeToGameStart)
   if (isPlaying === true && timeToGameStart === 0) {
     vegetables.forEach(vegetable => {
       vegetable.draw()
@@ -369,12 +386,53 @@ function listenToCollision(vegetable) {
   const checkLeft = vegetable.x + vegetable.width >= boy.x
   const checkRight = vegetable.x <= boy.x + boy.width
 
-  console.log({
-    checkHeight,
-    checkLeft,
-    checkRight
-  })
+  // console.log({
+  //   checkHeight,
+  //   checkLeft,
+  //   checkRight
+  // })
   if (checkHeight && checkLeft && checkRight) {
-    console.log('boy caught veg')
+    // console.log('boy caught veg')
+  }
+}
+
+function simulateBurger(burger) {
+  console.log(burger)
+  burger.move()
+  ctx.drawImage(images.burger, burger.x, burger.y, SIZE, SIZE)
+
+  if (hasBurgerCollisionWithBoy(burger)) {
+    burger.reset()
+  }
+}
+
+function burgerOutOfRight() {
+  const burger = burgers[numOfBurgers * 3 - 1]
+  const burgerOutOfRight = burger.x + SIZE > WIDTH
+
+  return burgerOutOfRight
+}
+
+function burgerOutOfLeft() {
+  const burger = burgers[0]
+  const burgerOutOfLeft = burger.x < 0
+
+  return burgerOutOfLeft
+}
+
+function hasBurgerCollisionWithBoy(burger) {
+  const burgerOutOfBottom = burger.y + SIZE > HEIGHT - BOY_HEIGHT - 50
+  return burgerOutOfBottom
+}
+
+function clearCanvas() {
+  ctx.fillStyle = 'white'
+  ctx.fillRect(0, 0, WIDTH, HEIGHT)
+}
+
+function animateBurgers() {
+  burgers.forEach(burger => simulateBurger(burger))
+  if (burgerOutOfLeft() || burgerOutOfRight()) {
+    burgers.forEach(burger => burger.changeDirection())
   }
 }
