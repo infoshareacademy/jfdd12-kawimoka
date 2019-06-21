@@ -18,7 +18,7 @@ const BROKUL_WIDTH = 70 / 2;
 const BROKUL_HEIGHT = 80 / 2;
 const GRAVITY = 15;
 const POINTS_FOR_VEGETABLE = 10;
-const POINTS_FOR_BOMB = -10;
+const POINTS_FOR_BOMB = -50;
 let counter = 3;
 let points = 0;
 
