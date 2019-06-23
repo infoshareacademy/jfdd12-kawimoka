@@ -285,7 +285,7 @@ function drawCounter(value) {
   }
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.font = "50px Arial";
+  ctx.font = "50px Russo One";
   ctx.fillStyle = "#000";
   ctx.fillText(value, WIDTH / 2, HEIGHT / 2);
 }
