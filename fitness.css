@@ -1,0 +1,540 @@
+* {
+  font-family: 'Lato', sans-serif;
+}
+
+i {
+  color: #08ada0 !important;
+}
+
+h2 {
+  text-align: center;
+}
+
+hr {
+  border: 1px solid #08ada0;
+  width: 90%;
+  text-align: center;
+}
+
+/*  Navbar css */
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+nav img {
+  max-height: 89px;
+  max-width: 245px;
+  padding: 20px;
+}
+.slogan {
+  color: #0d8b81;
+  letter-spacing: 3px;
+  margin: 0 36px;
+  font-size: 25px;
+}
+
+.logo_slogan {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  position: fixed;
+  width: 100%;
+  background-color: #fff;
+  padding-bottom: 10px;
+}
+
+nav {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+nav > ul {
+  margin: 0;
+  display: none;
+  width: 100%;
+  font-size: 15px;
+  padding: 10px;
+  font-weight: bold;
+}
+
+ul > a {
+  text-decoration-line: none;
+  color: black;
+  text-transform: uppercase;
+}
+
+#showMenu:hover + ul,
+nav:hover > ul {
+  display: flex;
+  justify-content: space-evenly;
+  padding-bottom: 5px;
+}
+
+#showMenu + ul:hover {
+  display: flex;
+}
+
+main {
+  margin-top: 160px;
+}
+
+/*FORM CSS*/
+
+.form {
+  width: 100%;
+  color: black;
+  font-family: 'Lato', sans-serif;
+  display: grid;
+  grid-template: repeat(7, 1fr) / repeat(5, 1fr);
+  margin: 0 auto;
+}
+
+.form img {
+  grid-area: 1/1/8/3;
+  max-width: auto;
+  height: 60auto;
+  margin: 0 auto;
+  padding: 0px;
+  margin-left: 5px;
+}
+
+.form-title {
+  text-align: center;
+  font-size: 18px;
+  grid-area: 1/4/3/5;
+}
+
+.form-name {
+  font-size: 20px;
+  grid-area: 3/4/4/5;
+  justify-self: center;
+  align-self: end;
+}
+
+.form-name > input {
+  text-align: center;
+  margin: 0 auto;
+  height: 35px;
+}
+
+.form-email {
+  font-size: 20px;
+  grid-area: 4/4/5/5;
+  justify-self: center;
+  align-self: end;
+}
+
+.form-email > input {
+  text-align: center;
+  margin: 0 auto;
+  height: 35px;
+}
+
+.form-info {
+  grid-area: 7/4/8/5;
+  font-size: 14px;
+  margin-left: 5px;
+  justify-self: center;
+}
+.form-info p {
+  margin: 5px;
+}
+
+.form-button {
+  grid-area: 6/4/7/5;
+  text-transform: uppercase;
+  color: white;
+  background-color: #00cfbf;
+  border: 0;
+  font-family: 'Lato', sans-serif;
+  font-size: 150%;
+  font-weight: bold;
+  padding: 20px;
+  margin: 0 auto;
+  border-radius: 25px;
+  width: 200px;
+}
+
+.form-button:hover {
+  background-color: #08ada0;
+}
+
+#form-afterSubmit {
+  width: 100%;
+  color: black;
+  font-family: 'Lato', sans-serif;
+  display: grid;
+  grid-template: repeat(7, 1fr) / repeat(5, 1fr);
+  margin: 0 auto;
+}
+
+.form-afterSubmitm img {
+  grid-area: 1/1/8/3;
+  max-width: auto;
+  height: 60auto;
+  margin: 0 auto;
+  padding: 0px;
+  margin-left: 5px;
+}
+
+.form-afterSubmit-title {
+  display: none;
+  text-align: center;
+  font-size: 22px;
+  grid-area: 1/4/2/6;
+  align-self: center;
+  padding: 3px;
+}
+
+.form-afterSubmit-p1 {
+  display: none;
+  text-align: center;
+
+  font-size: 20px;
+  grid-area: 2/4/3/6;
+}
+.form-afterSubmit-p2 {
+  display: none;
+  text-align: center;
+  font-size: 20px;
+  grid-area: 3/4/4/6;
+}
+
+.form-afterSubmit-button {
+  display: none;
+  grid-area: 4/4/5/6;
+  text-transform: uppercase;
+  color: white;
+  background-color: #00cfbf;
+  border: 0;
+  font-family: 'Lato', sans-serif;
+  font-size: 150%;
+  font-weight: bold;
+  padding: 20px;
+  margin: 0 auto;
+  border-radius: 25px;
+  width: 200px;
+  height: 90px;
+}
+
+.form-afterSubmit-button:hover {
+  display: none;
+  background-color: #08ada0;
+}
+
+/*medium screen*/
+@media (max-width: 1530px) and (min-width: 911px) {
+  .form {
+    width: 100%;
+    color: black;
+    font-family: 'Lato', sans-serif;
+    display: grid;
+    grid-template: repeat(7, 1fr) / repeat(3, 1fr);
+    margin: 0 auto;
+  }
+
+  .form img {
+    grid-area: 1/1/8/4;
+    max-width: auto;
+    height: 60auto;
+    margin: 0 auto;
+    padding: 0px;
+    margin-left: 5px;
+  }
+
+  .form-title {
+    text-align: center;
+    font-size: 18px;
+    grid-area: 1/3/3/4;
+  }
+
+  .form-name {
+    font-size: 20px;
+    grid-area: 3/3/4/4;
+    justify-self: center;
+    align-self: end;
+  }
+
+  .form-name > input {
+    text-align: center;
+    margin: 0 auto;
+    height: 35px;
+  }
+
+  .form-email {
+    font-size: 20px;
+    grid-area: 4/3/5/4;
+    justify-self: center;
+    align-self: end;
+  }
+
+  .form-email > input {
+    text-align: center;
+    margin: 0 auto;
+    height: 35px;
+  }
+
+  .form-info {
+    grid-area: 7/3/8/4;
+    font-size: 14px;
+    margin-left: 5px;
+    justify-self: center;
+  }
+  .form-info p {
+    margin: 5px;
+  }
+
+  .form-button {
+    grid-area: 6/3/7/4;
+    text-transform: uppercase;
+    color: white;
+    background-color: #00cfbf;
+    border: 0;
+    font-family: 'Lato', sans-serif;
+    font-size: 150%;
+    font-weight: bold;
+    padding: 20px;
+    margin: 0 auto;
+    border-radius: 25px;
+    width: 200px;
+  }
+
+  .form-button:hover {
+    background-color: #08ada0;
+  }
+  /*
+            .form-afterSubmit{
+              display: none;
+            } */
+
+  .form-afterSubmit h1 {
+    text-align: center;
+    font-size: 18px;
+    grid-area: 1/3/3/5;
+  }
+
+  .form-afterSubmit p {
+    text-align: center;
+    font-size: 16px;
+    grid-area: 3/3/5/5;
+  }
+
+  .form-aftersubmit button {
+    grid-area: 6/3/7/5;
+    text-transform: uppercase;
+    color: white;
+    background-color: #00cfbf;
+    border: 0;
+    font-family: 'Lato', sans-serif;
+    font-size: 150%;
+    font-weight: bold;
+    padding: 20px;
+    margin: 0 auto;
+    border-radius: 25px;
+    width: 200px;
+  }
+}
+
+/*SMALL SCREEN */
+
+@media (max-width: 910px) {
+  .form {
+    width: auto;
+    margin: 0 auto;
+    color: black;
+    font-family: 'Lato', sans-serif;
+    display: grid;
+    grid-template: repeat(8, 1fr) / repeat(1, 1fr);
+
+    margin: 0 auto;
+  }
+  .form img {
+    max-width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0px;
+    display: none;
+  }
+
+  .form-background-full-screen {
+    display: none;
+  }
+
+  .form-title {
+    text-align: center;
+    font-size: 18px;
+    grid-area: 1/1/3/2;
+  }
+
+  .form-name {
+    font-size: 18px;
+    grid-area: 3/1/4/2;
+    justify-self: center;
+  }
+
+  .form-name input {
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .form-email {
+    font-size: 18px;
+    grid-area: 4/1/5/2;
+    justify-self: center;
+  }
+
+  .form-email input {
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .form-info {
+    grid-area: 8/1/9/2;
+    font-size: 14px;
+    margin-left: 5px;
+  }
+  .form-info p {
+    margin: 5px;
+  }
+
+  .form-button {
+    grid-area: 6/1/7/2;
+    text-transform: uppercase;
+    color: white;
+    background-color: #00cfbf;
+    border: 0;
+    font-family: 'Lato', sans-serif;
+    font-size: 150%;
+    font-weight: bold;
+    padding: 20px;
+    margin: 0 auto;
+    border-radius: 25px;
+  }
+
+  .form-button:hover {
+    background-color: #08ada0;
+  }
+
+  .form-afterSubmit {
+    display: none;
+  }
+}
+/* Footer css */
+
+.form-name input {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.form-email {
+  font-size: 18px;
+  grid-area: 4/1/5/2;
+  justify-self: center;
+}
+
+.form-email input {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.form-info {
+  grid-area: 8/1/9/2;
+  font-size: 14px;
+  margin-left: 5px;
+}
+.form-info p {
+  margin: 5px;
+}
+
+.form-button {
+  grid-area: 6/1/7/2;
+  text-transform: uppercase;
+  color: white;
+  background-color: #00cfbf;
+  border: 0;
+  font-family: 'Lato', sans-serif;
+  font-size: 150%;
+  font-weight: bold;
+  padding: 20px;
+  margin: 0 auto;
+  border-radius: 25px;
+}
+
+.form-button:hover {
+  background-color: #08ada0;
+}
+
+/* Footer css */
+
+#team {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+#team > div {
+  align-self: center;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.profile-photo {
+  max-width: 150px;
+  height: auto;
+  border-radius: 75px;
+}
+
+footer {
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+@media (min-width: 775px) {
+  header {
+    width: 100%;
+    background-color: white;
+  }
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  #showMenu {
+    display: none;
+  }
+
+  nav > ul {
+    display: flex;
+    width: auto;
+  }
+
+  ul > a {
+    font-size: 20px;
+    padding: 5px 15px;
+  }
+  a:hover {
+    color: #109c91;
+  }
+
+  #team {
+    display: flex;
+    flex-direction: row;
+  }
+
+  #team > div {
+    flex: auto;
+  }
+}
