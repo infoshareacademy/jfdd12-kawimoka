@@ -546,7 +546,7 @@ function animateBurgers() {
 function drawPoints() {
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.font = "30px Arial";
+  ctx.font = "25px Russo One";
   ctx.fillStyle = "#000";
-  ctx.fillText(`SCORE: ${points}`, WIDTH - 100, 15);
+  ctx.fillText(`SCORE: ${points}`, WIDTH - 100, 18);
 }
