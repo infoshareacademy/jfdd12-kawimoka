@@ -21,6 +21,8 @@ let points = 0
 let burgers = []
 const POINTS_FOR_VEGETABLE = 10
 const POINTS_FOR_BOMB = -50
+const GAMEOVER_SIZE = 192
+let isItGameOver = false
 
 class Burger {
   constructor(x, y) {
@@ -107,11 +109,10 @@ function drawGame() {
   drawBoy()
   drawPauseButton()
   drawPoints()
-
-  // vegetablesInterval = setInterval(drawVegetable, 5000)
   drawCounter(timeToGameStart)
   appleBurgerCollision();
-
+  drawGameOver()
+  
   if (!isPlaying) {
     drawInstruction()
     drawPlayButton()
@@ -162,10 +163,11 @@ function loadAllImages() {
     "burger",
     "pause",
     "play",
-    "boy-fat",
+    "boy-skinny",
     "brokul",
     "marchew",
-    "bomb"
+    "bomb",
+    "game-over"
   ];
   const imagesPaths = imagesNames.map(
     imageName => `game-images/${imageName}.png`
@@ -258,7 +260,7 @@ function drawInstruction() {
 }
 
 function drawBoy() {
-  ctx.drawImage(images.boyfat, boy.x, boy.y, BOY_WIDTH, BOY_HEIGHT)
+  ctx.drawImage(images.boyskinny, boy.x, boy.y, BOY_WIDTH, BOY_HEIGHT)
 }
 
 function drawPlayButton() {
@@ -441,6 +443,7 @@ function simulateBurger(burger) {
 
   if (hasBurgerCollisionWithBoy(burger)) {
     burger.reset()
+
   }
 }
 
@@ -507,6 +510,7 @@ function simulateBurger(burger) {
 
   if (hasBurgerCollisionWithBoy(burger)) {
     burger.reset();
+    isItGameOver = true
   }
 }
 
@@ -549,4 +553,16 @@ function drawPoints() {
   ctx.font = "25px Russo One";
   ctx.fillStyle = "#000";
   ctx.fillText(`SCORE: ${points}`, WIDTH - 100, 18);
+}
+
+function drawGameOver() {
+  if(isItGameOver) {
+    ctx.drawImage(
+      images.gameover, 
+      (WIDTH - GAMEOVER_SIZE) / 2,
+      (HEIGHT - GAMEOVER_SIZE) / 2,
+      GAMEOVER_SIZE,
+      GAMEOVER_SIZE
+    )
+  }
 }
