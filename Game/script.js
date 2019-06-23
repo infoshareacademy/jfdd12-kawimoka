@@ -311,9 +311,11 @@ function spaceKeyCheck(s) {
 
 function fixAppleToBoy() {
   //console.log("bang bang")
-  const boyClone = { ...boy }
-  const apple = new Apple(boyClone.x, boyClone.y)
-  apples = [...apples, apple]
+  if (timeToGameStart === 0) {
+    const boyClone = { ...boy }
+    const apple = new Apple(boyClone.x, boyClone.y)
+    apples = [...apples, apple]
+  }
 }
 
 function Apple(x, y) {
@@ -337,14 +339,12 @@ Apple.prototype = {
 }
 
 function boyIsShootingByApple() {
-  if (timeToGameStart === 0) {
     apples.forEach(apple => {
       if (apple.y > 0) {
         apple.draw()
         apple.move()
       }
     })
-  }
 }
 
 
