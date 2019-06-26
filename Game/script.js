@@ -23,6 +23,8 @@ const POINTS_FOR_VEGETABLE = 10
 const POINTS_FOR_BOMB = -50
 const GAMEOVER_SIZE = 192
 let isItGameOver = false
+let arrScores = [0]
+let bestScore = arrScores
 
 class Burger {
   constructor(x, y) {
@@ -109,9 +111,11 @@ function drawGame() {
   drawBoy()
   drawPauseButton()
   drawPoints()
+  drawBestScore()
   drawCounter(timeToGameStart)
-  appleBurgerCollision();
+  appleBurgerCollision()
   drawGameOver()
+  getBestScore()
   
   if (!isPlaying) {
     drawInstruction()
@@ -553,6 +557,21 @@ function drawPoints() {
   ctx.font = "25px Russo One";
   ctx.fillStyle = "#000";
   ctx.fillText(`SCORE: ${points}`, WIDTH - 100, 18);
+}
+function drawBestScore() {
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.font = "25px Russo One";
+  ctx.fillStyle = "#000";
+  ctx.fillText(`BEST SCORE: ${arrScores[0]}`, WIDTH - 400, 18);
+}
+function getBestScore(){
+  if (isItGameOver){
+    arrScores.unshift(points)
+  
+
+  }
+
 }
 
 function drawGameOver() {
