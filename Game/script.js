@@ -583,7 +583,10 @@ function drawBestScore() {
 }
 function getBestScore(){
   if (isItGameOver){
+    if (points>arrScores[0]){
     arrScores.unshift(points)
+    arrScores.slice(0,3)
+    }
   }
 
 }
