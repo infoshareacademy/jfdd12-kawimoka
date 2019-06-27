@@ -601,7 +601,7 @@ function getBestScore(){
     arrScores.unshift(points)
     arrScores.slice(0,3)
     }
-  }
+  } //tu wejdzie else, jak nie bedzie game over to zczytaj wynik z local storage
 }
 
 function drawGameOver() {
@@ -630,6 +630,5 @@ function drawFatBoy() {
 }
 
 
- 
-  
+
 
