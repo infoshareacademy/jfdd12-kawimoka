@@ -429,50 +429,7 @@ main {
     display: none;
   }
 }
-/* Footer css */
 
-.form-name input {
-  text-align: center;
-  margin: 0 auto;
-}
-
-.form-email {
-  font-size: 18px;
-  grid-area: 4/3/5/4;
-  justify-self: center;
-}
-
-.form-email input {
-  text-align: center;
-  margin: 0 auto;
-}
-
-.form-info {
-  grid-area: 7/3/8/4;
-  font-size: 14px;
-  margin-left: 5px;
-}
-.form-info p {
-  margin: 5px;
-}
-
-.form-button {
-  grid-area: 6/3/7/4;
-  text-transform: uppercase;
-  color: white;
-  background-color: #00cfbf;
-  border: 0;
-  font-family: 'Lato', sans-serif;
-  font-size: 150%;
-  font-weight: bold;
-  padding: 20px;
-  margin: 0 auto;
-  border-radius: 25px;
-}
-
-.form-button:hover {
-  background-color: #08ada0;
-}
 
 /* Footer css */
 
