@@ -26,6 +26,7 @@ const POINTS_FOR_BOMB = -50
 const GAMEOVER_SIZE = 192
 let isItGameOver = false
 
+
 let tableOfScores=[];
 
 
@@ -144,6 +145,7 @@ function drawGame() {
   //getBestScore()
   saveScore()
   enterToPlay()
+  drawMessageAfterNewRecord()
  
 
   if (LIVES <= 2) {
@@ -583,8 +585,9 @@ function drawBestScore() {
   ctx.textBaseline = 'middle'
   ctx.font = '25px Russo One'
   ctx.fillStyle = '#000'
-  let tabSco = rank.split(" ").map(Number);
-  let bestScore  = Math.max.apply(Math, tabSco)
+  tabSco = rank.split(" ").map(Number);
+  bestScore  = Math.max.apply(Math, tabSco)
+  
   ctx.fillText(`BEST SCORE: ${bestScore}`, WIDTH - 400, 18)
 }
 
@@ -619,6 +622,18 @@ function drawLives() {
 
 function drawFatBoy() {
   ctx.drawImage(images.boyfat, boy.x, boy.y, BOY_WIDTH, BOY_HEIGHT)
+}
+
+function drawMessageAfterNewRecord() {
+  if (points > bestScore && isItGameOver && bestScore !== 0) {
+    ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.font = '25px Russo One'
+  ctx.fillStyle = '#fff'
+  ctx.fillText(`You set new record: ${bestScore}!`, WIDTH - 670, 68)
+  }
+
+
 }
 
 
