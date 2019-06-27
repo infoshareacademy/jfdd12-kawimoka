@@ -23,7 +23,7 @@ const POINTS_FOR_VEGETABLE = 10
 const POINTS_FOR_BOMB = -50
 const GAMEOVER_SIZE = 192
 let isItGameOver = false
-let arrScores = [0]
+let arrScores = [0, 0, 0]
 let bestScore = arrScores
 let safeScore
 
@@ -586,6 +586,11 @@ function getBestScore(){
   if (isItGameOver){
     if (points>arrScores[0]){
     arrScores.unshift(points)
+  }if else (points>arrScores[1]){
+    arrScores[1]=points
+  }if else(arrScores>arrScores[2]){
+    arrScores[2]=points
+  }
     arrScores.slice(0,3)
     }
   }
