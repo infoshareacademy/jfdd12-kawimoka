@@ -26,8 +26,14 @@ const POINTS_FOR_BOMB = -50
 const GAMEOVER_SIZE = 192
 let isItGameOver = false
 let arrScores = [0,0,0]
-let bestScore = arrScores
+let rank 
+let bestScore =[]
 let safeScore
+
+if (rank==undefined){
+  bestScore=[0]
+} else bestScore= rank
+
 
 class Burger {
   constructor(x, y) {
@@ -573,7 +579,7 @@ function drawBestScore() {
   ctx.textBaseline = 'middle'
   ctx.font = '25px Russo One'
   ctx.fillStyle = '#000'
-  ctx.fillText(`BEST SCORE: ${arrScores[0]}`, WIDTH - 400, 18)
+  ctx.fillText(`BEST SCORE: ${bestScore[0]}`, WIDTH - 400, 18)
 }
 function getBestScore() {
   arrScores=[0,0,0]
@@ -614,8 +620,8 @@ function addToRank() {
 safeScore = arrScores
 if (safeScore){
   localStorage.setItem('safeScore', safeScore)}
-
-var rank = localStorage.getItem('safeScore')
+  rank = localStorage.getItem('safeScore')
+  
 }
 
 function drawFatBoy() {
