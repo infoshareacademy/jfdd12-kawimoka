@@ -27,6 +27,7 @@ const POINTS_FOR_BURGER = 10
 const GAMEOVER_SIZE = 192
 let isItGameOver = false
 let speed = 2
+let boySpeed = 10
 
 let bestScore = 0;
 let initialBestScore = 0 
@@ -74,8 +75,8 @@ const body = document.querySelector('body')
 const canvas = document.createElement('canvas')
 body.append(canvas)
 
-canvas.setAttribute('width', `${30 * BURGER_SIZE}px`)
-canvas.setAttribute('height', `${20 * BURGER_SIZE}px`)
+canvas.setAttribute('width', WIDTH)
+canvas.setAttribute('height', HEIGHT)
 const ctx = canvas.getContext('2d')
 
 let isPlaying = false
@@ -147,6 +148,7 @@ function drawGame() {
   
 
   if (LIVES <= 2) {
+    boySpeed = 5
     drawFatBoy()
   }
 
@@ -284,12 +286,12 @@ function drawBackground() {
 function movingBoy() {
   const moveRight = () => {
     if (WIDTH - BOY_WIDTH > boy.x) {
-      boy.x = boy.x + 10
+      boy.x = boy.x + boySpeed
     }
   }
   const moveLeft = () => {
     if (boy.x > 0) {
-      boy.x = boy.x - 10
+      boy.x = boy.x - boySpeed
     }
   }
 
