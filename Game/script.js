@@ -18,6 +18,8 @@ const BROKUL_HEIGHT = 80 / 4
 const GRAVITY = 15
 let counter = 3
 let points = 0
+let LIVES = 5
+const LIVES_FOR_BOMB = -1
 let burgers = []
 const POINTS_FOR_VEGETABLE = 10
 const POINTS_FOR_BOMB = -50
@@ -111,11 +113,14 @@ function drawGame() {
   drawBoy()
   drawPauseButton()
   drawPoints()
+  drawLives()
   drawBestScore()
   drawCounter(timeToGameStart)
   appleBurgerCollision()
   drawGameOver()
   getBestScore()
+  badPlayer()
+ 
   
   if (!isPlaying) {
     drawInstruction()
@@ -171,7 +176,7 @@ function loadAllImages() {
     "brokul",
     "marchew",
     "bomb",
-    "game-over"
+    "game-over",
   ];
   const imagesPaths = imagesNames.map(
     imageName => `game-images/${imageName}.png`
@@ -504,6 +509,7 @@ function listenToCollision(vegetable) {
   if (hasCollision && !vegetable.isSafe) {
     itemDisappears(vegetable);
     points = points + POINTS_FOR_BOMB;
+    LIVES = LIVES + LIVES_FOR_BOMB;
   }
 }
 
@@ -558,6 +564,7 @@ function drawPoints() {
   ctx.fillStyle = "#000";
   ctx.fillText(`SCORE: ${points}`, WIDTH - 100, 18);
 }
+
 function drawBestScore() {
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
@@ -571,7 +578,6 @@ function getBestScore(){
   
 
   }
-
 }
 
 function drawGameOver() {
@@ -585,3 +591,17 @@ function drawGameOver() {
     )
   }
 }
+
+
+function drawLives() {
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.font = "25px Russo One";
+  ctx.fillStyle = "#fff";
+  ctx.fillText(`LIVES: ${LIVES}`, WIDTH - 670, 18);
+}
+
+
+ 
+  
+
