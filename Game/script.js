@@ -27,6 +27,7 @@ const GAMEOVER_SIZE = 192
 let isItGameOver = false
 let arrScores = [0]
 let bestScore = arrScores
+let rank;
 
 class Burger {
   constructor(x, y) {
