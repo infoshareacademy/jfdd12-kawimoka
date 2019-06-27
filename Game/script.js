@@ -638,22 +638,5 @@ function drawFatBoy() {
   ctx.drawImage(images.boyfat, boy.x, boy.y, BOY_WIDTH, BOY_HEIGHT)
 }
 
-// var blabla = function() {
-//   ctx.textAlign = 'center'
-//   ctx.textBaseline = 'middle'
-//   ctx.font = '25px Russo One'
-//   ctx.fillStyle = 'black'
-//   ctx.fillText(`Congrats, You set new record: ${points}!`, WIDTH/2, 68)
-// }
-
-
-
-// function drawMessageAfterNewRecord() {
-//   if (points > bestScore) {
-//     bestScore = points
-//     setTimeout(blabla,3000)
-    
-//   }
-// }
 
 
