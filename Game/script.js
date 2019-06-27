@@ -18,12 +18,14 @@ const BROKUL_HEIGHT = 80 / 4
 const GRAVITY = 15
 let counter = 3
 let points = 0
+let LIVES = 3
+const LIVES_FOR_BOMB = -1
 let burgers = []
 const POINTS_FOR_VEGETABLE = 10
 const POINTS_FOR_BOMB = -50
 const GAMEOVER_SIZE = 192
 let isItGameOver = false
-let arrScores = [0]
+let arrScores = [0,0,0]
 let bestScore = arrScores
 let safeScore
 
@@ -31,7 +33,7 @@ class Burger {
   constructor(x, y) {
     this.initX = x
     this.initY = y
-    this.vx = 5
+    this.vx = 3
     this.reset()
   }
 
@@ -45,6 +47,9 @@ class Burger {
   changeDirection() {
     this.vx = -this.vx
     this.y += BURGER_SIZE / 2
+  }
+  speeding() {
+    this.vx += this.vx
   }
 }
 
@@ -69,27 +74,26 @@ let isShooting = false
 var images
 addClickEventToCanvas()
 loadAllImages().then(values => {
-  images = values;
-  animate(0);
-});
+  images = values
+  animate(0)
+})
 
-let lastTime = 0;
-let delta = 0;
-let elapsedTime = 0;
-let timeToGameStart = 3;
+let lastTime = 0
+let delta = 0
+let elapsedTime = 0
+let timeToGameStart = 3
 function animate(time) {
-  delta = time - lastTime;
-  drawGame();
-  requestId = window.requestAnimationFrame(animate);
-  lastTime = time;
+  delta = time - lastTime
+  drawGame()
+  requestId = window.requestAnimationFrame(animate)
+  lastTime = time
 }
 
-
 function doEverySecond(callback) {
-  elapsedTime += delta;
+  elapsedTime += delta
   if (elapsedTime > 1000) {
-    elapsedTime = 0;
-    callback();
+    elapsedTime = 0
+    callback()
   }
 }
 
@@ -99,12 +103,11 @@ function fallingVeggies() {
   }
   setInterval(() => {
     if (!isPlaying) {
-      return;
+      return
     }
     let vegetable = new Vegetable()
     vegetables = [...vegetables, vegetable]
   }, 1000)
-
 }
 
 let vegetables = []
@@ -112,17 +115,31 @@ let vegetables = []
 fallingVeggies()
 generateBurgers()
 
+function generateAgain() {
+  if (burgers.length === 0) {
+    generateBurgers()
+    burgers.forEach(burger => burger.speeding())
+  }
+}
+
 function drawGame() {
   drawBackground()
   drawBoy()
   drawPauseButton()
   drawPoints()
+  drawLives()
   drawBestScore()
   drawCounter(timeToGameStart)
   appleBurgerCollision()
   drawGameOver()
   getBestScore()
-  
+  enterToPlay()
+  addToRank()
+
+  if (LIVES <= 2) {
+    drawFatBoy()
+  }
+
   if (!isPlaying) {
     drawInstruction()
     drawPlayButton()
@@ -133,7 +150,19 @@ function drawGame() {
     movingBoy()
     boyIsShootingByApple()
     drawVegetables()
+    generateAgain()
     animateBurgers()
+  }
+}
+
+function enterToPlay() {
+  window.addEventListener('keydown', enterKeyCheck, false)
+
+  function enterKeyCheck(s) {
+    if (s.keyCode == 13) {
+      isPlaying = true
+      return true
+    }
   }
 }
 
@@ -168,20 +197,20 @@ function loadImage(imageUrl) {
 
 function loadAllImages() {
   const imagesNames = [
-    "background",
-    "instruction",
-    "burger",
-    "pause",
-    "play",
-    "boy-skinny",
-    "brokul",
-    "marchew",
-    "bomb",
-    "game-over"
-  ];
-  const imagesPaths = imagesNames.map(
-    imageName => `game-images/${imageName}.png`
-  );
+    'background',
+    'instruction',
+    'burger',
+    'pause',
+    'play',
+    'boy-skinny',
+    'brokul',
+    'marchew',
+    'bomb',
+    'game-over',
+    'boy-fat'
+  ]
+
+  const imagesPaths = imagesNames.map(imageName => `game-images/${imageName}.png`)
   const imagesPromises = imagesPaths.map(imagePath => loadImage(imagePath))
 
   return Promise.all(imagesPromises).then(loadedImages => {
@@ -217,7 +246,8 @@ function checkIfclickOnPauseButton(relativeClickX, relativeClickY) {
 
 function generateBurgers() {
   if (isItGameOver) {
-    return}
+    return
+  }
 
   for (let i = 0; i < numOfBurgers; i++) {
     burgers.push(new Burger(i * SPACE_BETWEEN + FREE_SPACE, BURGER_SIZE))
@@ -296,13 +326,13 @@ function drawBurger(x, y, width, height) {
 
 function drawCounter(value) {
   if (value === 0) {
-    return;
+    return
   }
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.font = "50px Russo One";
-  ctx.fillStyle = "#000";
-  ctx.fillText(value, WIDTH / 2, HEIGHT / 2);
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.font = '50px Russo One'
+  ctx.fillStyle = '#000'
+  ctx.fillText(value, WIDTH / 2, HEIGHT / 2)
 }
 
 function drawImage(imageUrl, x, y, w, h, onload = () => {}) {
@@ -354,15 +384,15 @@ Apple.prototype = {
 
 function boyIsShootingByApple() {
   if (isItGameOver) {
-    return}
-    apples.forEach(apple => {
-      if (apple.y > 0) {
-        apple.draw()
-        apple.move()
-      }
-    })
+    return
+  }
+  apples.forEach(apple => {
+    if (apple.y > 0) {
+      apple.draw()
+      apple.move()
+    }
+  })
 }
-
 
 function appleBurgerCollision() {
   if (isItGameOver) {
@@ -370,7 +400,7 @@ function appleBurgerCollision() {
   }
 
   burgers.forEach((burger, indexBurger) => {
-    const burgerArea = { x: burger.x, y: burger.y, width: BURGER_SIZE, height: BURGER_SIZE };
+    const burgerArea = { x: burger.x, y: burger.y, width: BURGER_SIZE, height: BURGER_SIZE }
 
     apples.forEach((apple, indexApple) => {
       const appleArea = {
@@ -378,35 +408,30 @@ function appleBurgerCollision() {
         y: apple.y,
         width: BROKUL_WIDTH,
         height: BROKUL_HEIGHT
-      };
+      }
 
       const appleHasCollision =
-      appleArea.x < burgerArea.x + burgerArea.width &&
-      appleArea.x + appleArea.width > burgerArea.x &&
-      appleArea.y < burgerArea.y + burgerArea.height &&
-      appleArea.y + appleArea.height > burgerArea.y;
-   
-    if (appleHasCollision) {
-      points = points + 10;
-      //console.log(burgers[indexBurger]);
-      burgers = burgers.filter((b, i) => !(i === indexBurger));
-      apples = apples.filter((a, i) => !(i === indexApple));
-      
-    }
+        appleArea.x < burgerArea.x + burgerArea.width &&
+        appleArea.x + appleArea.width > burgerArea.x &&
+        appleArea.y < burgerArea.y + burgerArea.height &&
+        appleArea.y + appleArea.height > burgerArea.y
+
+      if (appleHasCollision) {
+        points = points + 10
+        //console.log(burgers[indexBurger]);
+        burgers = burgers.filter((b, i) => !(i === indexBurger))
+        apples = apples.filter((a, i) => !(i === indexApple))
+      }
     })
   })
 }
- 
-
-
-
 
 function Vegetable() {
   this.x = Math.floor(Math.random() * 900 - 50)
   this.y = -30
   const vegetables = [
     {
-      name: "marchew",
+      name: 'marchew',
       width: 18,
       height: 60,
       isSafe: true
@@ -418,19 +443,19 @@ function Vegetable() {
       isSafe: true
     },
     {
-      name: "bomb",
+      name: 'bomb',
       width: 30,
       height: 30,
       isSafe: false
     }
-  ];
+  ]
 
-  const randomIndex = Math.floor(Math.random() * vegetables.length);
-  const vegetable = vegetables[randomIndex];
-  this.image = images[vegetable.name];
-  this.width = vegetable.width;
-  this.height = vegetable.height;
-  this.isSafe = vegetable.isSafe;
+  const randomIndex = Math.floor(Math.random() * vegetables.length)
+  const vegetable = vegetables[randomIndex]
+  this.image = images[vegetable.name]
+  this.width = vegetable.width
+  this.height = vegetable.height
+  this.isSafe = vegetable.isSafe
 }
 
 Vegetable.prototype = {
@@ -455,26 +480,65 @@ function drawVegetables() {
   }
 }
 
+function listenToCollision(vegetable) {
+  var rect1 = {
+    x: vegetable.x,
+    y: vegetable.y,
+    width: vegetable.width,
+    height: vegetable.height
+  }
+  var rect2 = { x: boy.x, y: boy.y, width: BOY_WIDTH, height: BOY_HEIGHT }
+
+  const hasCollision =
+    rect1.x < rect2.x + rect2.width &&
+    rect1.x + rect1.width > rect2.x &&
+    rect1.y < rect2.y + rect2.height &&
+    rect1.y + rect1.height > rect2.y
+
+  function itemDisappears(item) {
+    item.y = -100
+  }
+
+  if (hasCollision && vegetable.isSafe) {
+    itemDisappears(vegetable)
+    points = points + POINTS_FOR_VEGETABLE
+  }
+
+  if (hasCollision && !vegetable.isSafe) {
+    itemDisappears(vegetable)
+    points = points + POINTS_FOR_BOMB
+    LIVES = LIVES + LIVES_FOR_BOMB
+    if (LIVES === 0) {
+      isItGameOver = true
+    }
+  }
+}
 
 function simulateBurger(burger) {
-  //console.log(burger)
+  if (isItGameOver) {
+    return
+  }
   burger.move()
   ctx.drawImage(images.burger, burger.x, burger.y, BURGER_SIZE, BURGER_SIZE)
 
   if (hasBurgerCollisionWithBoy(burger)) {
     burger.reset()
-
+    isItGameOver = true
   }
 }
 
 function burgerOutOfRight() {
   const burger = burgers[burgers.length - 1]
-  return burger.x + BURGER_SIZE > WIDTH
+  const burgerOutOfRight = burger.x + BURGER_SIZE > WIDTH
+
+  return burgerOutOfRight
 }
 
 function burgerOutOfLeft() {
   const burger = burgers[0]
-  return burger.x < 0
+  const burgerOutOfLeft = burger.x < 0
+
+  return burgerOutOfLeft
 }
 
 function hasBurgerCollisionWithBoy(burger) {
@@ -488,116 +552,48 @@ function clearCanvas() {
 }
 
 function animateBurgers() {
-  burgers.forEach(burger => simulateBurger(burger))
-  if (burgerOutOfLeft() || burgerOutOfRight()) {
-    burgers.forEach(burger => burger.changeDirection())}
-  }
-
-function listenToCollision(vegetable) {
-  var rect1 = {
-    x: vegetable.x,
-    y: vegetable.y,
-    width: vegetable.width,
-    height: vegetable.height
-  };
-  var rect2 = { x: boy.x, y: boy.y, width: BOY_WIDTH, height: BOY_HEIGHT };
-
-  const hasCollision =
-    rect1.x < rect2.x + rect2.width &&
-    rect1.x + rect1.width > rect2.x &&
-    rect1.y < rect2.y + rect2.height &&
-    rect1.y + rect1.height > rect2.y;
-
-  function itemDisappears(item) {
-    item.y = -100;
-  }
-
-  if (hasCollision && vegetable.isSafe) {
-    itemDisappears(vegetable);
-    points = points + POINTS_FOR_VEGETABLE;
-  }
-
-  if (hasCollision && !vegetable.isSafe) {
-    itemDisappears(vegetable);
-    points = points + POINTS_FOR_BOMB;
-  }
-}
-
-function simulateBurger(burger) {
-  if (isItGameOver) {
-    return}
-  burger.move();
-  ctx.drawImage(images.burger, burger.x, burger.y, BURGER_SIZE, BURGER_SIZE);
-
-  if (hasBurgerCollisionWithBoy(burger)) {
-    burger.reset();
-    isItGameOver = true
-  }
-}
-
-function burgerOutOfRight() {
-  const burger = burgers[burgers.length - 1];
-  const burgerOutOfRight = burger.x + BURGER_SIZE > WIDTH;
-
-  return burgerOutOfRight;
-}
-
-function burgerOutOfLeft() {
-  const burger = burgers[0];
-  const burgerOutOfLeft = burger.x < 0;
-
-  return burgerOutOfLeft;
-}
-
-function hasBurgerCollisionWithBoy(burger) {
-  const burgerOutOfBottom = burger.y + BURGER_SIZE > HEIGHT - BOY_HEIGHT - 50;
-  return burgerOutOfBottom;
-}
-
-function clearCanvas() {
-  ctx.fillStyle = "white";
-  ctx.fillRect(0, 0, WIDTH, HEIGHT);
-}
-
-function animateBurgers() {
   if (timeToGameStart === 0) {
-    burgers.forEach(burger => simulateBurger(burger));
+    burgers.forEach(burger => simulateBurger(burger))
     if (burgerOutOfLeft() || burgerOutOfRight()) {
-      burgers.forEach(burger => burger.changeDirection());
+      burgers.forEach(burger => burger.changeDirection())
     }
   }
 }
 
 function drawPoints() {
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.font = "25px Russo One";
-  ctx.fillStyle = "#000";
-  ctx.fillText(`SCORE: ${points}`, WIDTH - 100, 18);
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.font = '25px Russo One'
+  ctx.fillStyle = '#000'
+  ctx.fillText(`SCORE: ${points}`, WIDTH - 100, 18)
 }
+
 function drawBestScore() {
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.font = "25px Russo One";
-  ctx.fillStyle = "#000";
-  ctx.fillText(`BEST SCORE: ${arrScores[0]}`, WIDTH - 400, 18);
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.font = '25px Russo One'
+  ctx.fillStyle = '#000'
+  ctx.fillText(`BEST SCORE: ${arrScores[0]}`, WIDTH - 400, 18)
 }
-function getBestScore(){
-  if (isItGameOver){
-    if (points>arrScores[0]){
-    arrScores.unshift(points)
-    arrScores.slice(0,3)
+function getBestScore() {
+  arrScores=[0,0,0]
+  if (isItGameOver) {
+    for(var i =0; i<arrScores.length; i++){
+    if (points > arrScores[i]) {
+        arrScores[i]=points;
+        break;
     }
   }
+  arrScores= arrScores.slice(0,3)
+  }}
 
 
 
-}
 
 function drawGameOver() {
-  if(isItGameOver) {
+  if (isItGameOver) {
     ctx.drawImage(
-      images.gameover, 
+      images.gameover,
       (WIDTH - GAMEOVER_SIZE) / 2,
       (HEIGHT - GAMEOVER_SIZE) / 2,
       GAMEOVER_SIZE,
@@ -606,11 +602,22 @@ function drawGameOver() {
   }
 }
 
+function drawLives() {
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.font = '25px Russo One'
+  ctx.fillStyle = '#fff'
+  ctx.fillText(`LIVES: ${LIVES}`, WIDTH - 670, 18)
+}
 
+function addToRank() {
 safeScore = arrScores
 if (safeScore){
-
-
-localStorage.setItem('safeScore', safeScore)}
+  localStorage.setItem('safeScore', safeScore)}
 
 var rank = localStorage.getItem('safeScore')
+}
+
+function drawFatBoy() {
+  ctx.drawImage(images.boyfat, boy.x, boy.y, BOY_WIDTH, BOY_HEIGHT)
+}
