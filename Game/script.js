@@ -397,6 +397,9 @@ function appleBurgerCollision() {
 }
  
 
+
+
+
 function Vegetable() {
   this.x = Math.floor(Math.random() * 900 - 50)
   this.y = -30
@@ -582,6 +585,7 @@ function getBestScore(){
   if (isItGameOver){
     arrScores.unshift(points)
   }
+
 }
 
 function drawGameOver() {
