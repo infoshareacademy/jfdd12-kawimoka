@@ -26,6 +26,7 @@ const POINTS_FOR_BOMB = -50
 const GAMEOVER_SIZE = 192
 let isItGameOver = false
 let speed = 2
+let boySpeed = 10
 
 let tableOfScores = []
 
@@ -142,6 +143,7 @@ function drawGame() {
   enterToPlay()
 
   if (LIVES <= 2) {
+    boySpeed = 5
     drawFatBoy()
   }
 
@@ -268,12 +270,12 @@ function drawBackground() {
 function movingBoy() {
   const moveRight = () => {
     if (WIDTH - BOY_WIDTH > boy.x) {
-      boy.x = boy.x + 10
+      boy.x = boy.x + boySpeed
     }
   }
   const moveLeft = () => {
     if (boy.x > 0) {
-      boy.x = boy.x - 10
+      boy.x = boy.x - boySpeed
     }
   }
 
