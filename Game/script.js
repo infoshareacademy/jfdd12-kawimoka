@@ -124,8 +124,11 @@ function drawGame() {
   appleBurgerCollision()
   drawGameOver()
   getBestScore()
-  badPlayer()
- 
+
+  if(LIVES<=2){
+    drawFatBoy()
+  }
+
   
   if (!isPlaying) {
     drawInstruction()
@@ -182,6 +185,7 @@ function loadAllImages() {
     "marchew",
     "bomb",
     "game-over",
+    "boy-fat",
   ];
   const imagesPaths = imagesNames.map(
     imageName => `game-images/${imageName}.png`
@@ -525,6 +529,9 @@ function listenToCollision(vegetable) {
     itemDisappears(vegetable);
     points = points + POINTS_FOR_BOMB;
     LIVES = LIVES + LIVES_FOR_BOMB;
+    if(LIVES===0){
+      isItGameOver = true;
+    }
   }
 }
 
@@ -613,6 +620,10 @@ function drawLives() {
   ctx.font = "25px Russo One";
   ctx.fillStyle = "#fff";
   ctx.fillText(`LIVES: ${LIVES}`, WIDTH - 670, 18);
+}
+
+function drawFatBoy() {
+  ctx.drawImage(images.boyfat, boy.x, boy.y, BOY_WIDTH, BOY_HEIGHT)
 }
 
 
