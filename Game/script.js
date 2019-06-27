@@ -18,32 +18,34 @@ const BROKUL_HEIGHT = 80 / 4
 const GRAVITY = 15
 let counter = 3
 let points = 0
-let LIVES = 5
+let LIVES = 2
 const LIVES_FOR_BOMB = -1
 let burgers = []
 const POINTS_FOR_VEGETABLE = 10
 const POINTS_FOR_BOMB = -50
+const POINTS_FOR_BURGER = 10
 const GAMEOVER_SIZE = 192
 let isItGameOver = false
+let speed = 2
+let scoreSaved = false;
 
+let tableOfScores = []
 
-let tableOfScores=[];
-
-
-let rank=localStorage.getItem("rank")
-
-function checkIfRankIsNotNull(){
-  if(rank === null){
-rank="0"
-  }
+let rank = JSON.parse(localStorage.getItem('rank'))
+let bestScore = 0
+if(rank !== null){
+  bestScore = rank[0];
+} else {
+  rank = [];
 }
-checkIfRankIsNotNull()
+console.log(bestScore);
+
 
 class Burger {
   constructor(x, y) {
     this.initX = x
     this.initY = y
-    this.vx = 3
+    this.vx = speed
     this.reset()
   }
 
@@ -57,9 +59,6 @@ class Burger {
   changeDirection() {
     this.vx = -this.vx
     this.y += BURGER_SIZE / 2
-  }
-  speeding() {
-    this.vx += this.vx
   }
 }
 
@@ -127,8 +126,8 @@ generateBurgers()
 
 function generateAgain() {
   if (burgers.length === 0) {
+    speed += 2
     generateBurgers()
-    burgers.forEach(burger => burger.speeding())
   }
 }
 
@@ -142,11 +141,9 @@ function drawGame() {
   drawCounter(timeToGameStart)
   appleBurgerCollision()
   drawGameOver()
-  //getBestScore()
-  saveScore()
   enterToPlay()
-  drawMessageAfterNewRecord()
- 
+  // drawMessageAfterNewRecord()
+  
 
   if (LIVES <= 2) {
     drawFatBoy()
@@ -156,6 +153,7 @@ function drawGame() {
     drawInstruction()
     drawPlayButton()
   } else {
+    scoreSaved = false;
     doEverySecond(() => {
       timeToGameStart = timeToGameStart === 0 ? 0 : timeToGameStart - 1
     })
@@ -164,6 +162,13 @@ function drawGame() {
     drawVegetables()
     generateAgain()
     animateBurgers()
+  }
+}
+
+function increasePointsAndCheckIfBestScoreShouldBeReplaced(pointDelta){
+  points += pointDelta
+  if(points > bestScore || bestScore != rank[0]){
+    bestScore = points;
   }
 }
 
@@ -429,7 +434,7 @@ function appleBurgerCollision() {
         appleArea.y + appleArea.height > burgerArea.y
 
       if (appleHasCollision) {
-        points = points + 10
+        increasePointsAndCheckIfBestScoreShouldBeReplaced(POINTS_FOR_BURGER)
         //console.log(burgers[indexBurger]);
         burgers = burgers.filter((b, i) => !(i === indexBurger))
         apples = apples.filter((a, i) => !(i === indexApple))
@@ -513,17 +518,22 @@ function listenToCollision(vegetable) {
 
   if (hasCollision && vegetable.isSafe) {
     itemDisappears(vegetable)
-    points = points + POINTS_FOR_VEGETABLE
+    increasePointsAndCheckIfBestScoreShouldBeReplaced(POINTS_FOR_VEGETABLE)
   }
 
   if (hasCollision && !vegetable.isSafe) {
     itemDisappears(vegetable)
-    points = points + POINTS_FOR_BOMB
+    increasePointsAndCheckIfBestScoreShouldBeReplaced(POINTS_FOR_BOMB)
     LIVES = LIVES + LIVES_FOR_BOMB
     if (LIVES === 0) {
-      isItGameOver = true
+      setGameOver()
     }
   }
+}
+
+function setGameOver(){
+  saveScore()
+  isItGameOver = true;
 }
 
 function simulateBurger(burger) {
@@ -535,7 +545,7 @@ function simulateBurger(burger) {
 
   if (hasBurgerCollisionWithBoy(burger)) {
     burger.reset()
-    isItGameOver = true
+    setGameOver()
   }
 }
 
@@ -580,24 +590,23 @@ function drawPoints() {
   ctx.fillText(`SCORE: ${points}`, WIDTH - 100, 18)
 }
 
+function saveScore() {
+  rank.push(points);
+  rank.sort((a, b) => b-a)
+  localStorage.setItem('rank', JSON.stringify(rank))
+  scoreSaved = true;
+}
+
+
 function drawBestScore() {
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.font = '25px Russo One'
   ctx.fillStyle = '#000'
-  tabSco = rank.split(" ").map(Number);
-  bestScore  = Math.max.apply(Math, tabSco)
   
   ctx.fillText(`BEST SCORE: ${bestScore}`, WIDTH - 400, 18)
 }
 
-
-  function saveScore(){
-    if(isItGameOver){
-     let  rankNew= rank + " " + points
-      JSON.stringify(localStorage.setItem("rank",rankNew))
-    }
-  }
 
 
 function drawGameOver() {
@@ -624,16 +633,22 @@ function drawFatBoy() {
   ctx.drawImage(images.boyfat, boy.x, boy.y, BOY_WIDTH, BOY_HEIGHT)
 }
 
-function drawMessageAfterNewRecord() {
-  if (points > bestScore && isItGameOver && bestScore !== 0) {
-    ctx.textAlign = 'center'
+var blabla = function() {
+  ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.font = '25px Russo One'
-  ctx.fillStyle = '#fff'
-  ctx.fillText(`You set new record: ${bestScore}!`, WIDTH - 670, 68)
-  }
-
-
+  ctx.fillStyle = 'black'
+  ctx.fillText(`Congrats, You set new record: ${points}!`, WIDTH/2, 68)
 }
+
+
+
+// function drawMessageAfterNewRecord() {
+//   if (points > bestScore) {
+//     bestScore = points
+//     setTimeout(blabla,3000)
+    
+//   }
+// }
 
 
