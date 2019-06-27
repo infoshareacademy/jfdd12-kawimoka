@@ -27,12 +27,12 @@ const GAMEOVER_SIZE = 192
 let isItGameOver = false
 let arrScores = [0]
 let bestScore = arrScores
-
+let speed = 2
 class Burger {
   constructor(x, y) {
     this.initX = x
     this.initY = y
-    this.vx = 3
+    this.vx = speed
     this.reset()
   }
 
@@ -46,9 +46,6 @@ class Burger {
   changeDirection() {
     this.vx = -this.vx
     this.y += BURGER_SIZE / 2
-  }
-  speeding() {
-    this.vx += this.vx
   }
 }
 
@@ -116,8 +113,8 @@ generateBurgers()
 
 function generateAgain() {
   if (burgers.length === 0) {
+    speed += 2
     generateBurgers()
-    burgers.forEach(burger => burger.speeding())
   }
 }
 
