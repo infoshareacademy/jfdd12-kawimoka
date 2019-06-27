@@ -121,6 +121,7 @@ function drawGame() {
   appleBurgerCollision()
   drawGameOver()
   getBestScore()
+  enterToPlay()
   
   if (!isPlaying) {
     drawInstruction()
@@ -133,6 +134,17 @@ function drawGame() {
     boyIsShootingByApple()
     drawVegetables()
     animateBurgers()
+  }
+}
+
+function enterToPlay() {
+  window.addEventListener('keydown', enterKeyCheck, false)
+
+  function enterKeyCheck(s) {
+    if (s.keyCode == 13) {
+      isPlaying = true
+      return true
+    }
   }
 }
 
