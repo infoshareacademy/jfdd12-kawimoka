@@ -25,6 +25,7 @@ const GAMEOVER_SIZE = 192
 let isItGameOver = false
 let arrScores = [0]
 let bestScore = arrScores
+let safeScore
 
 class Burger {
   constructor(x, y) {
@@ -589,6 +590,8 @@ function getBestScore(){
     }
   }
 
+
+
 }
 
 function drawGameOver() {
@@ -604,3 +607,10 @@ function drawGameOver() {
 }
 
 
+safeScore = arrScores
+if (safeScore){
+
+
+localStorage.setItem('safeScore', safeScore)}
+
+var rank = localStorage.getItem('safeScore')
