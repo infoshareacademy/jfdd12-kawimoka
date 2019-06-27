@@ -70,8 +70,8 @@ const body = document.querySelector('body')
 const canvas = document.createElement('canvas')
 body.append(canvas)
 
-canvas.setAttribute('width', `${30 * BURGER_SIZE}px`)
-canvas.setAttribute('height', `${20 * BURGER_SIZE}px`)
+canvas.setAttribute('width', WIDTH)
+canvas.setAttribute('height', HEIGHT)
 const ctx = canvas.getContext('2d')
 
 let isPlaying = false
