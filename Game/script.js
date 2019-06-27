@@ -18,16 +18,25 @@ const BROKUL_HEIGHT = 80 / 4
 const GRAVITY = 15
 let counter = 3
 let points = 0
-let LIVES = 5
+let LIVES = 2
 const LIVES_FOR_BOMB = -1
 let burgers = []
 const POINTS_FOR_VEGETABLE = 10
 const POINTS_FOR_BOMB = -50
 const GAMEOVER_SIZE = 192
 let isItGameOver = false
-let arrScores = [0]
-let bestScore = arrScores
-let rank;
+
+let tableOfScores=[];
+
+
+let rank=localStorage.getItem("rank")
+
+function checkIfRankIsNotNull(){
+  if(rank === null){
+rank=0
+  }
+}
+checkIfRankIsNotNull()
 
 class Burger {
   constructor(x, y) {
@@ -132,8 +141,10 @@ function drawGame() {
   drawCounter(timeToGameStart)
   appleBurgerCollision()
   drawGameOver()
-  getBestScore()
+  //getBestScore()
+  saveScore()
   enterToPlay()
+ 
 
   if (LIVES <= 2) {
     drawFatBoy()
@@ -572,16 +583,19 @@ function drawBestScore() {
   ctx.textBaseline = 'middle'
   ctx.font = '25px Russo One'
   ctx.fillStyle = '#000'
-  ctx.fillText(`BEST SCORE: ${arrScores[0]}`, WIDTH - 400, 18)
+  let tabSco = rank.split(" ").map(Number);
+  let bestScore  = Math.max.apply(Math, tabSco)
+  ctx.fillText(`BEST SCORE: ${bestScore}`, WIDTH - 400, 18)
 }
-function getBestScore() {
-  if (isItGameOver) {
-    if (points > arrScores[0]) {
-      arrScores.unshift(points)
-      arrScores.slice(0, 3)
+
+
+  function saveScore(){
+    if(isItGameOver){
+     let  rankNew= rank + " " + points
+      JSON.stringify(localStorage.setItem("rank",rankNew))
     }
-  } //tu wejdzie else, jak nie bedzie game over to zczytaj wynik z local storage
-}
+  }
+
 
 function drawGameOver() {
   if (isItGameOver) {
@@ -606,7 +620,5 @@ function drawLives() {
 function drawFatBoy() {
   ctx.drawImage(images.boyfat, boy.x, boy.y, BOY_WIDTH, BOY_HEIGHT)
 }
-
-
 
 
