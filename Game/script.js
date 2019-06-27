@@ -18,6 +18,8 @@ const BROKUL_HEIGHT = 80 / 4
 const GRAVITY = 15
 let counter = 3
 let points = 0
+let LIVES = 5
+const LIVES_FOR_BOMB = -1
 let burgers = []
 const POINTS_FOR_VEGETABLE = 10
 const POINTS_FOR_BOMB = -50
@@ -82,7 +84,7 @@ let timeToGameStart = 3
 function animate(time) {
   delta = time - lastTime
   drawGame()
-  requestAnimationFrame(animate)
+  requestId = window.requestAnimationFrame(animate)
   lastTime = time
 }
 
@@ -95,6 +97,9 @@ function doEverySecond(callback) {
 }
 
 function fallingVeggies() {
+  if (isItGameOver) {
+    return
+  }
   setInterval(() => {
     if (!isPlaying) {
       return
@@ -121,11 +126,17 @@ function drawGame() {
   drawBoy()
   drawPauseButton()
   drawPoints()
+  drawLives()
   drawBestScore()
   drawCounter(timeToGameStart)
   appleBurgerCollision()
   drawGameOver()
   getBestScore()
+  enterToPlay()
+
+  if (LIVES <= 2) {
+    drawFatBoy()
+  }
 
   if (!isPlaying) {
     drawInstruction()
@@ -139,6 +150,17 @@ function drawGame() {
     drawVegetables()
     generateAgain()
     animateBurgers()
+  }
+}
+
+function enterToPlay() {
+  window.addEventListener('keydown', enterKeyCheck, false)
+
+  function enterKeyCheck(s) {
+    if (s.keyCode == 13) {
+      isPlaying = true
+      return true
+    }
   }
 }
 
@@ -182,8 +204,10 @@ function loadAllImages() {
     'brokul',
     'marchew',
     'bomb',
-    'game-over'
+    'game-over',
+    'boy-fat'
   ]
+
   const imagesPaths = imagesNames.map(imageName => `game-images/${imageName}.png`)
   const imagesPromises = imagesPaths.map(imagePath => loadImage(imagePath))
 
@@ -219,6 +243,10 @@ function checkIfclickOnPauseButton(relativeClickX, relativeClickY) {
 }
 
 function generateBurgers() {
+  if (isItGameOver) {
+    return
+  }
+
   for (let i = 0; i < numOfBurgers; i++) {
     burgers.push(new Burger(i * SPACE_BETWEEN + FREE_SPACE, BURGER_SIZE))
     burgers.push(new Burger(i * SPACE_BETWEEN + FREE_SPACE, BURGER_SIZE + SPACE_BETWEEN))
@@ -325,7 +353,6 @@ function spaceKeyCheck(s) {
 }
 
 function fixAppleToBoy() {
-  //console.log("bang bang")
   if (timeToGameStart === 0) {
     const boyClone = { ...boy }
     const apple = new Apple(boyClone.x, boyClone.y)
@@ -354,6 +381,9 @@ Apple.prototype = {
 }
 
 function boyIsShootingByApple() {
+  if (isItGameOver) {
+    return
+  }
   apples.forEach(apple => {
     if (apple.y > 0) {
       apple.draw()
@@ -363,6 +393,10 @@ function boyIsShootingByApple() {
 }
 
 function appleBurgerCollision() {
+  if (isItGameOver) {
+    return
+  }
+
   burgers.forEach((burger, indexBurger) => {
     const burgerArea = { x: burger.x, y: burger.y, width: BURGER_SIZE, height: BURGER_SIZE }
 
@@ -432,7 +466,9 @@ Vegetable.prototype = {
 }
 
 function drawVegetables() {
-  // console.log(timeToGameStart)
+  if (isItGameOver) {
+    return
+  }
   if (isPlaying === true && timeToGameStart === 0) {
     vegetables.forEach(vegetable => {
       vegetable.draw()
@@ -469,11 +505,17 @@ function listenToCollision(vegetable) {
   if (hasCollision && !vegetable.isSafe) {
     itemDisappears(vegetable)
     points = points + POINTS_FOR_BOMB
+    LIVES = LIVES + LIVES_FOR_BOMB
+    if (LIVES === 0) {
+      isItGameOver = true
+    }
   }
 }
 
 function simulateBurger(burger) {
-  // console.log(burger)
+  if (isItGameOver) {
+    return
+  }
   burger.move()
   ctx.drawImage(images.burger, burger.x, burger.y, BURGER_SIZE, BURGER_SIZE)
 
@@ -523,6 +565,7 @@ function drawPoints() {
   ctx.fillStyle = '#000'
   ctx.fillText(`SCORE: ${points}`, WIDTH - 100, 18)
 }
+
 function drawBestScore() {
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
@@ -532,7 +575,10 @@ function drawBestScore() {
 }
 function getBestScore() {
   if (isItGameOver) {
-    arrScores.unshift(points)
+    if (points > arrScores[0]) {
+      arrScores.unshift(points)
+      arrScores.slice(0, 3)
+    }
   }
 }
 
@@ -546,4 +592,16 @@ function drawGameOver() {
       GAMEOVER_SIZE
     )
   }
+}
+
+function drawLives() {
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.font = '25px Russo One'
+  ctx.fillStyle = '#fff'
+  ctx.fillText(`LIVES: ${LIVES}`, WIDTH - 670, 18)
+}
+
+function drawFatBoy() {
+  ctx.drawImage(images.boyfat, boy.x, boy.y, BOY_WIDTH, BOY_HEIGHT)
 }
