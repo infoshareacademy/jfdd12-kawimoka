@@ -27,18 +27,19 @@ const POINTS_FOR_BURGER = 10
 const GAMEOVER_SIZE = 192
 let isItGameOver = false
 let speed = 2
-let scoreSaved = false;
 
-let tableOfScores = []
+let bestScore = 0;
+let initialBestScore = 0 
 
 let rank = JSON.parse(localStorage.getItem('rank'))
-let bestScore = 0
-if(rank !== null){
-  bestScore = rank[0];
-} else {
+if(rank == null){
   rank = [];
+} 
+if(rank.length > 0){
+  initialBestScore = rank[0];
+  bestScore = initialBestScore
 }
-console.log(bestScore);
+
 
 
 class Burger {
@@ -153,7 +154,6 @@ function drawGame() {
     drawInstruction()
     drawPlayButton()
   } else {
-    scoreSaved = false;
     doEverySecond(() => {
       timeToGameStart = timeToGameStart === 0 ? 0 : timeToGameStart - 1
     })
@@ -167,10 +167,14 @@ function drawGame() {
 
 function increasePointsAndCheckIfBestScoreShouldBeReplaced(pointDelta){
   points += pointDelta
-  if(points > bestScore || bestScore != rank[0]){
-    bestScore = points;
+  if(points < 0){
+    points = 0
+  }
+  if(points >= initialBestScore) {
+    bestScore = points
   }
 }
+
 
 function enterToPlay() {
   window.addEventListener('keydown', enterKeyCheck, false)
@@ -594,7 +598,6 @@ function saveScore() {
   rank.push(points);
   rank.sort((a, b) => b-a)
   localStorage.setItem('rank', JSON.stringify(rank))
-  scoreSaved = true;
 }
 
 
@@ -633,13 +636,13 @@ function drawFatBoy() {
   ctx.drawImage(images.boyfat, boy.x, boy.y, BOY_WIDTH, BOY_HEIGHT)
 }
 
-var blabla = function() {
-  ctx.textAlign = 'center'
-  ctx.textBaseline = 'middle'
-  ctx.font = '25px Russo One'
-  ctx.fillStyle = 'black'
-  ctx.fillText(`Congrats, You set new record: ${points}!`, WIDTH/2, 68)
-}
+// var blabla = function() {
+//   ctx.textAlign = 'center'
+//   ctx.textBaseline = 'middle'
+//   ctx.font = '25px Russo One'
+//   ctx.fillStyle = 'black'
+//   ctx.fillText(`Congrats, You set new record: ${points}!`, WIDTH/2, 68)
+// }
 
 
 
