@@ -79,9 +79,10 @@ let timeToGameStart = 3;
 function animate(time) {
   delta = time - lastTime;
   drawGame();
-  requestAnimationFrame(animate);
+  requestId = window.requestAnimationFrame(animate);
   lastTime = time;
 }
+
 
 function doEverySecond(callback) {
   elapsedTime += delta;
@@ -92,6 +93,8 @@ function doEverySecond(callback) {
 }
 
 function fallingVeggies() {
+  if (isItGameOver === true) {
+    return}
   setInterval(() => {
     if (!isPlaying) {
       return;
@@ -99,6 +102,7 @@ function fallingVeggies() {
     let vegetable = new Vegetable()
     vegetables = [...vegetables, vegetable]
   }, 1000)
+
 }
 
 let vegetables = []
@@ -210,6 +214,9 @@ function checkIfclickOnPauseButton(relativeClickX, relativeClickY) {
 }
 
 function generateBurgers() {
+  if (isItGameOver) {
+    return
+  }
   for (let i = 0; i < numOfBurgers; i++) {
     burgers.push(new Burger(i * SPACE_BETWEEN + FREE_SPACE, BURGER_SIZE))
     burgers.push(new Burger(i * SPACE_BETWEEN + FREE_SPACE, BURGER_SIZE + SPACE_BETWEEN))
@@ -345,6 +352,9 @@ Apple.prototype = {
 }
 
 function boyIsShootingByApple() {
+  if (isItGameOver) {
+    return
+  }
     apples.forEach(apple => {
       if (apple.y > 0) {
         apple.draw()
@@ -355,6 +365,9 @@ function boyIsShootingByApple() {
 
 
 function appleBurgerCollision() {
+  if (isItGameOver) {
+    return
+  }
   burgers.forEach((burger, indexBurger) => {
     const burgerArea = { x: burger.x, y: burger.y, width: BURGER_SIZE, height: BURGER_SIZE };
 
@@ -429,7 +442,8 @@ Vegetable.prototype = {
 }
 
 function drawVegetables() {
-  // console.log(timeToGameStart)
+  if (isItGameOver === true) {
+    return}
   if (isPlaying === true && timeToGameStart === 0) {
     vegetables.forEach(vegetable => {
       vegetable.draw()
@@ -508,7 +522,8 @@ function listenToCollision(vegetable) {
 }
 
 function simulateBurger(burger) {
-  // console.log(burger)
+  if (isItGameOver === true) {
+    return}
   burger.move();
   ctx.drawImage(images.burger, burger.x, burger.y, BURGER_SIZE, BURGER_SIZE);
 
@@ -568,8 +583,6 @@ function drawBestScore() {
 function getBestScore(){
   if (isItGameOver){
     arrScores.unshift(points)
-  
-
   }
 
 }
