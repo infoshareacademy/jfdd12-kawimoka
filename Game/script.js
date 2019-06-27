@@ -93,8 +93,9 @@ function doEverySecond(callback) {
 }
 
 function fallingVeggies() {
-  if (isItGameOver === true) {
-    return}
+  if (isItGameOver) {
+    return
+  }
   setInterval(() => {
     if (!isPlaying) {
       return;
@@ -215,8 +216,8 @@ function checkIfclickOnPauseButton(relativeClickX, relativeClickY) {
 
 function generateBurgers() {
   if (isItGameOver) {
-    return
-  }
+    return}
+
   for (let i = 0; i < numOfBurgers; i++) {
     burgers.push(new Burger(i * SPACE_BETWEEN + FREE_SPACE, BURGER_SIZE))
     burgers.push(new Burger(i * SPACE_BETWEEN + FREE_SPACE, BURGER_SIZE + SPACE_BETWEEN))
@@ -323,7 +324,6 @@ function spaceKeyCheck(s) {
 }
 
 function fixAppleToBoy() {
-  //console.log("bang bang")
   if (timeToGameStart === 0) {
     const boyClone = { ...boy }
     const apple = new Apple(boyClone.x, boyClone.y)
@@ -353,8 +353,7 @@ Apple.prototype = {
 
 function boyIsShootingByApple() {
   if (isItGameOver) {
-    return
-  }
+    return}
     apples.forEach(apple => {
       if (apple.y > 0) {
         apple.draw()
@@ -368,6 +367,7 @@ function appleBurgerCollision() {
   if (isItGameOver) {
     return
   }
+
   burgers.forEach((burger, indexBurger) => {
     const burgerArea = { x: burger.x, y: burger.y, width: BURGER_SIZE, height: BURGER_SIZE };
 
@@ -394,11 +394,8 @@ function appleBurgerCollision() {
     }
     })
   })
-
- }
-
-
-
+}
+ 
 
 function Vegetable() {
   this.x = Math.floor(Math.random() * 900 - 50)
@@ -442,8 +439,9 @@ Vegetable.prototype = {
 }
 
 function drawVegetables() {
-  if (isItGameOver === true) {
-    return}
+  if (isItGameOver) {
+    return
+  }
   if (isPlaying === true && timeToGameStart === 0) {
     vegetables.forEach(vegetable => {
       vegetable.draw()
@@ -522,7 +520,7 @@ function listenToCollision(vegetable) {
 }
 
 function simulateBurger(burger) {
-  if (isItGameOver === true) {
+  if (isItGameOver) {
     return}
   burger.move();
   ctx.drawImage(images.burger, burger.x, burger.y, BURGER_SIZE, BURGER_SIZE);
@@ -584,7 +582,6 @@ function getBestScore(){
   if (isItGameOver){
     arrScores.unshift(points)
   }
-
 }
 
 function drawGameOver() {
@@ -598,3 +595,5 @@ function drawGameOver() {
     )
   }
 }
+
+
