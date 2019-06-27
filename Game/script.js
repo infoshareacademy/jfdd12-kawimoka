@@ -33,7 +33,7 @@ let rank=localStorage.getItem("rank")
 
 function checkIfRankIsNotNull(){
   if(rank === null){
-rank=0
+rank="0"
   }
 }
 checkIfRankIsNotNull()
