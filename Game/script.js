@@ -28,6 +28,7 @@ const GAMEOVER_SIZE = 192
 let isItGameOver = false
 let speed = 2
 let boySpeed = 10
+let bestScoreColor = '#000'
 
 let bestScore = 0;
 let initialBestScore = 0 
@@ -144,7 +145,7 @@ function drawGame() {
   appleBurgerCollision()
   drawGameOver()
   enterToPlay()
-  // drawMessageAfterNewRecord()
+  congratsMessage()
   
 
   if (LIVES <= 2) {
@@ -174,6 +175,9 @@ function increasePointsAndCheckIfBestScoreShouldBeReplaced(pointDelta){
   }
   if(points >= initialBestScore) {
     bestScore = points
+    if (initialBestScore !== 0) {
+    bestScoreColor = 'white'
+    }
   }
 }
 
@@ -441,7 +445,6 @@ function appleBurgerCollision() {
 
       if (appleHasCollision) {
         increasePointsAndCheckIfBestScoreShouldBeReplaced(POINTS_FOR_BURGER)
-        //console.log(burgers[indexBurger]);
         burgers = burgers.filter((b, i) => !(i === indexBurger))
         apples = apples.filter((a, i) => !(i === indexApple))
       }
@@ -607,7 +610,7 @@ function drawBestScore() {
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.font = '25px Russo One'
-  ctx.fillStyle = '#000'
+  ctx.fillStyle = bestScoreColor
   
   ctx.fillText(`BEST SCORE: ${bestScore}`, WIDTH - 400, 18)
 }
@@ -637,6 +640,20 @@ function drawLives() {
 function drawFatBoy() {
   ctx.drawImage(images.boyfat, boy.x, boy.y, BOY_WIDTH, BOY_HEIGHT)
 }
+
+function congratsMessage() {
+  if (isItGameOver && bestScore > initialBestScore) {
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.font = '25px Russo One'
+    ctx.fillStyle = 'black'
+    ctx.fillText(`Congrats, You set new record: ${bestScore}!`, WIDTH/2, 200)
+  }
+}
+
+
+
+
 
 
 
