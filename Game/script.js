@@ -146,6 +146,7 @@ function drawGame() {
   drawGameOver()
   enterToPlay()
   congratsMessage()
+  displayRanking()
   
 
   if (LIVES <= 2) {
@@ -651,7 +652,27 @@ function congratsMessage() {
   }
 }
 
+function displayRanking() {
+  if (isItGameOver) {
 
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.font = '25px Russo One'
+    ctx.fillStyle = 'black'
+    ctx.fillText(`Ranking:`,100, 250)
+    if (rank.length >= 1) {
+      ctx.fillText(`#1: ${rank[0]}`,100, 300)
+    }
+    if (rank.length >= 2) {
+      ctx.fillText(`#2: ${rank[1]}`,100, 350)
+    }
+    if (rank.length >=3) {
+      ctx.fillText(`#3: ${rank[2]}`,100, 400)
+    }
+    // location.reload()
+  }
+
+}
 
 
 
