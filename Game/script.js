@@ -147,6 +147,8 @@ function drawGame() {
   enterToPlay()
   congratsMessage()
   displayRanking()
+  enterToPlayAfterGameover()
+  
   
 
   if (LIVES <= 2) {
@@ -616,8 +618,6 @@ function drawBestScore() {
   ctx.fillText(`BEST SCORE: ${bestScore}`, WIDTH - 400, 18)
 }
 
-
-
 function drawGameOver() {
   if (isItGameOver) {
     ctx.drawImage(
@@ -654,7 +654,6 @@ function congratsMessage() {
 
 function displayRanking() {
   if (isItGameOver) {
-
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
     ctx.font = '25px Russo One'
@@ -669,9 +668,27 @@ function displayRanking() {
     if (rank.length >=3) {
       ctx.fillText(`#3: ${rank[2]}`,WIDTH/2, 420)
     }
-    // location.reload()
   }
 
+}
+
+function enterToPlayAfterGameover() {
+  if (isItGameOver) {
+    window.addEventListener('keydown', enterKeyCheck, false)
+
+    function enterKeyCheck(s) {
+      if (s.keyCode == 13) {
+        location.reload()
+        return true
+      }
+    }
+
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.font = '25px Russo One'
+    ctx.fillStyle = 'white'
+    ctx.fillText('Press enter to play again', 180, HEIGHT- 70)
+  }
 }
 
 
