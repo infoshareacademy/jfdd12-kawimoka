@@ -18,7 +18,7 @@ const BROKUL_HEIGHT = 80 / 4
 const GRAVITY = 15
 let counter = 3
 let points = 0
-let LIVES = 4
+let LIVES = 2
 const LIVES_FOR_BOMB = -1
 let burgers = []
 const POINTS_FOR_VEGETABLE = 10
@@ -623,7 +623,7 @@ function drawGameOver() {
     ctx.drawImage(
       images.gameover,
       (WIDTH - GAMEOVER_SIZE) / 2,
-      (HEIGHT - GAMEOVER_SIZE) / 2,
+      40,
       GAMEOVER_SIZE,
       GAMEOVER_SIZE
     )
@@ -648,7 +648,7 @@ function congratsMessage() {
     ctx.textBaseline = 'middle'
     ctx.font = '25px Russo One'
     ctx.fillStyle = 'black'
-    ctx.fillText(`Congrats, You set new record: ${bestScore}!`, WIDTH/2, 200)
+    ctx.fillText(`Congrats, You set new record: ${bestScore}!`, WIDTH/2, HEIGHT/2 - 50)
   }
 }
 
@@ -659,15 +659,15 @@ function displayRanking() {
     ctx.textBaseline = 'middle'
     ctx.font = '25px Russo One'
     ctx.fillStyle = 'black'
-    ctx.fillText(`Ranking:`,100, 250)
+    ctx.fillText(`Ranking:`,WIDTH/2, 300)
     if (rank.length >= 1) {
-      ctx.fillText(`#1: ${rank[0]}`,100, 300)
+      ctx.fillText(`#1: ${rank[0]}`,WIDTH/2, 340)
     }
     if (rank.length >= 2) {
-      ctx.fillText(`#2: ${rank[1]}`,100, 350)
+      ctx.fillText(`#2: ${rank[1]}`,WIDTH/2, 380)
     }
     if (rank.length >=3) {
-      ctx.fillText(`#3: ${rank[2]}`,100, 400)
+      ctx.fillText(`#3: ${rank[2]}`,WIDTH/2, 420)
     }
     // location.reload()
   }
