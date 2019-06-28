@@ -18,31 +18,37 @@ const BROKUL_HEIGHT = 80 / 4
 const GRAVITY = 15
 let counter = 3
 let points = 0
-let LIVES = 5
+let LIVES = 2
 const LIVES_FOR_BOMB = -1
 let burgers = []
 const POINTS_FOR_VEGETABLE = 10
 const POINTS_FOR_BOMB = -50
+const POINTS_FOR_BURGER = 10
 const GAMEOVER_SIZE = 192
 let isItGameOver = false
+let speed = 2
+let boySpeed = 10
+let bestScoreColor = '#000'
 
-let tableOfScores=[];
+let bestScore = 0;
+let initialBestScore = 0 
 
-
-let rank=localStorage.getItem("rank")
-
-function checkIfRankIsNotNull(){
-  if(rank === null){
-rank="0"
-  }
+let rank = JSON.parse(localStorage.getItem('rank'))
+if(rank == null){
+  rank = [];
+} 
+if(rank.length > 0){
+  initialBestScore = rank[0];
+  bestScore = initialBestScore
 }
-checkIfRankIsNotNull()
+
+
 
 class Burger {
   constructor(x, y) {
     this.initX = x
     this.initY = y
-    this.vx = 3
+    this.vx = speed
     this.reset()
   }
 
@@ -57,9 +63,6 @@ class Burger {
     this.vx = -this.vx
     this.y += BURGER_SIZE / 2
   }
-  speeding() {
-    this.vx += this.vx
-  }
 }
 
 let boy = {
@@ -73,8 +76,8 @@ const body = document.querySelector('body')
 const canvas = document.createElement('canvas')
 body.append(canvas)
 
-canvas.setAttribute('width', `${30 * BURGER_SIZE}px`)
-canvas.setAttribute('height', `${20 * BURGER_SIZE}px`)
+canvas.setAttribute('width', WIDTH)
+canvas.setAttribute('height', HEIGHT)
 const ctx = canvas.getContext('2d')
 
 let isPlaying = false
@@ -126,8 +129,8 @@ generateBurgers()
 
 function generateAgain() {
   if (burgers.length === 0) {
+    speed += 2
     generateBurgers()
-    burgers.forEach(burger => burger.speeding())
   }
 }
 
@@ -141,12 +144,15 @@ function drawGame() {
   drawCounter(timeToGameStart)
   appleBurgerCollision()
   drawGameOver()
-  //getBestScore()
-  saveScore()
   enterToPlay()
- 
+  congratsMessage()
+  displayRanking()
+  enterToPlayAfterGameover()
+  
+  
 
   if (LIVES <= 2) {
+    boySpeed = 5
     drawFatBoy()
   }
 
@@ -164,6 +170,20 @@ function drawGame() {
     animateBurgers()
   }
 }
+
+function increasePointsAndCheckIfBestScoreShouldBeReplaced(pointDelta){
+  points += pointDelta
+  if(points < 0){
+    points = 0
+  }
+  if(points >= initialBestScore) {
+    bestScore = points
+    if (initialBestScore !== 0) {
+    bestScoreColor = 'white'
+    }
+  }
+}
+
 
 function enterToPlay() {
   window.addEventListener('keydown', enterKeyCheck, false)
@@ -273,12 +293,12 @@ function drawBackground() {
 function movingBoy() {
   const moveRight = () => {
     if (WIDTH - BOY_WIDTH > boy.x) {
-      boy.x = boy.x + 10
+      boy.x = boy.x + boySpeed
     }
   }
   const moveLeft = () => {
     if (boy.x > 0) {
-      boy.x = boy.x - 10
+      boy.x = boy.x - boySpeed
     }
   }
 
@@ -427,8 +447,7 @@ function appleBurgerCollision() {
         appleArea.y + appleArea.height > burgerArea.y
 
       if (appleHasCollision) {
-        points = points + 10
-        //console.log(burgers[indexBurger]);
+        increasePointsAndCheckIfBestScoreShouldBeReplaced(POINTS_FOR_BURGER)
         burgers = burgers.filter((b, i) => !(i === indexBurger))
         apples = apples.filter((a, i) => !(i === indexApple))
       }
@@ -511,17 +530,22 @@ function listenToCollision(vegetable) {
 
   if (hasCollision && vegetable.isSafe) {
     itemDisappears(vegetable)
-    points = points + POINTS_FOR_VEGETABLE
+    increasePointsAndCheckIfBestScoreShouldBeReplaced(POINTS_FOR_VEGETABLE)
   }
 
   if (hasCollision && !vegetable.isSafe) {
     itemDisappears(vegetable)
-    points = points + POINTS_FOR_BOMB
+    increasePointsAndCheckIfBestScoreShouldBeReplaced(POINTS_FOR_BOMB)
     LIVES = LIVES + LIVES_FOR_BOMB
     if (LIVES === 0) {
-      isItGameOver = true
+      setGameOver()
     }
   }
+}
+
+function setGameOver(){
+  saveScore()
+  isItGameOver = true;
 }
 
 function simulateBurger(burger) {
@@ -533,7 +557,7 @@ function simulateBurger(burger) {
 
   if (hasBurgerCollisionWithBoy(burger)) {
     burger.reset()
-    isItGameOver = true
+    setGameOver()
   }
 }
 
@@ -578,31 +602,28 @@ function drawPoints() {
   ctx.fillText(`SCORE: ${points}`, WIDTH - 100, 18)
 }
 
+function saveScore() {
+  rank.push(points);
+  rank.sort((a, b) => b-a)
+  localStorage.setItem('rank', JSON.stringify(rank))
+}
+
+
 function drawBestScore() {
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.font = '25px Russo One'
-  ctx.fillStyle = '#000'
-  let tabSco = rank.split(" ").map(Number);
-  let bestScore  = Math.max.apply(Math, tabSco)
+  ctx.fillStyle = bestScoreColor
+  
   ctx.fillText(`BEST SCORE: ${bestScore}`, WIDTH - 400, 18)
 }
-
-
-  function saveScore(){
-    if(isItGameOver){
-     let  rankNew= rank + " " + points
-      JSON.stringify(localStorage.setItem("rank",rankNew))
-    }
-  }
-
 
 function drawGameOver() {
   if (isItGameOver) {
     ctx.drawImage(
       images.gameover,
       (WIDTH - GAMEOVER_SIZE) / 2,
-      (HEIGHT - GAMEOVER_SIZE) / 2,
+      40,
       GAMEOVER_SIZE,
       GAMEOVER_SIZE
     )
@@ -620,5 +641,57 @@ function drawLives() {
 function drawFatBoy() {
   ctx.drawImage(images.boyfat, boy.x, boy.y, BOY_WIDTH, BOY_HEIGHT)
 }
+
+function congratsMessage() {
+  if (isItGameOver && bestScore > initialBestScore) {
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.font = '25px Russo One'
+    ctx.fillStyle = 'black'
+    ctx.fillText(`Congrats, You set new record: ${bestScore}!`, WIDTH/2, HEIGHT/2 - 50)
+  }
+}
+
+function displayRanking() {
+  if (isItGameOver) {
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.font = '25px Russo One'
+    ctx.fillStyle = 'black'
+    ctx.fillText(`Ranking:`,WIDTH/2, 300)
+    if (rank.length >= 1) {
+      ctx.fillText(`#1: ${rank[0]}`,WIDTH/2, 340)
+    }
+    if (rank.length >= 2) {
+      ctx.fillText(`#2: ${rank[1]}`,WIDTH/2, 380)
+    }
+    if (rank.length >=3) {
+      ctx.fillText(`#3: ${rank[2]}`,WIDTH/2, 420)
+    }
+  }
+
+}
+
+function enterToPlayAfterGameover() {
+  if (isItGameOver) {
+    window.addEventListener('keydown', enterKeyCheck, false)
+
+    function enterKeyCheck(s) {
+      if (s.keyCode == 13) {
+        location.reload()
+        return true
+      }
+    }
+
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.font = '25px Russo One'
+    ctx.fillStyle = 'white'
+    ctx.fillText('Press enter to play again', 180, HEIGHT- 70)
+  }
+}
+
+
+
 
 
