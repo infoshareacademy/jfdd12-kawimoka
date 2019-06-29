@@ -10,6 +10,15 @@ h2 {
   text-align: center;
 }
 
+#team-nav {
+  letter-spacing: 2px;
+  margin-bottom: 50px;
+}
+
+.hide-pictures {
+  display: none;
+}
+
 hr {
   border: 1px solid #08ada0;
   width: 90%;
