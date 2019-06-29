@@ -54,7 +54,7 @@
     color: #0d8b81;
     transform: rotateY(180deg);
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     }
