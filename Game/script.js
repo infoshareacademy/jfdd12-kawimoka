@@ -30,19 +30,17 @@ let speed = 2
 let boySpeed = 10
 let bestScoreColor = '#000'
 
-let bestScore = 0;
-let initialBestScore = 0 
+let bestScore = 0
+let initialBestScore = 0
 
 let rank = JSON.parse(localStorage.getItem('rank'))
-if(rank == null){
-  rank = [];
-} 
-if(rank.length > 0){
-  initialBestScore = rank[0];
+if (rank == null) {
+  rank = []
+}
+if (rank.length > 0) {
+  initialBestScore = rank[0]
   bestScore = initialBestScore
 }
-
-
 
 class Burger {
   constructor(x, y) {
@@ -148,8 +146,6 @@ function drawGame() {
   congratsMessage()
   displayRanking()
   enterToPlayAfterGameover()
-  
-  
 
   if (LIVES <= 2) {
     boySpeed = 5
@@ -171,19 +167,18 @@ function drawGame() {
   }
 }
 
-function increasePointsAndCheckIfBestScoreShouldBeReplaced(pointDelta){
+function increasePointsAndCheckIfBestScoreShouldBeReplaced(pointDelta) {
   points += pointDelta
-  if(points < 0){
+  if (points < 0) {
     points = 0
   }
-  if(points >= initialBestScore) {
+  if (points >= initialBestScore) {
     bestScore = points
     if (initialBestScore !== 0) {
-    bestScoreColor = 'white'
+      bestScoreColor = 'white'
     }
   }
 }
-
 
 function enterToPlay() {
   window.addEventListener('keydown', enterKeyCheck, false)
@@ -375,7 +370,7 @@ function drawImage(imageUrl, x, y, w, h, onload = () => {}) {
   return image
 }
 
-window.addEventListener('keydown', spaceKeyCheck, false)
+window.addEventListener('keyup', spaceKeyCheck, false)
 
 function spaceKeyCheck(s) {
   if (s.keyCode == 32) {
@@ -543,9 +538,9 @@ function listenToCollision(vegetable) {
   }
 }
 
-function setGameOver(){
+function setGameOver() {
   saveScore()
-  isItGameOver = true;
+  isItGameOver = true
 }
 
 function simulateBurger(burger) {
@@ -603,30 +598,23 @@ function drawPoints() {
 }
 
 function saveScore() {
-  rank.push(points);
-  rank.sort((a, b) => b-a)
+  rank.push(points)
+  rank.sort((a, b) => b - a)
   localStorage.setItem('rank', JSON.stringify(rank))
 }
-
 
 function drawBestScore() {
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.font = '25px Russo One'
   ctx.fillStyle = bestScoreColor
-  
+
   ctx.fillText(`BEST SCORE: ${bestScore}`, WIDTH - 400, 18)
 }
 
 function drawGameOver() {
   if (isItGameOver) {
-    ctx.drawImage(
-      images.gameover,
-      (WIDTH - GAMEOVER_SIZE) / 2,
-      40,
-      GAMEOVER_SIZE,
-      GAMEOVER_SIZE
-    )
+    ctx.drawImage(images.gameover, (WIDTH - GAMEOVER_SIZE) / 2, 40, GAMEOVER_SIZE, GAMEOVER_SIZE)
   }
 }
 
@@ -648,7 +636,7 @@ function congratsMessage() {
     ctx.textBaseline = 'middle'
     ctx.font = '25px Russo One'
     ctx.fillStyle = 'black'
-    ctx.fillText(`Congrats, You set new record: ${bestScore}!`, WIDTH/2, HEIGHT/2 - 50)
+    ctx.fillText(`Congrats, You set new record: ${bestScore}!`, WIDTH / 2, HEIGHT / 2 - 50)
   }
 }
 
@@ -658,18 +646,17 @@ function displayRanking() {
     ctx.textBaseline = 'middle'
     ctx.font = '25px Russo One'
     ctx.fillStyle = 'black'
-    ctx.fillText(`Ranking:`,WIDTH/2, 300)
+    ctx.fillText(`Ranking:`, WIDTH / 2, 300)
     if (rank.length >= 1) {
-      ctx.fillText(`#1: ${rank[0]}`,WIDTH/2, 340)
+      ctx.fillText(`#1: ${rank[0]}`, WIDTH / 2, 340)
     }
     if (rank.length >= 2) {
-      ctx.fillText(`#2: ${rank[1]}`,WIDTH/2, 380)
+      ctx.fillText(`#2: ${rank[1]}`, WIDTH / 2, 380)
     }
-    if (rank.length >=3) {
-      ctx.fillText(`#3: ${rank[2]}`,WIDTH/2, 420)
+    if (rank.length >= 3) {
+      ctx.fillText(`#3: ${rank[2]}`, WIDTH / 2, 420)
     }
   }
-
 }
 
 function enterToPlayAfterGameover() {
@@ -687,11 +674,6 @@ function enterToPlayAfterGameover() {
     ctx.textBaseline = 'middle'
     ctx.font = '25px Russo One'
     ctx.fillStyle = 'white'
-    ctx.fillText('Press enter to play again', 180, HEIGHT- 70)
+    ctx.fillText('Press enter to play again', 180, HEIGHT - 70)
   }
 }
-
-
-
-
-
