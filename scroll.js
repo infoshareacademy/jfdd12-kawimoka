@@ -2,7 +2,7 @@ let isTeamWasShown = false
 
 window.addEventListener('scroll', function() {
   let yScrollPosition = window.pageYOffset
-  let elementPosition = document.getElementById('team-nav').offsetTop
+  let elementPosition = document.getElementById('team').offsetTop
   let visualScreenHeight = window.innerHeight
   let activationOffset = 0.85
   let heightConditionForAnimate =
