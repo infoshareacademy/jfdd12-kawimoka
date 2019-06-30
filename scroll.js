@@ -18,6 +18,18 @@ window.addEventListener('scroll', function() {
   }
 })
 
+window.onscroll = function() {
+  scrollFunction()
+}
+
+function scrollFunction() {
+  if (document.documentElement.scrollTop > 100) {
+    document.getElementById('return-to-top').style.display = 'block'
+  } else {
+    document.getElementById('return-to-top').style.display = 'none'
+  }
+}
+
 function topFunction() {
   document.documentElement.scrollTop = 0
 }

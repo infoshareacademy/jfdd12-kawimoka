@@ -89,6 +89,7 @@ main {
   margin-top: 142px;
 }
 #return-to-top {
+  display: none;
   position: fixed;
   left: 20px;
   bottom: 20px;
