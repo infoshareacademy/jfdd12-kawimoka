@@ -386,7 +386,7 @@ function drawImage(imageUrl, x, y, w, h, onload = () => {}) {
   return image
 }
 
-window.addEventListener('keydown', spaceKeyCheck, false)
+window.addEventListener('keyup', spaceKeyCheck, false)
 
 function spaceKeyCheck(s) {
   if (s.keyCode == 32) {
@@ -696,9 +696,11 @@ function enterToPlayAfterGameover() {
 
 document.addEventListener('touchmove', touchHandler)
 
-let el = document.getElementsByTagName('body')[0]
+let el = document.getElementsByTagName('canvas')
+
 function touchHandler(e) {
   if (e.touches) {
-    boy.x = e.touches[0].pageX - el.offsetLeft - BOY_WIDTH / 2
+    boy.x = e.touches.pageX - el.offsetLeft - BOY_WIDTH / 2
+    e.preventDefault()
   }
 }
