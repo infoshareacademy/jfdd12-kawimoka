@@ -74,8 +74,14 @@ ul > a {
   text-transform: uppercase;
 }
 
-#showMenu:hover + ul,
-nav:hover > ul {
+#showMenu {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  align-self: center;
+}
+
+#showMenu:hover + ul {
   display: flex;
   justify-content: space-evenly;
   padding-bottom: 5px;
@@ -120,7 +126,7 @@ footer {
   justify-content: space-evenly;
 }
 
-@media (min-width: 775px) {
+@media (min-width: 600px) {
   header {
     width: 100%;
     background-color: white;
@@ -129,7 +135,7 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
   }
 
   #showMenu {
