@@ -88,9 +88,12 @@ nav:hover > ul {
 main {
   margin-top: 160px;
 }
-
-
-/* Footer css */
+#return-to-top {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  transition: all 0.3s ease;
+}
 
 #team {
   display: grid;
