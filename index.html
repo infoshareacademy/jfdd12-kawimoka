@@ -23,16 +23,17 @@
   <header id="header">
     <nav>
       <div class="logo_slogan">
-        <img src="img/logo.jpg" alt="FitBiter Logo">
+        <a onclick='topFunction()' href=""><img src="img/logo.jpg" alt="FitBiter Logo"></a>
         <div class="slogan">#bite_your_diet</div>
       </div>
       <a id="showMenu"><i class="fas fa-chevron-circle-down fa-2x"></i></a>
 
+
       <ul>
-        <a href="#home">Home</a>
-        <a href="#ext-features-nav">Features</a>
-        <a href="#newsletter-nav">Newsletter</a>
-        <a href="#team-nav">Team</a>
+        <a onclick='topFunction()' href="">Home</a>
+        <a href="#sign-up">Sign-up</a>
+        <a href="#features">Features</a>
+        <a href="#developers">Team</a>
       </ul>
     </nav>
   </header>
@@ -45,7 +46,7 @@
         <p class="hero_main_p">Get fit & lose weight<br> with fitbiter</p>
         <p class="hero_text_call">Let's begin | Healthy Habits | Together</p>
         <p class="hero_text">Get a FREE account and start using our proven weight loss and fitness tools today!</p><br>
-        <button class="hero_button"><a href="#newsletter-nav">sign up with Email</a></button>
+        <button class="hero_button"><a href="#sign-up">sign up with Email</a></button>
       </section>
     </div>
 
@@ -93,7 +94,7 @@
             <a href="#calendar">
               <img src="img/calendarIconB.svg">
               <h3>Built-In Calendar and Daily Remainders</h3>
-              <p id="newsletter-nav">
+              <p id="sign-up">
                 Fitbiter provides you a calendar to jump to any day you want to see your food tracker history or edit
                 it.
               </p>
@@ -126,7 +127,7 @@
 
     <div id="form-info" class="form-info">
       <p>* We will send You only one message! </p>
-      <p>* The protection of personal data is ensured.</p>
+      <p id="features">* The protection of personal data is ensured.</p>
     </div>
 
 
@@ -141,7 +142,7 @@
     </div>
 
     <div class="form-afterSubmit-p2">
-      <p>Meanwile, we invite You to play our Fitbiter Game!</p>
+      <p id="features">Meanwile, we invite You to play our Fitbiter Game!</p>
     </div>
 
     <button class="form-afterSubmit-button" onclick="window.location.href='Game/index.html'"> PLAY </button>
@@ -251,8 +252,9 @@
         <figure class="ext-icon">
           <img src="img/smart_green.svg">
         </figure>
-        <p>Access your diary from all devices and the website, we keep them in sync. It connects with other training
-          apps and devices. We love Fitbit, Withings, Garmin, Twitter and support linking your diary to these services.
+        <p id="developers">Access your diary from all devices and the website, we keep them in sync. It connects with
+          other training apps and devices. We love Fitbit, Withings, Garmin, Twitter and support linking your diary to
+          these services.
         </p>
 
       </div>
@@ -261,7 +263,7 @@
 
   </div>
 
-  <h2 id="team-nav">Development Team</h2>
+  <h2>Development Team</h2>
   <div id="team" class="flip-box">
     <div class="flip-box-inner">
       <div class="flip-box-front">
@@ -269,21 +271,24 @@
         <p class="hide-on-large-only">Monika Gapińska</p>
       </div>
       <div class="flip-box-back">
-        <a href="https://www.linkedin.com/in/monika-gapi%C5%84ska-b8b850188/" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a>
+        <a href="https://www.linkedin.com/in/monika-gapi%C5%84ska-b8b850188/" target="_blank"><i
+            class="fab fa-linkedin fa-2x"></i></a>
         <a href="https://github.com/gapinska" target="_blank"><i class="fab fa-github fa-2x"></i></a>
         <a href="" target="_blank"><i class="fas fa-home fa-2x"></i></a>
       </div>
     </div>
     <div class="flip-box-inner">
       <div class="flip-box-front">
-        <img class="profile-photo slow animated hide-pictures" src="img/kasia.jpg" style="max-width: heigth 150px;" alt="Profile photo">
+        <img class="profile-photo slow animated hide-pictures" src="img/kasia.jpg" style="max-width: heigth 150px;"
+          alt="Profile photo">
         <p class="hide-on-large-only">Katarzyna Pastwa</p>
       </div>
       <div class="flip-box-back">
-        <a href="https://www.linkedin.com/in/katarzyna-pastwa-178985a9/" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a>
+        <a href="https://www.linkedin.com/in/katarzyna-pastwa-178985a9/" target="_blank"><i
+            class="fab fa-linkedin fa-2x"></i></a>
         <a href="https://github.com/KatarzynaPastwa" target="_blank"><i class="fab fa-github fa-2x"></i></a>
         <a href="" target="_blank"><i class="fas fa-home fa-2x"></i></a>
-        
+
       </div>
     </div>
     <div class="flip-box-inner">
@@ -292,7 +297,8 @@
         <p class="hide-on-large-only">Wioletta Kilimnik</p>
       </div>
       <div class="flip-box-back">
-        <a href="https://www.linkedin.com/in/wioletta-kilimnik/" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a>
+        <a href="https://www.linkedin.com/in/wioletta-kilimnik/" target="_blank"><i
+            class="fab fa-linkedin fa-2x"></i></a>
         <a href="https://github.com/wiolk" target="_blank"><i class="fab fa-github fa-2x"></i></a>
         <a href="" target="_blank"><i class="fas fa-home fa-2x"></i></a>
       </div>
@@ -310,10 +316,10 @@
     </div>
   </div>
   <div class="names show-on-large">
-      <p>Monika Gapińska</p>
-      <p>Katarzyna Pastwa</p>
-      <p>Wioletta Kilimnik</p>
-      <p>Kamil Trzaskoma</p>
+    <p>Monika Gapińska</p>
+    <p>Katarzyna Pastwa</p>
+    <p>Wioletta Kilimnik</p>
+    <p>Kamil Trzaskoma</p>
   </div>
 
 
@@ -333,8 +339,8 @@
 
     <div>
       <p>
-        <a href="" target="_blank"><i class="fab fa-facebook fa-2x"></i></a>
-        <a href="" target="_blank"><i class="fab fa-instagram fa-2x"></i></a>
+        <a href="" target="_blank"><i class="fab fa-facebook fa-3x"></i></a>
+        <a href="" target="_blank"><i class="fab fa-instagram fa-3x"></i></a>
       </p>
       <p>
         &copy 2019 by KaWiMoKa
@@ -351,11 +357,14 @@
     </div>
   </footer>
 
+
   <script type="text/javascript" id="cookieinfo" src="//cookieinfoscript.com/js/cookieinfo.min.js">
   </script>
   <script src="scroll.js"></script>
 
+  <a onclick='topFunction()' id="return-to-top"><i class="fas fa-chevron-circle-up fa-2x"></i></a>
 </body>
+
 
 
 </html>
