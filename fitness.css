@@ -1,5 +1,5 @@
 * {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 i {
@@ -151,9 +151,9 @@ footer {
     font-size: 20px;
     padding: 5px 15px;
   }
-  a:hover {
+  /* a:hover {
     color: #109c91;
-  }
+  } */
 
   #team {
     display: flex;
