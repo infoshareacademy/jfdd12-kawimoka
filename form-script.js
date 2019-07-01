@@ -71,7 +71,9 @@ function switchOnNewForm(){
   afterSubmitButton.style.display="block"
 }
 
-
-afterSubmitButton.addEventListener('click', function(){  
-console.log("OK")
+afterSubmitButton.addEventListener('click', function(){
+  "Game/index.html"
+   var lastSlash = window.location.href.lastIndexOf('/')
+   var partWithoutSlasah = window.location.href.slice(0, lastSlash)
+   window.location.href = partWithoutSlasah.concat('/Game/index.html')
 })
