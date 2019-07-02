@@ -18,7 +18,7 @@ const BROKUL_HEIGHT = 80 / 4
 const GRAVITY = 15
 let counter = 3
 let points = 0
-let LIVES = 5
+let LIVES = 1
 const LIVES_FOR_BOMB = -1
 let burgers = []
 const POINTS_FOR_VEGETABLE = 10
@@ -79,11 +79,6 @@ canvas.setAttribute('width', WIDTH)
 canvas.setAttribute('height', HEIGHT)
 const ctx = canvas.getContext('2d')
 
-//if (mobilecheck() && innerHeight < HEIGHT) {
-//  canvas.setAttribute('height', innerHeight)
-//  ctx.scale(1, innerHeight / HEIGHT)
-//}
-
 let isPlaying = false
 let isShooting = false
 
@@ -138,6 +133,9 @@ function generateAgain() {
   }
 }
 
+enterToPlayAfterGameover()
+enterToPlay()
+
 function drawGame() {
   drawBackground()
   drawBoy()
@@ -148,10 +146,9 @@ function drawGame() {
   drawCounter(timeToGameStart)
   appleBurgerCollision()
   drawGameOver()
-  enterToPlay()
+  drawPlayAgain()
   congratsMessage()
   displayRanking()
-  enterToPlayAfterGameover()
 
   if (LIVES <= 2) {
     boySpeed = 5
@@ -681,22 +678,26 @@ function displayRanking() {
   }
 }
 
+function drawPlayAgain() {
+  if (!isItGameOver) {
+    return
+  }
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.font = '25px Russo One'
+  ctx.fillStyle = 'white'
+  ctx.fillText('Press enter to play again', 180, HEIGHT - 70)
+}
+
 function enterToPlayAfterGameover() {
-  if (isItGameOver) {
-    window.addEventListener('keydown', enterKeyCheck, false)
+  window.addEventListener('keydown', enterKeyCheck, false)
 
-    function enterKeyCheck(s) {
-      if (s.keyCode == 13) {
-        location.reload()
-        return true
-      }
+  function enterKeyCheck(s) {
+    if (s.keyCode == 13 && isItGameOver) {
+      location.reload()
+      isPlaying = true
+      return true
     }
-
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.font = '25px Russo One'
-    ctx.fillStyle = 'white'
-    ctx.fillText('Press enter to play again', 180, HEIGHT - 70)
   }
 }
 
